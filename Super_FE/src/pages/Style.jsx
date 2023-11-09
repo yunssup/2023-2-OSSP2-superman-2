@@ -67,3 +67,24 @@ export const ButtonMove = styled.button`
     border: 2px solid #000; /* 포커스 시 테두리 적용 */
   }
 `;
+
+export const ButtonGo = styled.button`
+  border-radius: 20px;
+  background: rgb(255, 232, 224);
+  color: rgb(27, 27, 29);
+  font-family: Arimo;
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0px;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  width: 201px;
+  height: 59px;
+  flex-shrink: 0;
+  outline: none; /* 포커스 시 기본 아웃라인 제거 */
+  &:focus {
+    border: 2px solid #000; /* 포커스 시 테두리 적용 */
+  }
+`;
