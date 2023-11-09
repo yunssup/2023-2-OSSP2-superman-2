@@ -32,7 +32,7 @@ export const NavBarRow = styled.div`
 
 export const ResultGroup = styled.div`
   display: block;
-  align-items; center;
+  align-items: center;
   justify-content: center;
   margin-top: 350px;
   right: 30px;
@@ -56,8 +56,8 @@ export const ButtonReturn = styled.button`
   align-items: center;
   justify-content: center;
   border-radius: 50px;
-  background: rgb(255,255,255);
-  color: rgb(0,0,0);
+  background: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
   font-weight: 1000;
   font-size: 35px;
   text-align: center;
@@ -79,7 +79,7 @@ export const ButtonOrder = styled.button`
   font-weight: 700;
   border: none;
   background-color: rgb(253, 246, 217);
-`
+`;
 
 export const ButtonResult = styled.button`
   display: block;
