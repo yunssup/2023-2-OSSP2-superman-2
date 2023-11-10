@@ -1,11 +1,12 @@
+//원본
 import React, { useState } from "react";
 import {
-  Container,
   Title,
   ButtonGroup,
   ButtonLive,
   ButtonMove,
   BackGround,
+  ButtonGo,
 } from "./Style";
 
 function First() {
@@ -25,7 +26,11 @@ function First() {
       setLiveSelected(false); // 월세 선택 상태 해제
     }
   };
-
+  const handleGoClick = () => {
+    if (liveSelected && moveSelected) {
+      //선택 완료 했을 시 다음 페이지로 이동
+    }
+  };
   return (
     <BackGround>
       <Title>어떻게 살까?</Title>
@@ -61,6 +66,11 @@ function First() {
         >
           자차
         </ButtonMove>
+      </ButtonGroup>
+      <ButtonGroup>
+        <ButtonGo tabIndex="0" onClick={handleGoClick}>
+          선택 완료
+        </ButtonGo>
       </ButtonGroup>
     </BackGround>
   );
