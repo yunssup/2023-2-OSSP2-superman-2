@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Container, Title, BackGround } from "./Style";
 import { useNavigate } from "react-router-dom";
 
-function Home() {
+function Start() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,4 +26,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default Start;
