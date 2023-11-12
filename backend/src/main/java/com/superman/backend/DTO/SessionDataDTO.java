@@ -4,7 +4,7 @@ import lombok.Data;
 
 
 @Data
-public class SessionDataDto {
+public class SessionDataDTO {
     private String sessionId;
     private int HomeType;
     private int TransportationType;
