@@ -1,6 +1,7 @@
 package com.superman.backend.Entity;
 
 import lombok.Data;
+
 import javax.persistence.*;
 
 @Data
@@ -15,8 +16,8 @@ public class UserHouseData {
     @Column(columnDefinition = "VARCHAR(255) DEFAULT NULL")
     private String SecondHome;
 
-
     @OneToOne
-    @JoinColumn(name = "sessionId", referencedColumnName = "sessionId", foreignKey = @ForeignKey(name = "FK_UserHouseData_SessionData"))
+    @MapsId
+    @JoinColumn(name = "sessionId")
     private SessionData sessionData;
 }
