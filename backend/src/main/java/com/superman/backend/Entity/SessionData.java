@@ -1,6 +1,8 @@
 package com.superman.backend.Entity;
 
 import lombok.Data;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -9,7 +11,10 @@ import javax.persistence.Id;
 public class SessionData {
     @Id
     private String sessionId;
-    private int isSelected;
-    private int mileage;
-    private String frequentLocation;
+    @Column(columnDefinition = "INT(2) DEFAULT 1")
+    private int HomeType;
+    @Column(columnDefinition = "INT(2) DEFAULT 2")
+    private int TransportationType;
+    private String OftenPlace;
+    private double FuelCost;
 }
