@@ -1,15 +1,19 @@
 package com.superman.backend.DTO;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class UpdateSessionDataDto {
-    private String OftenPlace;
-    private int HomeType;
-    private int TransportationType;
-    private double FuelCost;
+    @JsonProperty("OftenPlace")
+    private String oftenPlace;
+
+    @JsonProperty("HomeType")
+    private int homeType;
+
+    @JsonProperty("TransportationType")
+    private int transportationType;
+
+    @JsonProperty("FuelCost")
+    private double fuelCost;
 }
