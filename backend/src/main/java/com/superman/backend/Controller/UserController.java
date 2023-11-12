@@ -1,7 +1,6 @@
 package com.superman.backend.Controller;
 
-import com.superman.backend.DTO.UpdateSessionDataDto;
-import com.superman.backend.Entity.SessionData;
+import com.superman.backend.DTO.UpdateSessionDataDTO;
 import com.superman.backend.Service.SessionService;
 import com.superman.backend.Service.UserInfoService;
 import com.superman.backend.Service.UpdateUserService;
@@ -44,7 +43,7 @@ public class UserController {
     @PostMapping("/update/{sessionId}")
     public ResponseEntity<String> updateSessionData(
             @PathVariable String sessionId,
-            @RequestBody UpdateSessionDataDto sessionData
+            @RequestBody UpdateSessionDataDTO sessionData
     ) {
         return updateUserService.updateSessionData(sessionId, sessionData);
     }
