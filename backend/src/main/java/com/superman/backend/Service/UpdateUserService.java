@@ -1,6 +1,6 @@
 package com.superman.backend.Service;
 
-import com.superman.backend.DTO.UpdateSessionDataDto;
+import com.superman.backend.DTO.UpdateSessionDataDTO;
 import com.superman.backend.Repository.SessionDataRepository;
 import com.superman.backend.Entity.SessionData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ public class UpdateUserService {
     private SessionDataRepository sessionDataRepository;
 
     @Transactional
-    public ResponseEntity<String> updateSessionData(String sessionId, UpdateSessionDataDto sessionData) {
+    public ResponseEntity<String> updateSessionData(String sessionId, UpdateSessionDataDTO sessionData) {
         try {
             SessionData existingData = sessionDataRepository.findById(sessionId).orElse(null);
             if (existingData != null) {
