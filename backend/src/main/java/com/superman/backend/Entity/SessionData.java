@@ -1,5 +1,6 @@
 package com.superman.backend.Entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -18,10 +19,14 @@ public class SessionData {
     @Column(columnDefinition = "INT(2) DEFAULT 2")
     private int TransportationType;
 
-    private String OftenPlace;
-
     private double FuelCost;
 
-    @OneToOne(mappedBy = "sessionData", cascade = CascadeType.ALL)
+    private String OftenPlace;
+
+    private String OftenPlaceX;
+    private String OftenPlaceY;
+
+    @JsonManagedReference
+    @OneToOne(mappedBy = "sessionData", cascade = CascadeType.PERSIST)
     private UserHouseData userHouseData;
 }
