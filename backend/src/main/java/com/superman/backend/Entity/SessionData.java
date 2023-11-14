@@ -22,8 +22,9 @@ public class SessionData {
     private double FuelCost;
 
     private String OftenPlace;
-
+    @Column(nullable = true)
     private String OftenPlaceX;
+    @Column(nullable = true)
     private String OftenPlaceY;
 
     @JsonManagedReference
