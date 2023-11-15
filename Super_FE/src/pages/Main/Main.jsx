@@ -1,4 +1,4 @@
-// First.js
+//원본
 import React, { useState } from "react";
 import {
   Title,
@@ -8,45 +8,29 @@ import {
   BackGround,
   ButtonGo,
 } from "./Style";
-import LiveModal from "../../Components/LiveModal"; // Import the LiveModal component
-import MoveModal from "../../Components/GoModal"; // Import the MoveModal component
 
 function First() {
-  const [liveSelected, setLiveSelected] = useState(false);
-  const [moveSelected, setMoveSelected] = useState(false);
-  const [isLiveModalOpen, setLiveModalOpen] = useState(false);
-  const [isMoveModalOpen, setMoveModalOpen] = useState(false);
+  const [liveSelected, setLiveSelected] = useState(false); // 월세 선택 상태
+  const [moveSelected, setMoveSelected] = useState(false); // 대중교통 선택 상태
 
   const handleLiveClick = () => {
-    setLiveSelected(!liveSelected);
+    setLiveSelected(!liveSelected); // 월세 선택 상태 토글
     if (liveSelected && moveSelected) {
-      setMoveSelected(false);
+      setMoveSelected(false); // 대중교통 선택 상태 해제
     }
   };
 
   const handleMoveClick = () => {
-    setMoveSelected(!moveSelected);
+    setMoveSelected(!moveSelected); // 대중교통 선택 상태 토글
     if (liveSelected && moveSelected) {
-      setLiveSelected(false);
+      setLiveSelected(false); // 월세 선택 상태 해제
     }
   };
-
   const handleGoClick = () => {
-    setLiveModalOpen(true);
+    if (liveSelected && moveSelected) {
+      //선택 완료 했을 시 다음 페이지로 이동
+    }
   };
-
-  const handleCloseLiveModal = () => {
-    setLiveModalOpen(false);
-  };
-
-  const handleMoveModalClick = () => {
-    setMoveModalOpen(true);
-  };
-
-  const handleCloseMoveModal = () => {
-    setMoveModalOpen(false);
-  };
-
   return (
     <BackGround>
       <Title>어떻게 살까?</Title>
@@ -61,11 +45,10 @@ function First() {
         <ButtonLive
           tabIndex="0"
           isSelected={liveSelected}
-          onClick={handleGoClick}
+          onClick={handleLiveClick}
         >
           전세
         </ButtonLive>
-        <LiveModal isOpen={isLiveModalOpen} onClose={handleCloseLiveModal} />
       </ButtonGroup>
       <Title>어떻게 다닐까?</Title>
       <ButtonGroup>
@@ -79,14 +62,15 @@ function First() {
         <ButtonMove
           tabIndex="0"
           isSelected={moveSelected}
-          onClick={handleMoveModalClick}
+          onClick={handleMoveClick}
         >
           자차
         </ButtonMove>
-        <MoveModal isOpen={isMoveModalOpen} onClose={handleCloseMoveModal} />
       </ButtonGroup>
       <ButtonGroup>
-        <ButtonGo>선택 완료</ButtonGo>
+        <ButtonGo tabIndex="0" onClick={handleGoClick}>
+          선택 완료
+        </ButtonGo>
       </ButtonGroup>
     </BackGround>
   );
