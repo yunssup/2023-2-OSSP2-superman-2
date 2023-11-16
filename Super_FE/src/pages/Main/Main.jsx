@@ -8,10 +8,9 @@ function Main() {
   const handleButtonClick = (buttonType) => {
     switch (buttonType) {
       case "Button1":
-        navigate("/First"); // Navigate to the page you want when Button 1 is clicked
-        break;
+        navigate("/First");
       case "Button2":
-        navigate("/First"); // Navigate to the page you want when Button 2 is clicked (replace "/Second" with the correct path)
+        navigate("/Compare");
         break;
       default:
         break;
