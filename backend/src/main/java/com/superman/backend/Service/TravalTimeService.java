@@ -12,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -37,16 +34,15 @@ public class TravalTimeService {
         this.sessionDataRepository = sessionDataRepository;
         this.userHouseDataRepository = userHouseDataRepository;
     }
-    public void getTravalTime(CompareRequestDTO requestDTO){
-        String sessionId = requestDTO.getUser();
+    public String getTravalTime(String user, Integer HouseNum){
         String House = null;
         int transportType = 0;
-        String oftenPlaceX;
-        String oftenPlaceY;
-        String HouseX;
-        String HouseY;
+        String oftenPlaceX = null;
+        String oftenPlaceY = null;
+        String HouseX = null;
+        String HouseY = null;
         // 세션 ID를 사용하여 SessionData 엔터티 찾기
-        Optional<SessionData> optionalSessionData = sessionDataRepository.findById(sessionId);
+        Optional<SessionData> optionalSessionData = sessionDataRepository.findById(user);
 
         // Optional에서 OftenPlaceX 값을 가져오기
         if (optionalSessionData.isPresent()) {
@@ -55,14 +51,14 @@ public class TravalTimeService {
             oftenPlaceY = sessionData.getOftenPlaceY();
             transportType = sessionData.getTransportationType();
         }
-        Optional<UserHouseData> optionalUserHouseData = userHouseDataRepository.findById(sessionId);
+        Optional<UserHouseData> optionalUserHouseData = userHouseDataRepository.findById(user);
         // House 지정 1번 2번에 따라.
         if(optionalUserHouseData.isPresent()) {
             UserHouseData userHouseData = optionalUserHouseData.get();
-            if (requestDTO.getHouseNum() == 1) {
+            if (HouseNum == 1) {
                 House = userHouseData.getFirstHome();
             }
-            else if(requestDTO.getHouseNum() == 2) {
+            else if(HouseNum == 2) {
                 House = userHouseData.getSecondHome();
             }
         }
@@ -80,13 +76,94 @@ public class TravalTimeService {
         if(transportType != 0){
             if(transportType == 1)
             {
-
+                // 대중교통
             }
-            if(transportType == 2)
-            {
-
+            if(transportType == 2) {
+                String time = sendCarTimeRequest(HouseX, HouseY, oftenPlaceX, oftenPlaceY);
+                int seconds = Integer.parseInt(time);
+                int hours = seconds / 3600;
+                int minutes = (seconds % 3600) / 60;
+                return String.format("%d시간 %d분", hours, minutes);
             }
         }
+        return "gg";
+    }
+    public String sendCarTimeRequest(String HouseX, String HouseY, String oftenPlaceX, String oftenPlaceY) {
+        String url = "https://apis.openapi.sk.com/tmap/routes/prediction?totalValue=2";
+        String reqCoordType = "WGS84GEO";
+        String resCoordType = "WGS84GEO";
+        String sort = "index";
+
+        String requestBody = "{\n" +
+                "    \"routesInfo\" : {\n" +
+                "        \"departure\" : {\n" +
+                "            \"name\" : \"test1\",\n" +
+                "            \"lon\" : \"" + HouseX + "\",\n" +
+                "            \"lat\" : \"" + HouseY + "\"\n" +
+                "        },\n" +
+                "        \"destination\" : {\n" +
+                "            \"name\" : \"test2\",\n" +
+                "            \"lon\" : \"" + oftenPlaceX + "\",\n" +
+                "            \"lat\" : \"" + oftenPlaceY + "\"\n" +
+                "        },\n" +
+                "        \"predictionType\" : \"arrival\",\n" +
+                "        \"predictionTime\" : \"2022-09-10T08:00:22+0900\"\n" +
+                "    },\n" +
+                "    \"reqCoordType\": \"" + reqCoordType + "\",\n" +
+                "    \"resCoordType\": \"" + resCoordType + "\",\n" +
+                "    \"sort\": \"" + sort + "\",\n" +
+                "}";
+
+        // Creating the HTTP Headers for Tmap API
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("appKey", sktappkey);
+        headers.set("Accept", MediaType.APPLICATION_JSON_VALUE);
+
+        // Creating the HTTP Entity for Tmap API
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+
+        // Making the POST request to Tmap API
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        // Handling the response from Tmap API
+        String totalTime = "";
+        if (response.getStatusCode() == HttpStatus.OK) {
+            String responseBody = response.getBody();
+            // Extract totalTime from Tmap API response
+            totalTime = extractTotalTimeFromResponse(responseBody);
+            logger.info("Car total travel time: " + totalTime);
+        } else {
+            logger.error("Request to Tmap API failed");
+        }
+
+        return totalTime;
+    }
+    public String extractTotalTimeFromResponse(String responseBody) {
+        String totalTime = "";
+
+        try {
+            // 응답 메시지를 JSONObject로 변환
+            JSONObject jsonResponse = new JSONObject(responseBody);
+
+            // features 배열 추출
+            JSONArray features = jsonResponse.getJSONArray("features");
+
+            // 첫 번째 feature 선택
+            JSONObject firstFeature = features.getJSONObject(0);
+
+            // properties 객체 추출
+            JSONObject properties = firstFeature.getJSONObject("properties");
+
+            // properties에서 totalTime 추출
+            totalTime = properties.getString("totalTime");
+        } catch (Exception e) {
+            e.printStackTrace();
+            // 오류 발생 시 처리 로직 추가
+        }
+
+        return totalTime;
     }
     private String[] getCoordinates(String address) throws JSONException {
         RestTemplate restTemplate = new RestTemplate();
@@ -123,7 +200,7 @@ public class TravalTimeService {
 
         // 요청 헤더에 만들기, Authorization 헤더 설정하기
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", apiKey);
+
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         UriComponents uriComponents = UriComponentsBuilder
