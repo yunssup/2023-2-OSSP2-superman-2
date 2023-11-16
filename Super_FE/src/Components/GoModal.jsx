@@ -18,7 +18,7 @@ const modalStyle = {
 const contentStyle = {
   // border: "1px solid red",
   marginTop: "50%",
-  fontSize: "20px",
+  fontSize: "24px",
   fontWeight: "bold",
   textAlign: "center",
 };
@@ -33,13 +33,19 @@ const inputStyle = {
 };
 
 const buttonStyle = {
-  padding: "8px",
+  padding: "16px", // 더 큰 패딩
   cursor: "pointer",
   position: "fixed",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
   marginTop: "10%",
+  backgroundColor: "white", // 하얀색 배경
+  color: "black", // 글자 색
+  // border: "2px solid black", // 테두리 추가
+  borderRadius: "8px", // 더 둥근 테두리
+  fontSize: "15px", // 더 큰 글자 크기
+  marginTop: "20%",
 };
 
 const Modal = ({ isOpen, onClose }) => {
