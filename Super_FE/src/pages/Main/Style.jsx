@@ -18,7 +18,6 @@ export const Title = styled.h1`
   font-size: 36px;
   margin-bottom: 20px;
   padding: 10px; /* 텍스트와 텍스트 배경 사이 간격 조절 */
-  z-index: 1; /* 다른 요소보다 앞에 표시 */
 `;
 
 export const ButtonGroup = styled.div`
@@ -27,7 +26,6 @@ export const ButtonGroup = styled.div`
   align-items: center; /* 세로 중앙 정렬 */
   gap: 20px;
   padding: 10px;
-  z-index: 1;
 `;
 
 export const ButtonLive = styled.button`
