@@ -8,10 +8,13 @@ import {
   BackGround,
   ButtonGo,
 } from "./Style";
-import LiveModal from "../../Components/LiveModal"; // Import the LiveModal component
-import MoveModal from "../../Components/GoModal"; // Import the MoveModal component
+import LiveModal from "../../Components/LiveModal";
+import MoveModal from "../../Components/GoModal";
+import { useNavigate } from "react-router-dom";
 
 function First() {
+  const navigate = useNavigate(); // Initialize the navigate function
+
   const [liveSelected, setLiveSelected] = useState(false);
   const [moveSelected, setMoveSelected] = useState(false);
   const [isLiveModalOpen, setLiveModalOpen] = useState(false);
@@ -33,6 +36,10 @@ function First() {
 
   const handleGoClick = () => {
     setLiveModalOpen(true);
+  };
+
+  const handleCompleteClick = () => {
+    navigate("/main"); // Navigate to main.jsx when the button is clicked
   };
 
   const handleCloseLiveModal = () => {
@@ -86,7 +93,7 @@ function First() {
         <MoveModal isOpen={isMoveModalOpen} onClose={handleCloseMoveModal} />
       </ButtonGroup>
       <ButtonGroup>
-        <ButtonGo>선택 완료</ButtonGo>
+        <ButtonGo onClick={handleCompleteClick}>선택 완료</ButtonGo>
       </ButtonGroup>
     </BackGround>
   );
