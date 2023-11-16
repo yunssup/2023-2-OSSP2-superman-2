@@ -76,7 +76,15 @@ public class TravalTimeService {
         if(transportType != 0){
             if(transportType == 1)
             {
-                // 대중교통
+                String time = sendTransportTimeRequest(HouseX, HouseY, oftenPlaceX, oftenPlaceY);
+                if(time != null) {
+                    int seconds = Integer.parseInt(time);
+                    int hours = seconds / 3600;
+                    int minutes = (seconds % 3600) / 60;
+                    return String.format("%d시간 %d분", hours, minutes);
+                }else{
+                    return "대중교통 서버 응답 실패";
+                }
             }
             if(transportType == 2) {
                 String time = sendCarTimeRequest(HouseX, HouseY, oftenPlaceX, oftenPlaceY);
@@ -87,6 +95,57 @@ public class TravalTimeService {
             }
         }
         return "gg";
+    }
+    public String sendTransportTimeRequest(String HouseX, String HouseY, String oftenPlaceX, String oftenPlaceY){
+        String url = "https://apis.openapi.sk.com/transit/routes/sub";
+
+        String requestBody = "{\n" +
+                "    \"startX\" : \n" + HouseX + "\",\n" +
+                "    \"startY\" : \n" + HouseY + "\",\n" +
+                "    \"endX\": \"" + oftenPlaceX + "\",\n" +
+                "    \"endY\": \"" + oftenPlaceY + "\",\n" +
+                "    \"format\" : \"json\",\n" +
+                "    \"count\" : \"1\",\n" +
+                "    \"searchDttm\" : \"202209100800\",\n" +
+                "}";
+
+        // Creating the HTTP Headers for Tmap API
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("accept", "application/json");
+        headers.set("content-type", "application/json");
+        headers.set("appKey", sktappkey);
+
+        // Creating the HTTP Entity for Tmap API
+        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+
+        // Making the POST request to Tmap API
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+
+        // Handling the response from Tmap API
+        String totalTime = "";
+        if (response.getStatusCode() == HttpStatus.OK) {
+            String responseBody = response.getBody();
+
+            try {
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                JSONObject metaData = jsonResponse.getJSONObject("metaData");
+                JSONObject plan = metaData.getJSONObject("plan");
+                JSONArray itineraries = plan.getJSONArray("itineraries");
+
+                if (itineraries.length() > 0) {
+                    JSONObject firstItinerary = itineraries.getJSONObject(0);
+                    JSONObject totalTimeObject = firstItinerary.getJSONObject("totalTime");
+                    totalTime = totalTimeObject.getString("totalTime");
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else {
+            return null;
+        }
+
+        return totalTime;
     }
     public String sendCarTimeRequest(String HouseX, String HouseY, String oftenPlaceX, String oftenPlaceY) {
         String url = "https://apis.openapi.sk.com/tmap/routes/prediction?totalValue=2";
