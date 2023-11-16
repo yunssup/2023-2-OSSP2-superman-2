@@ -6,30 +6,28 @@ export const BackGround = styled.div`
   width: 100vw;
   max-width: 768px;
   max-height: 1024px;
-  background-color: #dcf8f6;
+  background-color: rgb(255, 232, 224);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
-
-export const InputContainer = styled.div`
+export const AddressSearchContainer = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 10px;
-  margin-bottom: 20px;
+  /* margin-bottom: 20px; */
 `;
 
-export const Input = styled.input`
-  width: 150px;
+export const UserEnrollText = styled.input`
+  width: 50%;
   padding: 8px;
   box-sizing: border-box;
   border: 1px solid #ccc;
   border-radius: 11px;
   font-size: 14px;
+  /* margin-bottom: 10px; */
 `;
-
-export const CompareButton = styled.button`
+export const FindButton = styled.button`
   padding: 10px;
   cursor: pointer;
   background-color: #4caf50;

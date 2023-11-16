@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+// Post.jsx
+import React from "react";
 import DaumPostcode from "react-daum-postcode";
 import styled from "styled-components";
 
@@ -9,6 +10,15 @@ const PostModal = styled.div`
   top: 0;
   height: 100%;
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ModalContent = styled.div`
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
 `;
 
 const Post = (props) => {
@@ -26,19 +36,21 @@ const Post = (props) => {
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
-    console.log(data);
-    console.log(fullAddress);
-    console.log(data.zonecode);
 
     props.setcompany({
       ...props.company,
       address: fullAddress,
     });
+
+    props.onComplete(data); // 상위 컴포넌트에 데이터 전달
+    props.onClose(); // 모달을 닫습니다.
   };
 
   return (
-    <PostModal>
-      <DaumPostcode autoClose onComplete={complete} />
+    <PostModal onClick={props.onClose}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        <DaumPostcode autoClose onComplete={complete} />
+      </ModalContent>
     </PostModal>
   );
 };
