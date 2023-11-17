@@ -96,3 +96,37 @@ export const ButtonResult = styled.button`
   border-radius: 20px;
   margin-top: 30px;
 `;
+
+export const ResultPara = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80vh;
+  height: 600px;
+  background: rgb(220, 248, 246);
+  backdrop-filter: blur(4px);
+  border: 2px solid rgb(0, 0, 0);
+  border-radius: 20px;
+`;
+
+export const ResultHeader = styled.h2`
+  color: rgb(27, 27, 29);
+  font-family: Arimo;
+  font-size: 35px;
+  font-weight: 600;
+  line-height: 26px;
+  letter-spacing: 0px;
+  margin-top: 73px;
+  margin-bottom: 0px;
+`;
+
+export const ResultSpan = styled.span`
+  color: rgb(27, 27, 29);
+  font-family: Arimo;
+  font-size: 25px;
+  font-weight: 600;
+  line-height: 26px;
+  letter-spacing: 0px;
+  text-align: left;
+  margin-top: 55px;
+`;

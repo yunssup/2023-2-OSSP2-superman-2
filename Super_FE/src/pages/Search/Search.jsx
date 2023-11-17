@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { SearchContainer, NavBar, NavBarRow, NavBarSelect, ResultGroup, ButtonReturn, ButtonOrder, ButtonResult } from "./NavBar";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function Search() {
     const [orderSelected, setOrderSelected] = useState(false); // 오름차순/내림차순
     
     const navigate = useNavigate();
+    const location = useLocation();
+    const info = {...location.state};
+
     const handleReturnClick = () => {
         navigate("/First");
     };
@@ -21,8 +24,14 @@ function Search() {
         setOrderSelected(!orderSelected);  
     };
 
-    const handleResultClick = () => {
-        navigate("/SearchResult");
+    const handleResultClick = ({item}) => {
+        navigate("/SearchResult"  /*, {
+            state: {
+                navbarAddress: `${item.address}`,
+                navBarSelect: `${item.select}`,
+                navBarOrder: `${item.order}`,
+            },
+        } */);
     };
 
     return (
