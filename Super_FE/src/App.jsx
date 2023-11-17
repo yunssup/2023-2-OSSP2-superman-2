@@ -4,6 +4,8 @@ import Start from "./pages/Start/Start";
 import First from "./pages/First/First";
 import Main from "./pages/Main/Main";
 import Compare from "./pages/compare/compare";
+import Search from "./pages/Search/Search";
+import SearchResult from "./pages/Search/SearchResult";
 
 import "./index.css";
 
@@ -15,6 +17,8 @@ function App() {
         <Route path="/First" element={<First />} />
         <Route path="/Main" element={<Main />} />
         <Route path="/Compare" element={<Compare />} />
+        <Route path="/Search" element={<Search />} />
+        <Route path="/SearchResult" element={<SearchResult />} />
       </Routes>
     </div>
   );
