@@ -4,7 +4,10 @@ import {
   BackGround,
   AddressSearchContainer,
   UserEnrollText,
+  AddressContainer,
   FindButton,
+  InsideContainer,
+  RowContainer,
 } from "./Style";
 import Post from "../../Components/Post";
 
@@ -49,45 +52,140 @@ function Compare() {
   return (
     <BackGround>
       <AddressSearchContainer>
-        <UserEnrollText
-          placeholder="주소 찾기 클릭!"
-          type="text"
-          required={true}
-          name="address1"
-          onChange={handleInput}
-          value={enroll_company.address1}
-        />
-        <FindButton onClick={() => handleComplete("address1")}>
-          주소 찾기
-        </FindButton>
-        {popup1 && (
-          <Post
-            company={enroll_company}
-            setcompany={setEnroll_company}
-            onComplete={(data) => handleComplete("address1", data)}
-            onClose={() => handleClose("address1")}
+        <AddressContainer>
+          <UserEnrollText
+            placeholder="주소 찾기 클릭!"
+            type="text"
+            required={true}
+            name="address1"
+            onChange={handleInput}
+            value={enroll_company.address1}
           />
-        )}
-        <UserEnrollText
-          placeholder="주소 찾기 클릭!"
-          type="text"
-          required={true}
-          name="address2"
-          onChange={handleInput}
-          value={enroll_company.address2}
-        />
-        <FindButton onClick={() => handleComplete("address2")}>
-          주소 찾기
-        </FindButton>
-        {popup2 && (
-          <Post
-            company={enroll_company}
-            setcompany={setEnroll_company}
-            onComplete={(data) => handleComplete("address2", data)}
-            onClose={() => handleClose("address2")}
+          <FindButton onClick={() => handleComplete("address1")}>
+            주소 찾기
+          </FindButton>
+          {popup1 && (
+            <Post
+              company={enroll_company}
+              setcompany={setEnroll_company}
+              onComplete={(data) => handleComplete("address1", data)}
+              onClose={() => handleClose("address1")}
+            />
+          )}
+        </AddressContainer>
+        <AddressContainer>
+          <UserEnrollText
+            placeholder="주소 찾기 클릭!"
+            type="text"
+            required={true}
+            name="address2"
+            onChange={handleInput}
+            value={enroll_company.address2}
           />
-        )}
+          <FindButton onClick={() => handleComplete("address2")}>
+            주소 찾기
+          </FindButton>
+          {popup2 && (
+            <Post
+              company={enroll_company}
+              setcompany={setEnroll_company}
+              onComplete={(data) => handleComplete("address2", data)}
+              onClose={() => handleClose("address2")}
+            />
+          )}
+        </AddressContainer>
       </AddressSearchContainer>
+      <RowContainer>
+        <InsideContainer>
+          월세
+          <br />
+          전세
+          <br />
+          대출이자
+          <br />
+          교통비
+          <br />
+          유류비
+        </InsideContainer>
+        <InsideContainer>
+          월세
+          <br />
+          전세
+          <br />
+          대출이자
+          <br />
+          교통비
+          <br />
+          유류비
+        </InsideContainer>
+      </RowContainer>
+
+      <RowContainer>
+        <InsideContainer>
+          <UserEnrollText
+            placeholder="전기세"
+            type="text"
+            required={true}
+            name="transportationExpense"
+            onChange={handleInput}
+            value={enroll_company.transportationExpense}
+          />
+          <UserEnrollText
+            placeholder="관리비"
+            type="text"
+            required={true}
+            name="transportationExpense"
+            onChange={handleInput}
+            value={enroll_company.transportationExpense}
+          />
+          <UserEnrollText
+            placeholder="통신비"
+            type="text"
+            required={true}
+            name="transportationExpense"
+            onChange={handleInput}
+            value={enroll_company.transportationExpense}
+          />
+        </InsideContainer>
+        <InsideContainer>
+          <UserEnrollText
+            placeholder="전기세"
+            type="text"
+            required={true}
+            name="transportationExpense"
+            onChange={handleInput}
+            value={enroll_company.transportationExpense}
+          />
+          <UserEnrollText
+            placeholder="관리비"
+            type="text"
+            required={true}
+            name="transportationExpense"
+            onChange={handleInput}
+            value={enroll_company.transportationExpense}
+          />
+          <UserEnrollText
+            placeholder="통신비"
+            type="text"
+            required={true}
+            name="transportationExpense"
+            onChange={handleInput}
+            value={enroll_company.transportationExpense}
+          />
+        </InsideContainer>
+      </RowContainer>
+      <RowContainer>
+        <InsideContainer>
+          예상 비용
+          <br />
+          이동 시간
+        </InsideContainer>
+        <InsideContainer>
+          예상 비용
+          <br />
+          이동 시간
+        </InsideContainer>
+      </RowContainer>
     </BackGround>
   );
 }
