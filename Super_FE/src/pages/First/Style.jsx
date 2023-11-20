@@ -12,7 +12,31 @@ export const BackGround = styled.div`
   align-items: center;
   justify-content: center;
 `;
+export const AddressContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 5%;
+`;
 
+export const UserEnrollText = styled.input`
+  width: 80%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  font-size: 14px;
+`;
+export const FindButton = styled.button`
+  padding: 15px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  font-size: 16px;
+  width: 50%;
+  &:hover {
+    background-color: #45a049;
+  }
+`;
 export const Title = styled.h1`
   color: #333;
   font-size: 36px;
