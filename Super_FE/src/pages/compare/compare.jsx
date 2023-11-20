@@ -8,6 +8,7 @@ import {
   FindButton,
   InsideContainer,
   RowContainer,
+  InsideContainerResult,
 } from "./Style";
 import Post from "../../Components/Post";
 
@@ -25,8 +26,8 @@ function Compare() {
       ...enroll_company,
       [e.target.name]: e.target.value,
     });
+    console.log(`${e.target.name}: ${e.target.value}`);
   };
-
   const handleComplete = (field, data) => {
     if (field === "address1") {
       setPopup1(true);
@@ -135,32 +136,31 @@ function Compare() {
           유류비
         </InsideContainer>
       </RowContainer>
-
       <RowContainer>
         <InsideContainer>
           <UserEnrollText
             placeholder="전기세"
             type="text"
             required={true}
-            name="transportationExpense"
+            name="전기세"
             onChange={handleInput}
-            value={enroll_company.transportationExpense}
+            value={enroll_company.electricityExpense}
           />
           <UserEnrollText
             placeholder="관리비"
             type="text"
             required={true}
-            name="transportationExpense"
+            name="관리비"
             onChange={handleInput}
-            value={enroll_company.transportationExpense}
+            value={enroll_company.managementExpense}
           />
           <UserEnrollText
             placeholder="통신비"
             type="text"
             required={true}
-            name="transportationExpense"
+            name="통신비"
             onChange={handleInput}
-            value={enroll_company.transportationExpense}
+            value={enroll_company.communicationExpense}
           />
         </InsideContainer>
         <InsideContainer>
@@ -168,39 +168,45 @@ function Compare() {
             placeholder="전기세"
             type="text"
             required={true}
-            name="transportationExpense"
+            name="electricityExpense2"
             onChange={handleInput}
-            value={enroll_company.transportationExpense}
+            value={enroll_company.electricityExpense2}
           />
           <UserEnrollText
             placeholder="관리비"
             type="text"
             required={true}
-            name="transportationExpense"
+            name="managementExpense2"
             onChange={handleInput}
-            value={enroll_company.transportationExpense}
+            value={enroll_company.managementExpense2}
           />
           <UserEnrollText
             placeholder="통신비"
             type="text"
             required={true}
-            name="transportationExpense"
+            name="communicationExpense2"
             onChange={handleInput}
-            value={enroll_company.transportationExpense}
+            value={enroll_company.communicationExpense2}
           />
         </InsideContainer>
       </RowContainer>
       <RowContainer>
-        <InsideContainer>
+        <InsideContainerResult>
           예상 비용
           <br />
-          이동 시간
-        </InsideContainer>
-        <InsideContainer>
-          예상 비용
+          값 불러올 자리
           <br />
           이동 시간
-        </InsideContainer>
+          <br />값 불러올 자리
+        </InsideContainerResult>
+        <InsideContainerResult>
+          예상 비용
+          <br />
+          값 불러올 자리
+          <br />
+          이동 시간
+          <br />값 불러올 자리
+        </InsideContainerResult>
       </RowContainer>
     </BackGround>
   );

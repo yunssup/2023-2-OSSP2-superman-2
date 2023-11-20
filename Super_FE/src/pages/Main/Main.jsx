@@ -8,7 +8,7 @@ function Main() {
   const handleButtonClick = (buttonType) => {
     switch (buttonType) {
       case "Button1":
-        navigate("/First");
+        navigate("/Search");
       case "Button2":
         navigate("/Compare");
         break;
