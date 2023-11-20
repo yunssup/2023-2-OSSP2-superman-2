@@ -6,19 +6,21 @@ export const SearchContainer = styled.div`
   align-items: center;
   justify-content: center;
   background-color: rgb(253, 246, 217);
-  width: 100vh;
+  height: 100vh;
+  width: 100vw;
 `;
 export const AddressSearchContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 10%;
-  margin-left: 2%;
-  margin-right: 2%;
 `;
 
 export const AddressContainer = styled.div`
   display: flex;
   flex-direction: row;
+  width: 90vh;
+  margin-top: 20px;
+  margin-left: 100px;
+  margin-bottom: 8px;
 `;
 
 export const UserEnrollText = styled.input`
@@ -44,12 +46,10 @@ export const FindButton = styled.button`
 export const NavBar = styled.div`
   position: absolute;
   display: block;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   height: 20vh;
   width: 82vh;
   top: 1vh;
+  left: 2.5vw;
   z-index: 1;
 `;
 
@@ -58,7 +58,7 @@ export const NavBarRow = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 80vh;
+  width: 70vh;
   margin: 5px;
 `;
 
@@ -66,7 +66,6 @@ export const ResultGroup = styled.div`
   display: block;
   align-items: center;
   justify-content: center;
-  margin-top: 350px;
   right: 30px;
 `;
 
@@ -91,13 +90,13 @@ export const ButtonReturn = styled.button`
   background: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
   font-weight: 1000;
-  font-size: 35px;
+  font-size: 20px;
   text-align: center;
   width: 18px;
   height: 18px;
   margin: 20px;
+  margin-bottom: 0;
   padding: 20px;
-  top: 20px;
   left: 40px;
 `;
 
@@ -115,8 +114,8 @@ export const ButtonOrder = styled.button`
 
 export const ButtonResult = styled.button`
   display: block;
-  width: 80vh;
   height: 113px;
+  width: 80vw;
   color: rgb(27, 27, 29);
   font-family: Arimo;
   font-size: 35px;
@@ -133,12 +132,13 @@ export const ResultPara = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 80vh;
-  height: 600px;
+  width: 80vw;
+  height: 700px;
   background: rgb(220, 248, 246);
   backdrop-filter: blur(4px);
   border: 2px solid rgb(0, 0, 0);
   border-radius: 20px;
+  margin-top: 100px;
 `;
 
 export const ResultHeader = styled.h2`
@@ -148,7 +148,7 @@ export const ResultHeader = styled.h2`
   font-weight: 600;
   line-height: 26px;
   letter-spacing: 0px;
-  margin-top: 73px;
+  margin-top: 40px;
   margin-bottom: 0px;
 `;
 
@@ -160,5 +160,21 @@ export const ResultSpan = styled.span`
   line-height: 26px;
   letter-spacing: 0px;
   text-align: left;
-  margin-top: 55px;
+  margin-top: 80px;
+`;
+
+export const ResultConfirm = styled.button`
+  margin-top: 50px;
+  border-radius: 20px;
+  border: 1px solid rgb(0,0,0) !important;
+  background: rgb(255, 232, 224);
+  color: rgb(27, 27, 29);
+  font-family: Arimo;
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+  border: none;
+  cursor: pointer;
+  width: 300px;
+  height: 200px;
 `;
