@@ -9,6 +9,7 @@ function Main() {
     switch (buttonType) {
       case "Button1":
         navigate("/Search");
+        break;
       case "Button2":
         navigate("/Compare");
         break;

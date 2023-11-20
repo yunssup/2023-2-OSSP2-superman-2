@@ -20,7 +20,7 @@ function Start() {
   return (
     <BackGround>
       <Container>
-        <Title></Title>
+        <Title>어디살까?</Title>
       </Container>
     </BackGround>
   );

@@ -8,6 +8,38 @@ export const SearchContainer = styled.div`
   background-color: rgb(253, 246, 217);
   width: 100vh;
 `;
+export const AddressSearchContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  margin-top: 10%;
+  margin-left: 2%;
+  margin-right: 2%;
+`;
+
+export const AddressContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+
+export const UserEnrollText = styled.input`
+  width: 50%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  font-size: 14px;
+`;
+export const FindButton = styled.button`
+  padding: 10px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  font-size: 16px;
+
+  &:hover {
+    background-color: #45a049;
+  }
+`;
 
 export const NavBar = styled.div`
   position: absolute;
