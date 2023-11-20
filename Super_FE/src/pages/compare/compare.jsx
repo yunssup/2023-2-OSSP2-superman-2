@@ -99,22 +99,38 @@ function Compare() {
         <InsideContainer>
           월세
           <br />
+          값 불러올 자리
+          <br />
           전세
+          <br />
+          값 불러올 자리
           <br />
           대출이자
           <br />
+          값 불러올 자리
+          <br />
           교통비
+          <br />
+          값 불러올 자리
           <br />
           유류비
         </InsideContainer>
         <InsideContainer>
           월세
           <br />
+          값 불러올 자리
+          <br />
           전세
+          <br />
+          값 불러올 자리
           <br />
           대출이자
           <br />
+          값 불러올 자리
+          <br />
           교통비
+          <br />
+          값 불러올 자리
           <br />
           유류비
         </InsideContainer>

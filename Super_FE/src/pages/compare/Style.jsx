@@ -15,7 +15,7 @@ export const BackGround = styled.div`
 export const AddressSearchContainer = styled.div`
   display: flex;
   flex-direction: row;
-  /* margin-bottom: 20px; */
+  margin: 2%;
 `;
 
 export const AddressContainer = styled.div`
@@ -43,18 +43,13 @@ export const FindButton = styled.button`
   }
 `;
 
-const InfoText = styled.div`
-  margin-top: 10px;
-  font-weight: bold;
-`;
-
 export const InsideContainer = styled.div`
   background-color: rgb(253, 246, 217);
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50%;
-  height: 50%;
+  /* width: 50%;
+  height: 50%; */
   text-align: center;
   /* margin-left: 2%; */
   margin: 2%;
@@ -65,7 +60,7 @@ export const RowContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  width: 90%;
+  /* width: 90%; */
   height: 80%;
   /* flex-direction: column; */
 `;
