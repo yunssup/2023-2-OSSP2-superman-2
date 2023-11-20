@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { Container, Title, BackGround } from "./Style";
 import { useNavigate } from "react-router-dom";
 
-function Start() {
+function Home() {
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,10 +20,10 @@ function Start() {
   return (
     <BackGround>
       <Container>
-        <Title>어디살까?</Title>
+        <Title></Title>
       </Container>
     </BackGround>
   );
 }
 
-export default Start;
+export default Home;
