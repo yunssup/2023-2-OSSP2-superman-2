@@ -32,8 +32,12 @@ function Search() {
     if (buttonOrder.textContent === "평균 면적 크기 순 ↑") {
       buttonOrder.textContent = "평균 면적 크기 순 ↓";
       //정렬 순서 바꾸기
-    } else {
+    } else if (buttonOrder.textContent === "평균 면적 크기 순 ↓") {
       buttonOrder.textContent = "평균 면적 크기 순 ↑";
+    } else if (buttonOrder.textContent === "평균 가격 순 ↑") {
+      buttonOrder.textContent = "평균 가격 순 ↓"
+    } else if(buttonOrder.textContent === "평균 가격 순 ↓") {
+      buttonOrder.textContent = "평균 가격 순 ↑"
     }
     setOrderSelected(!orderSelected);
   };
@@ -55,6 +59,15 @@ function Search() {
   });
 
   const [popup1, setPopup1] = useState(false);
+
+  const [condition, setCondition] = useState('0');
+
+  const handleOption = (e) => {
+    setCondition(e.target.value);
+    const buttonOrder = document.getElementById("order");
+    if (condition==='1') buttonOrder.textContent = "평균 면적 크기 순 ↓";
+    else if (condition==='0' || condition==='2') buttonOrder.textContent = "평균 가격 순 ↓";
+  }
 
   const handleInput = (e) => {
     setEnroll_company({
@@ -110,16 +123,48 @@ function Search() {
           )}
         </AddressContainer>
         <NavBarRow>
-          <NavBarSelect>
-            <option>조건 선택</option>
-            <option>가격</option>
-            <option>면적</option>
+          <NavBarSelect onChange={handleOption}>
+            <option value='0'>조건 선택</option>
+            <option value='1'>가격</option>
+            <option value='2'>면적</option>
           </NavBarSelect>
+          {condition==='0'?
           <NavBarSelect>
             <option>조건 세분화</option>
           </NavBarSelect>
+          :null}
+          {condition==='1'?
           <NavBarSelect>
-            <option>OO분 이내</option>
+            <option>조건 세분화</option>
+            <option>20만원 미만</option>
+            <option>20 ~ 40만원</option>
+            <option>40 ~ 60만원</option>
+            <option>60 ~ 80만원</option>
+            <option>80 ~ 100만원</option>
+            <option>100만원 이상</option>
+          </NavBarSelect>
+          :null}
+          {condition==='2'?
+          <NavBarSelect>
+            <option>조건 세분화</option>
+            <option>10평 미만</option>
+            <option>10 ~ 20평</option>
+            <option>20 ~ 30평</option>
+            <option>30 ~ 40평</option>
+            <option>40 ~ 50평</option>
+            <option>50 ~ 60평</option>
+            <option>60평 이상</option>
+          </NavBarSelect>
+          :null}
+          <NavBarSelect>
+            <option>이동 시간 선택</option>
+            <option>~10분</option>
+            <option>11분 ~ 20분</option>
+            <option>21분 ~ 30분</option>
+            <option>31분 ~ 40분</option>
+            <option>41분 ~ 50분</option>
+            <option>51분 ~ 60분</option>
+            <option>60분 초과</option>
           </NavBarSelect>
         </NavBarRow>
         <NavBarRow>
