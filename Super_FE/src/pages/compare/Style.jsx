@@ -15,7 +15,9 @@ export const BackGround = styled.div`
 export const AddressSearchContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin: 2%;
+  margin-top: 10%;
+  margin-left: 2%;
+  margin-right: 2%;
 `;
 
 export const AddressContainer = styled.div`
@@ -48,19 +50,30 @@ export const InsideContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* width: 50%;
-  height: 50%; */
+  width: 100%;
+  height: 90%;
   text-align: center;
   /* margin-left: 2%; */
   margin: 2%;
   flex-direction: column;
 `;
-
+export const InsideContainerResult = styled.div`
+  background-color: #dcf8f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 90%;
+  text-align: center;
+  /* margin-left: 2%; */
+  margin: 2%;
+  flex-direction: column;
+`;
 export const RowContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
-  /* width: 90%; */
-  height: 80%;
+  margin-top: 2%;
+  width: 100%;
+  height: 90%;
   /* flex-direction: column; */
 `;
