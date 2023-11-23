@@ -61,15 +61,19 @@ public class CompareController {
                     .body("Error saving house information: " + e.getMessage());
         }
     }
-    @GetMapping("/realhouseinfo")
+   /* @GetMapping("/realhouseinfo")
     @ResponseBody
     public String getRealEstateInfo(@RequestParam String sessionId, @RequestParam int housenum) {
-        SessionData sessionData = sessionDataRepository.findById(sessionId).orElse(null);
-        if (sessionData != null) {
-            String searchAddress = getAddressFromHouseNumber(sessionData, housenum);
-            return crawlingInfoService.getRealEstateInfo(searchAddress);
-        }
-        return "No data found for given sessionId";
+        // SessionData sessionData = sessionDataRepository.findById(sessionId).orElse(null);
+        // if (sessionData != null) {
+        //    String searchAddress = getAddressFromHouseNumber(sessionData, housenum);
+        //    return crawlingInfoService.getRealEstateInfo(searchAddress);
+        //}
+        return "매물 가격: 5,000/60 면적: 22.91㎡/22.91㎡(전용률100%) ";
+    }*/
+    @GetMapping("/compare/realhouseinfo")
+    public String getRealEstateInfo(){
+        return "매물 가격: 5,000/60 면적: 22.91㎡/22.91㎡(전용률100%) ";
     }
 
     private String getAddressFromHouseNumber(SessionData sessionData, int houseNumber) {
