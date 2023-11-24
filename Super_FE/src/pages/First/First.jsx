@@ -96,7 +96,7 @@ function First() {
   };
   return (
     <BackGround>
-      <Title>어떻게 살까?</Title>
+      <Title>거주 유형을 선택해주세요</Title>
       <ButtonGroup>
         <ButtonLive
           tabIndex="0"
@@ -114,7 +114,7 @@ function First() {
         </ButtonLive>
         <LiveModal isOpen={isLiveModalOpen} onClose={handleCloseLiveModal} />
       </ButtonGroup>
-      <Title>어떻게 다닐까?</Title>
+      <Title>이동 수단을 선택해주세요</Title>
       <ButtonGroup>
         <ButtonMove
           tabIndex="0"
@@ -132,6 +132,8 @@ function First() {
         </ButtonMove>
         <MoveModal isOpen={isMoveModalOpen} onClose={handleCloseMoveModal} />
       </ButtonGroup>
+      <Title>자주 가는 장소를 등록해주세요</Title>
+
       <AddressContainer>
         <UserEnrollText
           placeholder="주소 찾기 클릭!"
