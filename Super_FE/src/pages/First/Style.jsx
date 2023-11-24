@@ -6,7 +6,7 @@ export const BackGround = styled.div`
   width: 100vw;
   max-width: 768px;
   max-height: 1024px;
-  background-color: #dcf8f6;
+  background: var(--grayscale-white, #fff);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,7 +15,7 @@ export const BackGround = styled.div`
 export const AddressContainer = styled.div`
   display: flex;
   flex-direction: row;
-  margin-top: 5%;
+  /* margin-top: 5%; */
 `;
 
 export const UserEnrollText = styled.input`
@@ -38,9 +38,15 @@ export const FindButton = styled.button`
   }
 `;
 export const Title = styled.h1`
-  color: #333;
-  font-size: 36px;
-  margin-bottom: 20px;
+  color: #000;
+
+  /* Headline 2 */
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px; /* 125% */
+  /* margin-bottom: 20px; */
   padding: 10px; /* 텍스트와 텍스트 배경 사이 간격 조절 */
   z-index: 1; /* 다른 요소보다 앞에 표시 */
 `;
@@ -55,64 +61,59 @@ export const ButtonGroup = styled.div`
 `;
 
 export const ButtonLive = styled.button`
-  border-radius: 20px;
-  background: rgb(253, 246, 217);
-  color: rgb(27, 27, 29);
-  font-family: Arimo;
-  font-size: 25px;
+  width: 339px;
+  height: 76px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: #f8f8f8;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  color: #000;
+  font-family: Roboto;
+  font-size: 34px;
+  font-style: normal;
   font-weight: 700;
-  line-height: 26px;
-  letter-spacing: 0px;
+  line-height: 40px;
   text-align: center;
   border: none;
   cursor: pointer;
-  width: 201px;
-  height: 59px;
   flex-shrink: 0;
-  outline: none; /* 포커스 시 기본 아웃라인 제거 */
-  &:focus {
-    border: 2px solid #000; /* 포커스 시 테두리 적용 */
-  }
 `;
 
 export const ButtonMove = styled.button`
-  border-radius: 20px;
-  background: rgb(255, 232, 224);
-  color: rgb(27, 27, 29);
-  font-family: Arimo;
-  font-size: 25px;
+  width: 339px;
+  height: 76px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: #f8f8f8;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  color: #000;
+  font-family: Roboto;
+  font-size: 34px;
+  font-style: normal;
   font-weight: 700;
-  line-height: 26px;
-  letter-spacing: 0px;
+  line-height: 40px;
   text-align: center;
   border: none;
   cursor: pointer;
-  width: 201px;
-  height: 59px;
   flex-shrink: 0;
-  outline: none; /* 포커스 시 기본 아웃라인 제거 */
-  &:focus {
-    border: 2px solid #000; /* 포커스 시 테두리 적용 */
-  }
 `;
 export const ButtonGo = styled.button`
-  margin-top: 10%;
-  border-radius: 20px;
-  background: rgb(255, 255, 255);
-  color: rgb(27, 27, 29);
-  font-family: Arimo;
-  font-size: 25px;
+  width: 339px;
+  height: 76px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  background: var(--grayscale-gray-4, #bdbdbd);
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  color: #fff;
+
+  /* Headline 1 */
+  font-family: Roboto;
+  font-size: 34px;
+  font-style: normal;
   font-weight: 700;
-  line-height: 26px;
-  letter-spacing: 0px;
+  line-height: 40px; /* 117.647% */
   text-align: center;
   border: none;
   cursor: pointer;
-  width: 201px;
-  height: 59px;
   flex-shrink: 0;
-  outline: none; /* 포커스 시 기본 아웃라인 제거 */
-  &:focus {
-    border: 2px solid #000; /* 포커스 시 테두리 적용 */
-  }
 `;

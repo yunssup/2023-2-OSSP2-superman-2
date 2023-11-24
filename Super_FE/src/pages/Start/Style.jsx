@@ -4,7 +4,7 @@ export const BackGround = styled.div`
   width: 100vw;
   max-width: 768px;
   max-height: 1024px;
-  background-color: rgb(253, 246, 217);
+  background-color: rgb(255, 255, 255);
 `;
 
 export const Container = styled.div`
@@ -16,7 +16,7 @@ export const Container = styled.div`
   align-items: center;
   &::after {
     content: "";
-    background-image: url("public/start/로고.png");
+    background-image: url("public/start/찐로고.jpg");
     background-size: 100% 100%;
     height: 50%;
     width: 80%;
