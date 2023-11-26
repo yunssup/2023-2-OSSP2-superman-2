@@ -71,20 +71,6 @@ public class CompareController {
         //}
         return "매물 가격: 5,000/60 면적: 22.91㎡/22.91㎡(전용률100%) ";
     }*/
-    @GetMapping("/compare/realhouseinfo")
-    public String getRealEstateInfo(){
-        return "매물 가격: 5,000/60 면적: 22.91㎡/22.91㎡(전용률100%) ";
-    }
 
-    private String getAddressFromHouseNumber(SessionData sessionData, int houseNumber) {
-        UserHouseData userHouseData = sessionData.getUserHouseData();
-        if (userHouseData != null) {
-            if (houseNumber == 1) {
-                return userHouseData.getFirstHome();
-            } else if (houseNumber == 2) {
-                return userHouseData.getSecondHome();
-            }
-        }
-        return null;
-    }
+    // 실거래가 자동화 되면 추가.
 }
