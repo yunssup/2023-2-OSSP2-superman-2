@@ -1,5 +1,5 @@
 import React from "react";
-import { BackGround, Button1, Button2 } from "./Style";
+import { BackGround, Button1, Button2, Title } from "./Style";
 import { useNavigate } from "react-router-dom";
 
 function Main() {
@@ -20,6 +20,7 @@ function Main() {
 
   return (
     <BackGround>
+      <Title>원하는 서비스를 선택하세요</Title>
       <Button1 onClick={() => handleButtonClick("Button1")}>
         조건대로
         <br />
