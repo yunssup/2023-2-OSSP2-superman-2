@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SearchContainer, NavBar, NavBarRow, NavBarSelect, ResultGroup, ButtonReturn, ResultPara, ResultHeader, ResultSpan, ResultConfirm } from "./NavBar";
+import { SearchContainer, NavBar, NavBarRow, NavBarSelect, ResultGroup, ButtonReturn, ResultPara, ResultHeader, ResultDiv, ResultSpan, ResultValue, ResultConfirm } from "./NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 
 function SearchResult(){
@@ -26,11 +26,17 @@ function SearchResult(){
     return (
         <SearchContainer>
             <NavBar>
-                <ButtonReturn
-                    onClick={handleReturnClick}
-                    >
-                        ←
-                    </ButtonReturn>
+                <NavBarRow>
+                    <NavBarSelect>
+                        <option>시/도</option>
+                    </NavBarSelect>
+                    <NavBarSelect>
+                        <option>군</option>
+                    </NavBarSelect>
+                    <NavBarSelect>
+                        <option>구</option>
+                    </NavBarSelect>
+                </NavBarRow>
                 <NavBarRow>
                 <NavBarSelect onChange={handleOption}>
                     <option value='0'>조건 선택</option>
@@ -80,16 +86,31 @@ function SearchResult(){
             <ResultGroup>
                 <ResultPara>
                     <ResultHeader>신내동</ResultHeader>
-                    <ResultSpan>평균 가격</ResultSpan>
-                    <ResultSpan>평균 면적</ResultSpan>
-                    <ResultSpan>이동 시간</ResultSpan>
-                    <ResultSpan>교통비</ResultSpan>
-                    <ResultSpan>유류비</ResultSpan>
-                    <ResultConfirm
-                    onClick={handleConfirmClick}
-                    >선택하기</ResultConfirm>
+                    <ResultDiv>
+                        <ResultSpan>평균 가격</ResultSpan>
+                        <ResultValue>ABCDEF</ResultValue>
+                    </ResultDiv>
+                    <ResultDiv>
+                        <ResultSpan>평균 면적</ResultSpan>
+                        <ResultValue>ABCDEF</ResultValue>
+                    </ResultDiv>
+                    <ResultDiv>
+                        <ResultSpan>이동 시간</ResultSpan>
+                        <ResultValue>ABCDEF</ResultValue>
+                    </ResultDiv>
+                    <ResultDiv>
+                        <ResultSpan>교통비</ResultSpan>
+                        <ResultValue>ABCDEF</ResultValue>
+                    </ResultDiv>
+                    <ResultDiv>
+                        <ResultSpan>유류비</ResultSpan>
+                        <ResultValue>ABCDEF</ResultValue>
+                    </ResultDiv>
                 </ResultPara>
             </ResultGroup>
+            <ResultConfirm
+                onClick={handleConfirmClick}
+                >🏠</ResultConfirm>
         </SearchContainer>
     );
 }
