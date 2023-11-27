@@ -114,3 +114,8 @@ export const InputWithBorder = styled.input`
     border-color: black;
   }
 `;
+export const IMGHOME = styled.img`
+  width: 10%; /* Set the width of the image */
+  max-width: 10%; /* Ensure the image doesn't exceed its natural size */
+  margin-top: 20px; /* Adjust the top margin as needed */
+`;
