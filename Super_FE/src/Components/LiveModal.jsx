@@ -8,12 +8,13 @@ const modalStyle = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  backgroundColor: "rgb(255, 232, 224)",
+  backgroundColor: "rgb(255, 255, 255)",
   padding: "20px",
   zIndex: 1000,
   width: "60%",
   height: "50%",
   borderRadius: "7px",
+  borderColor: "5px solid black",
 };
 
 const contentStyle = {
