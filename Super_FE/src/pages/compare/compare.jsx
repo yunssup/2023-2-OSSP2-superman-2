@@ -9,10 +9,20 @@ import {
   InsideContainer,
   RowContainer,
   InsideContainerResult,
+  Title,
+  ButtonGo,
+  InputWithBorder,
+  IMGHOME,
 } from "./Style";
 import Post from "../../Components/Post";
+import { useNavigate } from "react-router-dom";
 
 function Compare() {
+  const navigate = useNavigate();
+
+  const handleImageClick = () => {
+    navigate("/main"); // 이동하고자 하는 경로를 입력합니다.
+  };
   const [enroll_company, setEnroll_company] = useState({
     address1: "",
     address2: "",
@@ -49,7 +59,12 @@ function Compare() {
       setPopup2(false);
     }
   };
-
+  const handleShowResults = () => {
+    // 여기에 결과를 보여주는 로직을 추가하세요.
+    // enroll_company 객체에서 필요한 값을 가져와서 활용하면 됩니다.
+    console.log("Show Results:", enroll_company);
+    // 결과를 어떻게 보여줄지에 대한 구체적인 로직을 추가하세요.
+  };
   return (
     <BackGround>
       <AddressSearchContainer>
@@ -136,9 +151,10 @@ function Compare() {
           유류비
         </InsideContainer>
       </RowContainer>
+      <Title>↓ 직접 입력해주세요 ↓</Title>
       <RowContainer>
-        <InsideContainer>
-          <UserEnrollText
+        <InsideContainerResult>
+          <InputWithBorder
             placeholder="전기세"
             type="text"
             required={true}
@@ -146,7 +162,7 @@ function Compare() {
             onChange={handleInput}
             value={enroll_company.electricityExpense}
           />
-          <UserEnrollText
+          <InputWithBorder
             placeholder="관리비"
             type="text"
             required={true}
@@ -154,7 +170,7 @@ function Compare() {
             onChange={handleInput}
             value={enroll_company.managementExpense}
           />
-          <UserEnrollText
+          <InputWithBorder
             placeholder="통신비"
             type="text"
             required={true}
@@ -162,9 +178,10 @@ function Compare() {
             onChange={handleInput}
             value={enroll_company.communicationExpense}
           />
-        </InsideContainer>
-        <InsideContainer>
-          <UserEnrollText
+        </InsideContainerResult>
+
+        <InsideContainerResult>
+          <InputWithBorder
             placeholder="전기세"
             type="text"
             required={true}
@@ -172,7 +189,7 @@ function Compare() {
             onChange={handleInput}
             value={enroll_company.electricityExpense2}
           />
-          <UserEnrollText
+          <InputWithBorder
             placeholder="관리비"
             type="text"
             required={true}
@@ -180,7 +197,7 @@ function Compare() {
             onChange={handleInput}
             value={enroll_company.managementExpense2}
           />
-          <UserEnrollText
+          <InputWithBorder
             placeholder="통신비"
             type="text"
             required={true}
@@ -188,26 +205,14 @@ function Compare() {
             onChange={handleInput}
             value={enroll_company.communicationExpense2}
           />
-        </InsideContainer>
-      </RowContainer>
-      <RowContainer>
-        <InsideContainerResult>
-          예상 비용
-          <br />
-          값 불러올 자리
-          <br />
-          이동 시간
-          <br />값 불러올 자리
-        </InsideContainerResult>
-        <InsideContainerResult>
-          예상 비용
-          <br />
-          값 불러올 자리
-          <br />
-          이동 시간
-          <br />값 불러올 자리
         </InsideContainerResult>
       </RowContainer>
+      <ButtonGo onClick={handleShowResults}>결과 보기</ButtonGo>
+      <IMGHOME
+        src="public/start/home.png" // Replace this with the actual path or URL of your image
+        alt="Result Image"
+        onClick={handleImageClick}
+      />
     </BackGround>
   );
 }

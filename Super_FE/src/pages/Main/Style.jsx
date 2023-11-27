@@ -6,13 +6,22 @@ export const BackGround = styled.div`
   width: 100vw;
   max-width: 768px;
   max-height: 1024px;
-  background-color: #dcf8f6;
+  background: var(--grayscale-white, #fff);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
+export const Title = styled.div`
+  color: #000;
 
+  /* Headline 2 */
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px; /* 125% */
+`;
 export const Button1 = styled.button`
   /* margin-top: 10%; */
   border-radius: 20px;

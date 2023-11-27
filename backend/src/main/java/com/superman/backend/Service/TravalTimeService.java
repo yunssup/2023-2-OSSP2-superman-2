@@ -22,6 +22,7 @@ import java.util.Optional;
 
 @Service
 public class TravalTimeService {
+    //이부분 깃이그노어, 재발급.
     private static final Logger logger = LoggerFactory.getLogger(TravalTimeService.class);
     private final String kakaoApiUri = "https://dapi.kakao.com/v2/local/search/address.json";
     private final String kakaoLocalKey = "aafe21a8645b933d0ab0dbef62818de2";
@@ -34,7 +35,7 @@ public class TravalTimeService {
         this.sessionDataRepository = sessionDataRepository;
         this.userHouseDataRepository = userHouseDataRepository;
     }
-    public String getTravalTime(String user, Integer HouseNum){
+    public String getTravalTime(String user, int HouseNum){
         String House = null;
         int transportType = 0;
         String oftenPlaceX = null;
@@ -232,34 +233,6 @@ public class TravalTimeService {
         // 요청 헤더에 만들기, Authorization 헤더 설정하기
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("Authorization", apiKey);
-        HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
-
-        UriComponents uriComponents = UriComponentsBuilder
-                .fromHttpUrl(kakaoApiUri)
-                .queryParam("query", address)
-                .build();
-
-        ResponseEntity<String> response = restTemplate.exchange(uriComponents.toString(), HttpMethod.GET, entity, String.class);
-
-        // API Response로부터 body 뽑아내기
-        String body = response.getBody();
-        JSONObject json = new JSONObject(body);
-
-        // body에서 좌표 뽑아내기
-        JSONArray documents = json.getJSONArray("documents");
-        String x = documents.getJSONObject(0).getString("x");
-        String y = documents.getJSONObject(0).getString("y");
-
-        return new String[]{x, y};
-    }
-    private String[] countTravalTime(String address) throws JSONException {
-        RestTemplate restTemplate = new RestTemplate();
-
-        String apiKey = "KakaoAK " + kakaoLocalKey;
-
-        // 요청 헤더에 만들기, Authorization 헤더 설정하기
-        HttpHeaders httpHeaders = new HttpHeaders();
-
         HttpEntity<String> entity = new HttpEntity<>(httpHeaders);
 
         UriComponents uriComponents = UriComponentsBuilder
