@@ -12,10 +12,17 @@ import {
   Title,
   ButtonGo,
   InputWithBorder,
+  IMGHOME,
 } from "./Style";
 import Post from "../../Components/Post";
-import Navbar from "../../Components/Navbar";
+import { useNavigate } from "react-router-dom";
+
 function Compare() {
+  const navigate = useNavigate();
+
+  const handleImageClick = () => {
+    navigate("/main"); // 이동하고자 하는 경로를 입력합니다.
+  };
   const [enroll_company, setEnroll_company] = useState({
     address1: "",
     address2: "",
@@ -201,6 +208,11 @@ function Compare() {
         </InsideContainerResult>
       </RowContainer>
       <ButtonGo onClick={handleShowResults}>결과 보기</ButtonGo>
+      <IMGHOME
+        src="public/start/home.png" // Replace this with the actual path or URL of your image
+        alt="Result Image"
+        onClick={handleImageClick}
+      />
     </BackGround>
   );
 }
