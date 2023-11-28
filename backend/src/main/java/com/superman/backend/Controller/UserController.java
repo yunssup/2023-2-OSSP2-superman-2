@@ -13,6 +13,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.superman.backend", "com.superman.backend.Repository"})
@@ -37,20 +39,31 @@ public class UserController {
     }
 
     @GetMapping("/info")
-    public ResponseEntity<?> getSessionInfo(@RequestParam String user) {
-        return ResponseEntity.ok(userInfoService.getSessionInfo(user));
+    public ResponseEntity<Map<String, Object>>  getSessionInfo(@RequestParam String user) {
+        Map<String, Object> response = new HashMap<>();
+        if(userInfoService.getSessionInfo(user) == null)
+        {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Not found user");
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
+        response.put("user", userInfoService.getSessionInfo(user));
+        response.put("status_code_value", 200);
+        response.put("status_code", "OK");
+        return ResponseEntity.ok(response);
     }
 
     @PostMapping("/update/{sessionId}")
-    public ResponseEntity<String> writeSessionData(
+    public ResponseEntity<?> writeSessionData(
             @PathVariable String sessionId,
             @RequestBody UpdateSessionDataDTO sessionData
     ) {
-        return handleUpdateRequest(sessionId, sessionData);
+        return ResponseEntity.ok(handleUpdateRequest(sessionId, sessionData));
     }
 
     @PutMapping("/update/{sessionId}")
-    public ResponseEntity<String> updateSessionData(
+    public ResponseEntity<?> updateSessionData(
             @PathVariable String sessionId,
             @RequestBody UpdateSessionDataDTO sessionData
     ) {
