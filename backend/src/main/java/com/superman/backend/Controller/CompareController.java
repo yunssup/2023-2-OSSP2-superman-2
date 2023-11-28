@@ -13,6 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+
 @RestController
 @RequestMapping("/api")
 public class CompareController {
@@ -32,27 +36,52 @@ public class CompareController {
     }
 
     @GetMapping("/compare/TravalTime")
-    public ResponseEntity<String> getTravalTime(@RequestParam String user, @RequestParam int house) {
+    public ResponseEntity<Map<String, Object>> getTravelTime(@RequestParam String user, @RequestParam int house) {
         try {
             String time = travalTimeService.getTravalTime(user, house);
-            return ResponseEntity.ok("Travel time for user " + user + " and house " + house + ": " + time);
+            if(Objects.equals(time, "gg")){
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Not found");
+                errorResponse.put("message", "Time data not found for user " + user + " and house " + house);
+
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            }
+            Map<String, Object> response = new HashMap<>();
+            response.put("user", user);
+            response.put("house", house);
+            response.put("travel_time", time);
+            response.put("status_code_value", 200);
+            response.put("status_code", "OK");
+
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error getting travel time: " + e.getMessage());
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error getting travel time");
+            errorResponse.put("message", e.getMessage());
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
+
     @GetMapping("/compare/transport")
-    public ResponseEntity<String> getTransportCost(@RequestParam String user, @RequestParam int house) {
+    public ResponseEntity<Map<String, Object>> getTransportCost(@RequestParam String user, @RequestParam int house) {
         try {
             String cost = transportCostService.getCost(user, house);
-            return ResponseEntity.ok("user name :" + user + "\n house_number: " + house + "\ncost : " + cost);
+            Map<String, Object> response = new HashMap<>();
+            response.put("user name", user);
+            response.put("house_number", house);
+            response.put("cost", cost);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error getting travel time: " + e.getMessage());
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error getting travel time");
+            errorResponse.put("message", e.getMessage());
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
     @PostMapping("/compare")
-    public ResponseEntity<String> compare(@RequestBody CompareRequestDTO requestDTO) {
+    public ResponseEntity<?> compare(@RequestBody CompareRequestDTO requestDTO) {
         try {
             userHouseInfoService.saveHouseInfo(requestDTO);
             return ResponseEntity.ok("House information saved successfully.");
