@@ -108,9 +108,11 @@ function SearchResult(){
                     </ResultDiv>
                 </ResultPara>
             </ResultGroup>
+        <NavBarRow>
             <ResultConfirm
-                onClick={handleConfirmClick}
-                >🏠</ResultConfirm>
+                    onClick={handleConfirmClick}
+                    >🏠</ResultConfirm>
+            </NavBarRow>
         </SearchContainer>
     );
 }

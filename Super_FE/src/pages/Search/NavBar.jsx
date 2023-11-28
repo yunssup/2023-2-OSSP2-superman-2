@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const SearchContainer = styled.div`
-  display: flex;
+  display: block;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -25,11 +25,10 @@ export const AddressContainer = styled.div`
 `;
 
 export const NavBar = styled.div`
-  position: absolute;
   display: block;
-  height: 20vh;
-  width: 82vw;
-  top: 1vh;
+  height: 0%;
+  width: 100%;
+  top: 10%;
   left: 2.5vw;
   z-index: 1;
 `;
@@ -39,20 +38,20 @@ export const NavBarRow = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  width: 70vh;
-  margin: 5px;
+  width: 100%;
 `;
 
 export const ResultGroup = styled.div`
-  display: block;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 120px;
-  right: 30px;
+  margin-top: 250px;
+  height: calc(100vh - 270px);
 `;
 
 export const NavBarSelect = styled.select`
-  display: flex;
+  display: block;
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -66,7 +65,7 @@ export const NavBarSelect = styled.select`
 export const NavBarConfirm = styled.button`
   color: #FFFFFF;
   background-color: #00B031;
-  height: 5vh;
+  height: 40px;
   width: 96%;
   font-size: 20px;
   font-weight: 1000;
@@ -94,9 +93,9 @@ export const ButtonReturn = styled.button`
 `;
 
 export const ButtonOrder = styled.button`
-  width: 150px;
+  width: 200px;
   height: 55px;
-  margin-left: 70%;
+  margin-left: 60%;
   color: rgb(0, 0, 0);
   font-family: Arimo;
   font-size: 14px;
@@ -108,7 +107,7 @@ export const ButtonOrder = styled.button`
 export const ButtonResult = styled.button`
   display: block;
   height: 113px;
-  width: 80vw;
+  width: 90%;
   color: rgb(27, 27, 29);
   font-family: Arimo;
   font-size: 35px;
@@ -127,23 +126,21 @@ export const ResultPara = styled.div`
   flex-direction: column;
   align-items: center;
   width: 90vw;
-  height: 700px;
+  height: calc(100vh - 310px);
   background: #FFFFFF;
   backdrop-filter: blur(4px);
   border: 3px solid #00B031;
   border-radius: 20px;
-  margin-top: 100px;
 `;
 
 export const ResultHeader = styled.h2`
+  height: 10%;
   color: rgb(27, 27, 29);
   font-family: Arimo;
   font-size: 35px;
   font-weight: 600;
   line-height: 26px;
   letter-spacing: 0px;
-  margin-top: 40px;
-  margin-bottom: 0px;
 `;
 
 export const ResultDiv = styled.div`
@@ -154,22 +151,23 @@ export const ResultDiv = styled.div`
   font-weight: 600;
   line-height: 26px;
   letter-spacing: 0px;
-  margin-top: 80px;
-  width: 60%;
+  height: 16%;
+  width: 100%;
 `;
 
 export const ResultSpan = styled.div`
-  text-align: left;
-  margin-left: 10px;
-  width: 30%;
+  text-align: center;
+  width: 50%;
 `;
 
 export const ResultValue = styled.div`
-  margin-left: 40%;
+  text-align: center;
+  width: 50%;
 `;
 
 export const ResultConfirm = styled.button`
   margin-top: 25px;
+  margin-bottom: 25px;
   border-radius: 50px;
   border: 1px solid rgb(0,0,0) !important;
   color: rgb(27, 27, 29);

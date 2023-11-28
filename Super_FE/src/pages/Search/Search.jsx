@@ -39,6 +39,10 @@ function Search() {
     setOrderSelected(!orderSelected);
   };
 
+  const handleResultConfirm = () => {
+
+  };
+
   const handleResultClick = ({ item }) => {
     navigate(
       "/SearchResult" /*, {
@@ -55,11 +59,13 @@ function Search() {
 
   const handleOption = (e) => {
     setCondition(e.target.value);
-    console.log(condition);
+  }
+
+  useEffect(()=>{
     const buttonOrder = document.getElementById("order");
     if (condition==='1') buttonOrder.textContent = "평균 면적 크기 순 ↓";
     else if (condition==='0' || condition==='2') buttonOrder.textContent = "평균 가격 순 ↓";
-  }
+  }, [condition])
 
   return (
     <SearchContainer>
@@ -121,7 +127,7 @@ function Search() {
           </NavBarSelect>
         </NavBarRow>
         <NavBarRow>
-          <NavBarConfirm>선택 완료</NavBarConfirm>
+          <NavBarConfirm onClick={handleResultConfirm}>선택 완료</NavBarConfirm>
         </NavBarRow>
         <NavBarRow>
           <ButtonOrder id="order" onClick={handleOrderClick}>
