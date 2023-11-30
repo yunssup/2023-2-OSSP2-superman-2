@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   SearchContainer,
   NavBar,
+  NavBarSpan,
   NavBarRow,
   NavBarSelect,
   NavBarConfirm,
@@ -71,14 +72,34 @@ function Search() {
     <SearchContainer>
       <NavBar>
         <NavBarRow>
+          <NavBarSpan>위치를 선택하세요 : 서울특별시 </NavBarSpan>
           <NavBarSelect>
-            <option>시/도</option>
-          </NavBarSelect>
-          <NavBarSelect>
-            <option>군</option>
-          </NavBarSelect>
-          <NavBarSelect>
-            <option>구</option>
+            <option>구 선택</option>
+            <option value='11680'>강남구</option>
+            <option value='11740'>강동구</option>
+            <option value='11305'>강북구</option>
+            <option value='11500'>강서구</option>
+            <option value='11620'>관악구</option>
+            <option value='11215'>광진구</option>
+            <option value='11530'>구로구</option>
+            <option value='11545'>금천구</option>
+            <option value='11350'>노원구</option>
+            <option value='11320'>도봉구</option>
+            <option value='11230'>동대문구</option>
+            <option value='11590'>동작구</option>
+            <option value='11440'>마포구</option>
+            <option value='11410'>서대문구</option>
+            <option value='11650'>서초구</option>
+            <option value='11200'>성동구</option>
+            <option value='11290'>성북구</option>
+            <option value='11710'>송파구</option>
+            <option value='11470'>양천구</option>
+            <option value='11560'>영등포구</option>
+            <option value='11170'>용산구</option>
+            <option value='11380'>은평구</option>
+            <option value='11110'>종로구</option>
+            <option value='11140'>중구</option>
+            <option value='11260'>중랑구</option>
           </NavBarSelect>
         </NavBarRow>
         <NavBarRow>

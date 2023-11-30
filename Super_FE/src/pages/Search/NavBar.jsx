@@ -41,6 +41,14 @@ export const NavBarRow = styled.div`
   width: 100%;
 `;
 
+export const NavBarSpan = styled.span`
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 66.6%;
+  margin: 20px 15px;
+`;
+
 export const ResultGroup = styled.div`
   display: flex;
   flex-direction: column;
@@ -51,12 +59,9 @@ export const ResultGroup = styled.div`
 `;
 
 export const NavBarSelect = styled.select`
-  display: block;
-  flex-direction: row;
-  align-items: center;
-  justify-content: center;
+  display: flex;
   height: 50px;
-  width: 100%;
+  width: 33%;
   margin: 20px 15px;
   background: #E8E9EA;
   border-radius: 10px;
@@ -169,14 +174,13 @@ export const ResultConfirm = styled.button`
   margin-top: 25px;
   margin-bottom: 25px;
   border-radius: 50px;
+  background-image: url("public/start/home.png");
   border: 1px solid rgb(0,0,0) !important;
-  color: rgb(27, 27, 29);
   font-family: Arimo;
   font-size: 25px;
   font-weight: 700;
   text-align: center;
-  border: none;
   cursor: pointer;
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 50px;
 `;
