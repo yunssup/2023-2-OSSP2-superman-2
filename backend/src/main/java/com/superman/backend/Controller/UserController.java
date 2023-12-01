@@ -34,9 +34,14 @@ public class UserController {
     }
 
     @GetMapping
-    public String generateSession(HttpServletRequest request) {
-        return sessionService.generateSession(request);
+    public ResponseEntity<Map<String, Object>> generateSession(HttpServletRequest request) {
+        Map<String, Object> response = new HashMap<>();
+        response.putAll(sessionService.generateSession(request));
+
+
+        return ResponseEntity.ok(response);
     }
+
 
     @GetMapping("/info")
     public ResponseEntity<Map<String, Object>>  getSessionInfo(@RequestParam String user) {

@@ -5,6 +5,8 @@ import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.superman.backend.Entity.SessionData;
 import com.superman.backend.Entity.UserHouseData;
@@ -22,41 +24,41 @@ public class SessionService {
     private EntityManager entityManager;
 
     @Transactional
-    public String generateSession(HttpServletRequest request) {
-        // 세션 생성 및 설정
+    public Map<String, Object> generateSession(HttpServletRequest request) {
+        Map<String, Object> response = new HashMap<>();
         HttpSession session = request.getSession(true);
         session.setMaxInactiveInterval(3600);
 
-        // 세션 만료 시간 설정
         long now = Instant.now().toEpochMilli();
         long expiryTime = now + (session.getMaxInactiveInterval() * 1000L);
         long timeToLive = (expiryTime - now) / 1000;
 
-        // 이미 존재하는 세션 ID 확인
         if (userInfoService.isSessionIdExists(session.getId())) {
-            return "Error: Session ID already exists! " + session.getId();
+            response.put("status", "Error");
+            response.put("error_message", "Session ID already exists!");
+            response.put("session_id", session.getId());
+            return response;
         }
 
-        // SessionData 생성 및 저장
         userInfoService.insertSessionData(session.getId(), 0, 0, 0.0, "");
 
-        // UserHouseData 생성 및 저장
         UserHouseData userHouseData = new UserHouseData();
         userHouseData.setSessionId(session.getId());
         // 여기에서 firstHome, secondHome 등 필요한 값들을 설정
 
-        // SessionData와의 관계 설정
         SessionData sessionData = entityManager.find(SessionData.class, session.getId());
         userHouseData.setSessionData(sessionData);
 
-        // UserHouseData 저장
         entityManager.persist(userHouseData);
 
-        // UserHouseData의 영속성 컨텍스트 관리 여부 확인
         boolean isUserHouseDataManaged = entityManager.contains(userHouseData);
         System.out.println("Is UserHouseData managed by the persistence context? " + isUserHouseDataManaged);
 
-        // 응답 반환
-        return "Session ID: " + session.getId() + ", Expiry Time (seconds): " + timeToLive;
+        response.put("status", "Success");
+        response.put("session_id", session.getId());
+        response.put("expiry_time_seconds", timeToLive);
+        response.put("session_status", "New");
+        return response;
     }
+
 }
