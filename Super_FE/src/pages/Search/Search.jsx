@@ -10,6 +10,7 @@ import {
   ButtonReturn,
   ButtonOrder,
   ButtonResult,
+  ResultConfirm,
 } from "./NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import Post from "../../Components/Post";
@@ -41,8 +42,15 @@ function Search() {
   };
 
   const handleResultConfirm = () => {
-
+    const result = document.getElementsByClassName("result");
+    for(let i = 0;i < result.length;i++){
+      result[i].style.display = "block";
+    }
   };
+
+  const handleConfirmClick = () => {
+    navigate("/main");
+};
 
   const handleResultClick = ({ item }) => {
     navigate(
@@ -151,17 +159,23 @@ function Search() {
           <NavBarConfirm onClick={handleResultConfirm}>선택 완료</NavBarConfirm>
         </NavBarRow>
         <NavBarRow>
+          <NavBarSpan>원하는 동네를 클릭해서 자세한 정보를 확인하세요!</NavBarSpan>
           <ButtonOrder id="order" onClick={handleOrderClick}>
             평균 면적 크기 순 ↓
           </ButtonOrder>
         </NavBarRow>
       </NavBar>
       <ResultGroup>
-        <ButtonResult onClick={handleResultClick}>신내동</ButtonResult>
-        <ButtonResult onClick={handleResultClick}>공릉동</ButtonResult>
-        <ButtonResult onClick={handleResultClick}>장충동</ButtonResult>
-        <ButtonResult onClick={handleResultClick}>필동</ButtonResult>
+        <ButtonResult className="result" onClick={handleResultClick}>신내동</ButtonResult>
+        <ButtonResult className="result" onClick={handleResultClick}>공릉동</ButtonResult>
+        <ButtonResult className="result" onClick={handleResultClick}>장충동</ButtonResult>
+        <ButtonResult className="result" onClick={handleResultClick}>필동</ButtonResult>
       </ResultGroup>
+      <NavBarRow>
+        <ResultConfirm
+          onClick={handleConfirmClick}
+        ></ResultConfirm>
+      </NavBarRow>
     </SearchContainer>
   );
 }

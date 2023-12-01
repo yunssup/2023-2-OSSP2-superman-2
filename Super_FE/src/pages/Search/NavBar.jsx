@@ -54,7 +54,7 @@ export const ResultGroup = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 250px;
+  margin-top: 270px;
   height: calc(100vh - 270px);
 `;
 
@@ -79,38 +79,32 @@ export const NavBarConfirm = styled.button`
 `;
 
 export const ButtonReturn = styled.button`
+  position: absolute;
+  background-image: url("public/start/close.png");
+  border: none;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   border-radius: 50px;
-  background: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-  font-weight: 1000;
-  font-size: 20px;
-  text-align: center;
-  width: 18px;
-  height: 18px;
-  margin: 20px;
-  margin-bottom: 0;
-  padding: 20px;
-  left: 40px;
+  width: 24px;
+  height: 24px;
+  top: 10px;
+  right: 10px;
 `;
 
 export const ButtonOrder = styled.button`
+  display: flex;
   width: 200px;
-  height: 55px;
-  margin-left: 60%;
+  height: 40%;
   color: rgb(0, 0, 0);
   font-family: Arimo;
   font-size: 14px;
   font-weight: 900;
   border: none;
   background: #FFFFFF;
+
 `;
 
 export const ButtonResult = styled.button`
-  display: block;
+  /*display: block;*/
   height: 113px;
   width: 90%;
   color: rgb(27, 27, 29);
@@ -124,6 +118,7 @@ export const ButtonResult = styled.button`
   border: 3px solid #00B031;
   border-radius: 12px;
   margin-top: 30px;
+  display: none;
 `;
 
 export const ResultPara = styled.div`
@@ -177,10 +172,6 @@ export const ResultConfirm = styled.button`
   background-image: url("public/start/home.png");
   border: 1px solid rgb(0,0,0) !important;
   font-family: Arimo;
-  font-size: 25px;
-  font-weight: 700;
-  text-align: center;
-  cursor: pointer;
-  width: 48px;
-  height: 50px;
+  width: 47px;
+  height: 47px;
 `;

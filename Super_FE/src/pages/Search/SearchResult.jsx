@@ -14,7 +14,7 @@ function SearchResult(){
     };
 
     const handleConfirmClick = () => {
-        navigate("/Search");
+        navigate("/main");
     };
 
     const [condition, setCondition] = useState('0');
@@ -22,6 +22,8 @@ function SearchResult(){
     const handleOption = (e) => {
         setCondition(e.target.value);
     }
+
+    
 
     return (
         <SearchContainer>
@@ -106,6 +108,9 @@ function SearchResult(){
             <ResultGroup>
                 <ResultPara>
                     <ResultHeader>신내동</ResultHeader>
+                    <ButtonReturn
+                        onClick={handleReturnClick}
+                    ></ButtonReturn>
                     <ResultDiv>
                         <ResultSpan>평균 가격</ResultSpan>
                         <ResultValue>ABCDEF</ResultValue>
@@ -128,10 +133,10 @@ function SearchResult(){
                     </ResultDiv>
                 </ResultPara>
             </ResultGroup>
-        <NavBarRow>
-            <ResultConfirm
+            <NavBarRow>
+                <ResultConfirm
                     onClick={handleConfirmClick}
-                    ></ResultConfirm>
+                ></ResultConfirm>
             </NavBarRow>
         </SearchContainer>
     );
