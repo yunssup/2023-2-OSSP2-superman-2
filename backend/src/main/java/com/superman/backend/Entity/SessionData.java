@@ -20,7 +20,7 @@ public class SessionData {
     private int TransportationType;
 
     private double FuelCost;
-
+    private int Interest;
     private String OftenPlace;
     @Column(nullable = true)
     private String OftenPlaceX;

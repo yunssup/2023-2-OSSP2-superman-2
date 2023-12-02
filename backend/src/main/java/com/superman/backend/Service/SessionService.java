@@ -40,7 +40,7 @@ public class SessionService {
             return response;
         }
 
-        userInfoService.insertSessionData(session.getId(), 0, 0, 0.0, "");
+        userInfoService.insertSessionData(session.getId(), 0, 0, 0.0, "", 0);
 
         UserHouseData userHouseData = new UserHouseData();
         userHouseData.setSessionId(session.getId());
