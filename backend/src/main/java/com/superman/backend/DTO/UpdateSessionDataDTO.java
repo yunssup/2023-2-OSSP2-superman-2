@@ -16,4 +16,7 @@ public class UpdateSessionDataDTO {
 
     @JsonProperty("FuelCost")
     private double fuelCost;
+
+    @JsonProperty("Interest")
+    private int interest;
 }

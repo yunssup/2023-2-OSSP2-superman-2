@@ -10,5 +10,6 @@ public class SessionDataDTO {
     private int TransportationType;
     private String OftenPlace;
     private double FuelCost;
+    private int Interest;
 }
 
