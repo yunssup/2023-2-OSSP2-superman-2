@@ -23,32 +23,31 @@ export const Title = styled.div`
   line-height: 30px; /* 125% */
 `;
 export const Button1 = styled.button`
-  /* margin-top: 10%; */
-  border-radius: 20px;
-  background: rgb(253, 246, 217);
-  color: rgb(27, 27, 29);
-  font-family: Arimo;
-  font-size: 35px;
-  font-weight: 700;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  width: 300px;
-  height: 250px;
+  border-radius: 8px;
+  border: 5px solid var(--system-success, #00b031);
+  background: var(--grayscale-white, #fff);
+  box-shadow: 0px 16px 16px 0px rgba(0, 0, 0, 0.25);
+  width: 334px;
+  height: 224px;
   flex-shrink: 0;
+  color: #000;
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px; /* 117.647% */
+  margin: 10%;
 `;
 export const Button2 = styled.button`
-  margin-top: 10%;
-  border-radius: 20px;
-  background: rgb(255, 232, 224);
-  color: rgb(27, 27, 29);
-  font-family: Arimo;
-  font-size: 35px;
-  font-weight: 700;
-  text-align: center;
-  border: none;
-  cursor: pointer;
-  width: 300px;
-  height: 250px;
+  border-radius: 8px;
+  border: 5px solid var(--system-success, #00b031);
+  background: var(--grayscale-white, #fff);
+  box-shadow: 0px 16px 16px 0px rgba(0, 0, 0, 0.25);
+  width: 334px;
+  height: 224px;
   flex-shrink: 0;
+  color: #000;
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 40px; /* 117.647% */
 `;

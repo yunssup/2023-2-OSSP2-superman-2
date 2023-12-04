@@ -1,60 +1,95 @@
 // Modal.js
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const modalStyle = {
-  display: "block", // 초기에 모달이 보이도록 설정
+  background: "rgba(0, 0, 0, 0.25)",
   position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  backgroundColor: "rgb(255, 232, 224)",
-  padding: "20px",
-  zIndex: 1000,
-  width: "60%",
-  height: "50%",
-  borderRadius: "7px",
+  left: "0",
+  top: "0",
+  height: "100%",
+  width: "100%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  zIndex: "100",
 };
 
 const contentStyle = {
-  // border: "1px solid red",
-  marginTop: "50%",
   fontSize: "24px",
   fontWeight: "bold",
   textAlign: "center",
+  background: "white",
+  padding: "20px",
+  borderRadius: "10px",
+  height: "50%",
+  position: "relative", // Added position relative
 };
 
 const inputStyle = {
   width: "100%",
-  padding: "8px",
+  padding: "15px",
   boxSizing: "border-box",
   border: "1px solid #ccc",
   borderRadius: "11px",
   fontSize: "14px",
+  marginTop: "10px",
+};
+
+const closeButtonStyle = {
+  position: "absolute",
+  top: "10px",
+  right: "10px",
+  cursor: "pointer",
+};
+
+const instructionTextStyle = {
+  marginTop: "30%", // Added margin for separation
+  // fontStyle: "italic", // Added italic style
+  color: "#333", // Added color
 };
 
 const buttonStyle = {
-  padding: "16px", // 더 큰 패딩
+  padding: "16px",
   cursor: "pointer",
-  position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  marginTop: "10%",
-  backgroundColor: "white", // 하얀색 배경
-  color: "black", // 글자 색
-  // border: "2px solid black", // 테두리 추가
-  borderRadius: "8px", // 더 둥근 테두리
-  fontSize: "15px", // 더 큰 글자 크기
+  backgroundColor: "white",
+  color: "black",
+  borderRadius: "8px",
+  fontSize: "15px",
   marginTop: "20%",
 };
 
 const Modal = ({ isOpen, onClose }) => {
   const [fuelEfficiency, setFuelEfficiency] = useState("");
+  const modalRef = useRef();
+
+  const handleClickOutside = (e) => {
+    if (modalRef.current && !modalRef.current.contains(e.target)) {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen]);
 
   return (
-    <div style={{ ...modalStyle, display: isOpen ? "block" : "none" }}>
+    <div
+      ref={modalRef}
+      style={{ ...modalStyle, display: isOpen ? "flex" : "none" }}
+    >
       <div style={contentStyle}>
-        <p>연비를 입력해주세요!</p>
+        <div style={closeButtonStyle} onClick={onClose}>
+          X
+        </div>
+        <p style={instructionTextStyle}>연비를 입력해주세요!</p>
         <div>
           <input
             style={inputStyle}
@@ -64,10 +99,10 @@ const Modal = ({ isOpen, onClose }) => {
             onChange={(e) => setFuelEfficiency(e.target.value)}
           />
         </div>
+        <button style={buttonStyle} onClick={onClose}>
+          입력 완료{" "}
+        </button>
       </div>
-      <button style={buttonStyle} onClick={onClose}>
-        입력 완료{" "}
-      </button>
     </div>
   );
 };

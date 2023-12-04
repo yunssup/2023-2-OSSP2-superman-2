@@ -11,14 +11,14 @@ import {
   AddressContainer,
   FindButton,
 } from "./Style";
-
 import LiveModal from "../../Components/LiveModal";
 import MoveModal from "../../Components/GoModal";
 import { useNavigate } from "react-router-dom";
 import Post from "../../Components/Post";
+import axios from "axios";
 
 function First() {
-  const navigate = useNavigate(); // Initialize the navigate function
+  const navigate = useNavigate(); // navigate 함수를 초기화합니다
 
   const [liveSelected, setLiveSelected] = useState(false);
   const [moveSelected, setMoveSelected] = useState(false);
@@ -26,38 +26,35 @@ function First() {
   const [isMoveModalOpen, setMoveModalOpen] = useState(false);
 
   const handleLiveClick = () => {
-    setLiveSelected(!liveSelected);
-    if (liveSelected && moveSelected) {
-      setMoveSelected(false);
-    }
-  };
-
-  const handleMoveClick = () => {
-    setMoveSelected(!moveSelected);
-    if (liveSelected && moveSelected) {
-      setLiveSelected(false);
-    }
+    setLiveSelected(true);
+    setMoveSelected(false);
+    console.log("Live Button Clicked");
   };
 
   const handleGoClick = () => {
+    setLiveSelected(false);
+    setMoveSelected(false);
     setLiveModalOpen(true);
+    console.log("Go Button Clicked");
   };
 
-  const handleCompleteClick = () => {
-    navigate("/main"); // Navigate to main.jsx when the button is clicked
-  };
-
-  const handleCloseLiveModal = () => {
-    setLiveModalOpen(false);
+  const handleMoveClick = () => {
+    setMoveSelected(true);
+    setLiveSelected(false);
+    console.log("Move Button Clicked");
   };
 
   const handleMoveModalClick = () => {
+    setMoveSelected(true);
+    setLiveSelected(false);
     setMoveModalOpen(true);
+    console.log("Move Modal Button Clicked");
   };
 
   const handleCloseMoveModal = () => {
     setMoveModalOpen(false);
   };
+
   const [enroll_company, setEnroll_company] = useState({
     address1: "",
     address2: "",
@@ -73,6 +70,7 @@ function First() {
     });
     console.log(`${e.target.name}: ${e.target.value}`);
   };
+
   const handleComplete = (field, data) => {
     if (field === "address1") {
       setPopup1(true);
@@ -80,13 +78,13 @@ function First() {
       setPopup2(true);
     }
 
-    // 우편번호 찾기를 통해 받은 데이터로 입력창을 업데이트합니다.
     setEnroll_company({
       ...enroll_company,
-      [field]: data.address, // 예시로 주소를 넣었으니 필요에 따라 수정
+      [field]: data.address,
     });
     console.log(data);
   };
+
   const handleClose = (field) => {
     if (field === "address1") {
       setPopup1(false);
@@ -94,6 +92,29 @@ function First() {
       setPopup2(false);
     }
   };
+
+  const handleCompleteClick = async () => {
+    const requestData = {
+      residenceType: liveSelected ? "월세" : "전세",
+      transportationMethod: moveSelected ? "자차" : "대중교통",
+      frequentlyVisitedPlace: enroll_company.address1,
+      address: enroll_company.address1,
+    };
+
+    try {
+      const response = await axios.post(
+        "/api/v1/kureomi/submitSelection",
+        requestData,
+        { withCredentials: true }
+      );
+
+      console.log("Success:", response.data);
+      navigate("/main");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <BackGround>
       <Title>거주 유형을 선택해주세요</Title>
@@ -107,12 +128,12 @@ function First() {
         </ButtonLive>
         <ButtonLive
           tabIndex="0"
-          isSelected={liveSelected}
+          isSelected={!liveSelected}
           onClick={handleGoClick}
         >
           전세
         </ButtonLive>
-        <LiveModal isOpen={isLiveModalOpen} onClose={handleCloseLiveModal} />
+        <LiveModal isOpen={isLiveModalOpen} onClose={handleCloseMoveModal} />
       </ButtonGroup>
       <Title>이동 수단을 선택해주세요</Title>
       <ButtonGroup>
@@ -125,7 +146,7 @@ function First() {
         </ButtonMove>
         <ButtonMove
           tabIndex="0"
-          isSelected={moveSelected}
+          isSelected={!moveSelected}
           onClick={handleMoveModalClick}
         >
           자차
