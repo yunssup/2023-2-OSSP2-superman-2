@@ -3,50 +3,57 @@ import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 
 const modalStyle = {
-  display: "block",
+  background: "rgba(0, 0, 0, 0.25)",
   position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  backgroundColor: "rgb(255, 255, 255)",
-  padding: "20px",
-  zIndex: 1000,
-  width: "60%",
-  height: "50%",
-  borderRadius: "7px",
-  borderColor: "5px solid black",
+  left: "0",
+  top: "0",
+  height: "100%",
+  width: "100%",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  zIndex: "100",
 };
 
 const contentStyle = {
-  marginTop: "25%",
   fontSize: "24px",
   fontWeight: "bold",
   textAlign: "center",
+  background: "white",
+  padding: "20px",
+  borderRadius: "10px",
+  height: "55%",
+  position: "relative",
 };
 
 const inputStyle = {
   width: "100%",
-  padding: "8px",
+  padding: "15px",
   boxSizing: "border-box",
   border: "1px solid #ccc",
   borderRadius: "11px",
   fontSize: "14px",
-  padding: "5%",
-  marginTop: "5%",
+  marginTop: "10px",
 };
 
 const buttonStyle = {
   padding: "16px",
   cursor: "pointer",
-  position: "fixed",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
   backgroundColor: "white",
   color: "black",
   borderRadius: "8px",
   fontSize: "15px",
-  marginTop: "65%",
+  position: "absolute",
+  bottom: "10px", // Adjusted position
+  left: "50%",
+  transform: "translateX(-50%)",
+};
+
+const closeButtonStyle = {
+  position: "absolute",
+  top: "10px",
+  right: "10px",
+  cursor: "pointer",
 };
 
 const Modal = ({ isOpen, onClose }) => {
@@ -56,20 +63,22 @@ const Modal = ({ isOpen, onClose }) => {
 
   useEffect(() => {
     const principalValue = parseFloat(principal);
-    const interestRateValue = parseFloat(interestRate.replace("%", "")); // remove '%' and convert to float
+    const interestRateValue = parseFloat(interestRate.replace("%", ""));
 
     if (!isNaN(principalValue) && !isNaN(interestRateValue)) {
-      setResult((principalValue * interestRateValue) / 100); // calculate percentage
+      setResult((principalValue * interestRateValue) / 100);
     } else {
       setResult(0);
     }
   }, [principal, interestRate]);
 
-  // Use ReactDOM.createPortal to render the modal content as a child of the body element
   return isOpen
     ? ReactDOM.createPortal(
         <div style={modalStyle}>
           <div style={contentStyle}>
+            <div style={closeButtonStyle} onClick={onClose}>
+              X
+            </div>
             <p>
               원금과 이자율을
               <br />
@@ -96,10 +105,10 @@ const Modal = ({ isOpen, onClose }) => {
               />
             </div>
             <p>계산 결과: {result.toFixed(2)}원</p>
+            <button style={buttonStyle} onClick={onClose}>
+              입력 완료
+            </button>
           </div>
-          <button style={buttonStyle} onClick={onClose}>
-            입력 완료
-          </button>
         </div>,
         document.body
       )
