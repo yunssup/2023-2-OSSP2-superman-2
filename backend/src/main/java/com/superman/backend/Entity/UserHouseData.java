@@ -15,7 +15,13 @@ public class UserHouseData {
     private String FirstHome;
 
     @Column(columnDefinition = "VARCHAR(255) DEFAULT NULL")
+    private String FirstHomeDetail;
+
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT NULL")
     private String SecondHome;
+
+    @Column(columnDefinition = "VARCHAR(255) DEFAULT NULL")
+    private String SecondHomeDetail;
 
     @JsonBackReference
     @OneToOne

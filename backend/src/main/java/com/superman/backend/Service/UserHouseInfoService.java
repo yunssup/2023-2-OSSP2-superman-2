@@ -22,8 +22,10 @@ public class UserHouseInfoService {
         UserHouseData newTable = userHouseDataRepository.findById(sessionId).orElse(new UserHouseData());
         if (requestDTO.getHouseNum() == 1) {
             newTable.setFirstHome(requestDTO.getHouseAddress());
+            newTable.setFirstHomeDetail(requestDTO.getHouseDetail());
         } else if (requestDTO.getHouseNum() == 2) {
             newTable.setSecondHome(requestDTO.getHouseAddress());
+            newTable.setSecondHomeDetail(requestDTO.getHouseDetail());
         }
 
         // Save or update the entity
