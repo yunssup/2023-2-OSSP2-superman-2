@@ -1,5 +1,5 @@
 // First.js
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Title,
   ButtonGroup,
@@ -18,12 +18,31 @@ import Post from "../../Components/Post";
 import axios from "axios";
 
 function First() {
-  const navigate = useNavigate(); // navigate 함수를 초기화합니다
+  const navigate = useNavigate();
 
   const [liveSelected, setLiveSelected] = useState(false);
   const [moveSelected, setMoveSelected] = useState(false);
   const [isLiveModalOpen, setLiveModalOpen] = useState(false);
   const [isMoveModalOpen, setMoveModalOpen] = useState(false);
+  const [userSessionData, setUserSessionData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserSession = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/user", {
+          withCredentials: true,
+        });
+
+        const userData = response.data;
+        setUserSessionData(userData.session_id); // session_id 값을 setUserSessionData로 설정
+        console.log("유저 세션 데이터:", userData);
+      } catch (error) {
+        console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
+      }
+    };
+
+    fetchUserSession();
+  }, []);
 
   const handleLiveClick = () => {
     setLiveSelected(true);
@@ -94,24 +113,36 @@ function First() {
   };
 
   const handleCompleteClick = async () => {
+    if (!userSessionData) {
+      console.error("유저 세션 데이터가 없습니다.");
+      return;
+    }
+
+    let homeTypeValue = liveSelected ? 1 : 2;
+    let transportationTypeValue = moveSelected ? 2 : 1;
+
     const requestData = {
-      residenceType: liveSelected ? "월세" : "전세",
-      transportationMethod: moveSelected ? "자차" : "대중교통",
-      frequentlyVisitedPlace: enroll_company.address1,
-      address: enroll_company.address1,
+      OftenPlace: enroll_company.address1,
+      HomeType: homeTypeValue,
+      TransportationType: transportationTypeValue,
+      FuelCost: 0,
+      전세이자: 0,
     };
 
     try {
       const response = await axios.post(
-        "/api/v1/kureomi/submitSelection",
+        `http://localhost:8080/api/user/update/${userSessionData}`,
         requestData,
-        { withCredentials: true }
+        {
+          withCredentials: true,
+        }
       );
-
-      console.log("Success:", response.data);
-      navigate("/main");
+      console.log("백엔드 응답:", response.data);
+      alert(
+        `백엔드에 전송된 주소: http://localhost:8080/api/user/update/${userSessionData}`
+      );
     } catch (error) {
-      console.error("Error:", error);
+      console.error("백엔드와 통신 중 오류 발생:", error);
     }
   };
 
