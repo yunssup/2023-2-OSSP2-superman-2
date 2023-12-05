@@ -105,8 +105,6 @@ export const ButtonGo = styled.button`
   background: var(--grayscale-gray-4, #bdbdbd);
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   color: #fff;
-
-  /* Headline 1 */
   font-family: Roboto;
   font-size: 34px;
   font-style: normal;
@@ -116,4 +114,5 @@ export const ButtonGo = styled.button`
   border: none;
   cursor: pointer;
   flex-shrink: 0;
+  margin-top: 10%;
 `;
