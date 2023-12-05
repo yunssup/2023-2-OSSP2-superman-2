@@ -3,8 +3,12 @@ package com.superman.backend.Service;
 import com.superman.backend.DTO.DongDataDTO;
 import com.superman.backend.DTO.PastHouseDTO;
 import com.superman.backend.Entity.DongData;
+import com.superman.backend.Entity.LumpSumLeaseData;
+import com.superman.backend.Entity.MonthlyRentData;
 import com.superman.backend.Entity.PastHouseData;
 import com.superman.backend.Repository.DongDataRepository;
+import com.superman.backend.Repository.LumpSumLeaseRepository;
+import com.superman.backend.Repository.MonthlyRentRepository;
 import com.superman.backend.Repository.PastHouseDataRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,8 +31,9 @@ public class MakePastDataService {
     private PastHouseDataRepository pastHouseDataRepository;
 
     @Autowired
-    private DongDataRepository dongDataRepository;
-
+    private LumpSumLeaseRepository lumpSumLeaseRepository;
+    @Autowired
+    private MonthlyRentRepository monthlyRentRepository;
     @Transactional
     public void makePastData(String lawdCode, String dealYmd, String serviceKey) {
         try {
@@ -57,8 +62,13 @@ public class MakePastDataService {
                 if (item.getNodeType() == Node.ELEMENT_NODE) {
                     String logicalCode = getNodeValue("지역코드", item);
                     String dongName = getNodeValue("법정동", item);
+
                     String deposit = getNodeValue("보증금", item);
                     String monthly = getNodeValue("월세", item);
+
+                    double depositValue = Double.parseDouble(deposit.replace(",", ""));
+                    double monthlyValue = Double.parseDouble(monthly.replace(",", ""));
+
                     String area = getNodeValue("전용면적", item);
 
                     PastHouseDTO pastHouseDTO = new PastHouseDTO();
@@ -74,13 +84,18 @@ public class MakePastDataService {
 
                     // DTO to Entity 변환
                     PastHouseData pastHouseData = convertToPastHouseData(pastHouseDTO);
-                    DongData dongData = convertToDongData(dongDataDTO);
-
-                    dongData.setPastHouseData(pastHouseData);
 
                     // 엔티티 저장
                     pastHouseDataRepository.save(pastHouseData);
-                    dongDataRepository.save(dongData);
+                    if (monthlyOrLumpSumLease(depositValue, monthlyValue)) {
+                        LumpSumLeaseData lumpSumLeaseData = convertToLumpSumLeaseData(dongDataDTO);
+                        lumpSumLeaseRepository.save(lumpSumLeaseData);
+                        lumpSumLeaseData.setPastHouseData(pastHouseData);
+                    } else {
+                        MonthlyRentData monthlyRentData = convertToMonthlyRentData(dongDataDTO);
+                        monthlyRentRepository.save(monthlyRentData);
+                        monthlyRentData.setPastHouseData(pastHouseData);
+                    }
                 }
             }
 
@@ -119,5 +134,27 @@ public class MakePastDataService {
         // 추가 필드 설정
 
         return entity;
+    }
+    // Node에서 LumpSumLeaseData 엔터티로 변환하는 메서드
+    private LumpSumLeaseData convertToLumpSumLeaseData(DongDataDTO dto) {
+        LumpSumLeaseData lumpSumLeaseData = new LumpSumLeaseData();
+        lumpSumLeaseData.setDongName(dto.getDongName());
+        lumpSumLeaseData.setDeposit(dto.getDeposit());
+        lumpSumLeaseData.setMonthly(dto.getMonthly());
+        lumpSumLeaseData.setArea(dto.getArea());
+        return lumpSumLeaseData;
+    }
+
+    // Node에서 MonthlyRentData 엔터티로 변환하는 메서드
+    private MonthlyRentData convertToMonthlyRentData(DongDataDTO dto) {
+        MonthlyRentData entity = new MonthlyRentData();
+        entity.setDongName(dto.getDongName());
+        entity.setDeposit(dto.getDeposit());
+        entity.setMonthly(dto.getMonthly());
+        entity.setArea(dto.getArea());
+        return entity;
+    }
+    private boolean monthlyOrLumpSumLease(double deposit, double monthly) {
+        return monthly < (deposit * 0.02);
     }
 }

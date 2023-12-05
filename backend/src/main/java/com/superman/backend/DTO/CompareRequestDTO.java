@@ -11,4 +11,6 @@ public class CompareRequestDTO {
     private int HouseNum;
     @JsonProperty("HouseAddress")
     private String HouseAddress;
+    @JsonProperty("HouseDetail")
+    private String HouseDetail;
 }
