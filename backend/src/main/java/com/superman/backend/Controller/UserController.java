@@ -20,6 +20,7 @@ import java.util.Map;
 @ComponentScan(basePackages = {"com.superman.backend", "com.superman.backend.Repository"})
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "http://localhost:5173")
 public class UserController {
 
     @Autowired
