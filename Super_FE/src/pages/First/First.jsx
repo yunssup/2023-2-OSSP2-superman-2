@@ -19,12 +19,12 @@ import axios from "axios";
 
 function First() {
   const navigate = useNavigate();
-
   const [liveSelected, setLiveSelected] = useState(false);
   const [moveSelected, setMoveSelected] = useState(false);
   const [isLiveModalOpen, setLiveModalOpen] = useState(false);
   const [isMoveModalOpen, setMoveModalOpen] = useState(false);
   const [userSessionData, setUserSessionData] = useState(null);
+  const [result, setResult] = useState(0); // 이 부분을 확인
 
   useEffect(() => {
     const fetchUserSession = async () => {
@@ -70,8 +70,11 @@ function First() {
     console.log("Move Modal Button Clicked");
   };
 
-  const handleCloseMoveModal = () => {
+  const handleCloseMoveModal = (resultValue) => {
     setMoveModalOpen(false);
+    // resultValue를 사용하여 필요한 작업 수행
+    console.log("모달에서 전달된 결과 값:", resultValue);
+    // 나머지 코드는 그대로 유지
   };
 
   const [enroll_company, setEnroll_company] = useState({
@@ -127,6 +130,7 @@ function First() {
       TransportationType: transportationTypeValue,
       FuelCost: 0,
       전세이자: 0,
+      CalculatedResult: result.toFixed(2),
     };
 
     try {
@@ -141,6 +145,7 @@ function First() {
       alert(
         `백엔드에 전송된 주소: http://localhost:8080/api/user/update/${userSessionData}`
       );
+      navigate("/main");
     } catch (error) {
       console.error("백엔드와 통신 중 오류 발생:", error);
     }
@@ -182,7 +187,10 @@ function First() {
         >
           자차
         </ButtonMove>
-        <MoveModal isOpen={isMoveModalOpen} onClose={handleCloseMoveModal} />
+        <MoveModal
+          isOpen={isMoveModalOpen}
+          onClose={() => handleCloseMoveModal(result.toFixed(2))}
+        />
       </ButtonGroup>
       <Title>자주 가는 장소를 등록해주세요</Title>
 
