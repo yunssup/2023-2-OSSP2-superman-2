@@ -25,6 +25,7 @@ function First() {
   const [isMoveModalOpen, setMoveModalOpen] = useState(false);
   const [userSessionData, setUserSessionData] = useState(null);
   const [result, setResult] = useState(0); // 이 부분을 확인
+  const [fuelEfficiency, setFuelEfficiency] = useState(""); // 연비를 추가
 
   useEffect(() => {
     const fetchUserSession = async () => {
@@ -47,34 +48,39 @@ function First() {
   const handleLiveClick = () => {
     setLiveSelected(true);
     setMoveSelected(false);
-    console.log("Live Button Clicked");
+    console.log("월세 클릭");
   };
 
   const handleGoClick = () => {
     setLiveSelected(false);
     setMoveSelected(false);
     setLiveModalOpen(true);
-    console.log("Go Button Clicked");
+    console.log("전세 클릭");
   };
 
   const handleMoveClick = () => {
     setMoveSelected(true);
     setLiveSelected(false);
-    console.log("Move Button Clicked");
+    console.log("대중교통 클릭");
   };
 
   const handleMoveModalClick = () => {
     setMoveSelected(true);
     setLiveSelected(false);
     setMoveModalOpen(true);
-    console.log("Move Modal Button Clicked");
+    console.log("자차");
   };
 
   const handleCloseMoveModal = (resultValue) => {
     setMoveModalOpen(false);
     // resultValue를 사용하여 필요한 작업 수행
     console.log("모달에서 전달된 결과 값:", resultValue);
-    // 나머지 코드는 그대로 유지
+  };
+
+  const handleCloseFuelEfficiencyModal = (fuelEfficiency) => {
+    setMoveModalOpen(false);
+    // fuelEfficiency를 사용하여 필요한 작업 수행
+    console.log("모달에서 전달된 연비 값:", fuelEfficiency);
   };
 
   const [enroll_company, setEnroll_company] = useState({
@@ -107,12 +113,17 @@ function First() {
     console.log(data);
   };
 
-  const handleClose = (field) => {
+  const handleClose = (field, fieldValue) => {
+    console.log(`모달에서 전달된 ${field} 값:`, fieldValue);
+
     if (field === "address1") {
       setPopup1(false);
     } else if (field === "address2") {
       setPopup2(false);
+    } else if (field === "fuelEfficiency") {
+      setFuelEfficiency(fieldValue);
     }
+    // Add any other cases as needed
   };
 
   const handleCompleteClick = async () => {
@@ -128,8 +139,7 @@ function First() {
       OftenPlace: enroll_company.address1,
       HomeType: homeTypeValue,
       TransportationType: transportationTypeValue,
-      FuelCost: 0,
-      전세이자: 0,
+      FuelCost: fuelEfficiency, // 연비 값 추가
       CalculatedResult: result.toFixed(2),
     };
 
@@ -189,7 +199,7 @@ function First() {
         </ButtonMove>
         <MoveModal
           isOpen={isMoveModalOpen}
-          onClose={() => handleCloseMoveModal(result.toFixed(2))}
+          onClose={handleCloseFuelEfficiencyModal}
         />
       </ButtonGroup>
       <Title>자주 가는 장소를 등록해주세요</Title>
