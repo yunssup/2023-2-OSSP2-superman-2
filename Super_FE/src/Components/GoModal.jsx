@@ -58,7 +58,7 @@ const buttonStyle = {
   marginTop: "20%",
 };
 
-const Modal = ({ isOpen, onClose }) => {
+const GoModal = ({ isOpen, onClose }) => {
   const [fuelEfficiency, setFuelEfficiency] = useState("");
   const modalRef = useRef();
 
@@ -66,6 +66,10 @@ const Modal = ({ isOpen, onClose }) => {
     if (modalRef.current && !modalRef.current.contains(e.target)) {
       onClose();
     }
+  };
+
+  const handleClose = () => {
+    onClose(fuelEfficiency); // fuelEfficiency 값을 onClose 핸들러로 전달
   };
 
   useEffect(() => {
@@ -99,7 +103,7 @@ const Modal = ({ isOpen, onClose }) => {
             onChange={(e) => setFuelEfficiency(e.target.value)}
           />
         </div>
-        <button style={buttonStyle} onClick={onClose}>
+        <button style={buttonStyle} onClick={handleClose}>
           입력 완료{" "}
         </button>
       </div>
@@ -107,4 +111,4 @@ const Modal = ({ isOpen, onClose }) => {
   );
 };
 
-export default Modal;
+export default GoModal;
