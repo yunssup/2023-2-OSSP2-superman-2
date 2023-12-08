@@ -21,10 +21,6 @@ function Search() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleReturnClick = () => {
-    navigate("/First");
-  };
-
   const handleOrderClick = () => {
     const buttonOrder = document.getElementById("order");
     if (buttonOrder.textContent === "평균 면적 크기 순 ↑") {
@@ -59,24 +55,38 @@ function Search() {
   });
 
   const handleSelectChange = (event, selectNumber) => {
-    const {value}=event.target;
-    console.log(value);
+    const { value } = event.target;
     setSelectedOptions({
       ...selectedOptions,
       [selectNumber]: value
     });
-  }
 
-  const handleResultClick = (selectedOptions) => {
-    const queryString= '?select1=${selectedOptions.select1}&select2=${selectedOptions.select2}&select3=${selectedOptions.select3}';
-    navigate(`/SearchResult${queryString}`);
+    if(selectNumber === 'select2'){
+      setCondition(value);
+    }
   };
 
-  const [condition, setCondition] = useState('0');
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const select1 = searchParams.get('select1') || '';
+    const select2 = searchParams.get('select2') || '';
+    const select3 = searchParams.get('select3') || '';
+    const select4 = searchParams.get('select4') || '';
 
-  const handleOption = (e) => {
-    setCondition(e.target.value);
-  }
+    setSelectedOptions({
+        select1,
+        select2,
+        select3,
+        select4
+    });
+}, [location.search]);
+
+const handleResultClick = () => {
+  const queryString = `?select1=${selectedOptions.select1}&select2=${selectedOptions.select2}&select3=${selectedOptions.select3}&select4=${selectedOptions.select4}`;
+  navigate(`/SearchResult${queryString}`);
+};
+
+  const [condition, setCondition] = useState('0');
 
   useEffect(()=>{
     const buttonOrder = document.getElementById("order");
@@ -119,7 +129,7 @@ function Search() {
           </NavBarSelect>
         </NavBarRow>
         <NavBarRow>
-          <NavBarSelect value={selectedOptions.select2} onChange={(e) => handleSelectChange(e, 'select2')} /*onChange={handleOption}*/>
+          <NavBarSelect value={selectedOptions.select2} onChange={(e) => handleSelectChange(e, 'select2')}>
             <option value='0'>조건 선택</option>
             <option value='1'>가격</option>
             <option value='2'>면적</option>

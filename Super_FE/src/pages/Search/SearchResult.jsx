@@ -12,14 +12,27 @@ function SearchResult(){
         select2: '',
         select3: '',
         select4: ''
+    });
+
+    const handleSelectChange = (event, selectNumber) => {
+       const {value}=event.target;
+       console.log(value);
+       setSelectedOptions({
+        ...selectedOptions,
+       [selectNumber]: value
       });
-    
+
+      if(selectNumber === 'select2'){
+        setCondition(value);
+      }
+    }
+
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
-        const select1 = searchParams.get('select1');
-        const select2 = searchParams.get('select2');
-        const select3 = searchParams.get('select3');
-        const select4 = searchParams.get('select4');
+        const select1 = searchParams.get('select1') || '';
+        const select2 = searchParams.get('select2') || '';
+        const select3 = searchParams.get('select3') || '';
+        const select4 = searchParams.get('select4') || '';
 
         setSelectedOptions({
             select1,
@@ -30,7 +43,8 @@ function SearchResult(){
     }, [location.search]);
 
     const handleReturnClick = () => {
-        navigate("/Search");
+        const queryString = `?select1=${selectedOptions.select1}&select2=${selectedOptions.select2}&select3=${selectedOptions.select3}&select2=${selectedOptions.select2}&select4=${selectedOptions.select4}`;
+        navigate(`/Search${queryString}`);
     };
 
     const handleConfirmClick = () => {
@@ -38,12 +52,6 @@ function SearchResult(){
     };
 
     const [condition, setCondition] = useState('0');
-
-    const handleOption = (e) => {
-        setCondition(e.target.value);
-    }
-
-    
 
     return (
         <SearchContainer>
@@ -81,7 +89,7 @@ function SearchResult(){
                     </NavBarSelect>
                 </NavBarRow>
                 <NavBarRow>
-                <NavBarSelect value={selectedOptions.select2} onChange={(e) => handleSelectChange(e, 'select2')} /*onChange={handleOption}*/>
+                <NavBarSelect value={selectedOptions.select2} onChange={(e) => handleSelectChange(e, 'select2')}>
                     <option value='0'>조건 선택</option>
                     <option value='1'>가격</option>
                     <option value='2'>면적</option>
