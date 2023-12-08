@@ -61,8 +61,8 @@ export const ResultGroup = styled.div`
 export const NavBarSelect = styled.select`
   display: flex;
   height: 50px;
-  width: 33%;
-  margin: 20px 15px;
+  width: 100%;
+  margin: 0 10px 12px;
   background: #E8E9EA;
   border-radius: 10px;
 `;
