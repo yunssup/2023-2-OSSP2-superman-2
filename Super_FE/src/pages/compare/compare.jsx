@@ -113,6 +113,20 @@ function Compare() {
         // 오류가 발생했을 때 처리하는 부분
         console.error("데이터 전송 실패패", error);
       });
+
+      // 입력 완료 버튼을 눌렀을 때 주소에 대한 매물 정보 요청
+      const add = { User: userSessionData, address : enroll_company[`address${houseNum}`]}
+      axios
+      .post("http://localhost:8080/api/compare/houseinfo", add)
+      .then((response) => {
+        console.log("반환 데이터", response.data);
+        // 해당 부분에서 화면 월세, 보증금, 대출이자, 교통비 데이터 출력 로직 필요
+      })
+      .catch((error) => {
+        // 오류가 발생했을 때 처리하는 부분
+        console.error("데이터 전송 실패패", error);
+      });
+
   };
   // 하단 홈 버튼 클릭 시 메인 화면으로 복귀
   const handleImageClick = () => {
