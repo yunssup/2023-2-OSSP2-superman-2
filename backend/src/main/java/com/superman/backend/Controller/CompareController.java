@@ -19,7 +19,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class CompareController {
 
     private final UserHouseInfoService userHouseInfoService;
