@@ -24,7 +24,14 @@ export const AddressContainer = styled.div`
   display: flex;
   flex-direction: row;
 `;
-
+export const AddressContainerInputContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+export const AddressContainerInput = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 export const UserEnrollText = styled.input`
   width: 50%;
   padding: 8px;
@@ -32,19 +39,41 @@ export const UserEnrollText = styled.input`
   border: 1px solid #ccc;
   font-size: 14px;
 `;
+export const UserEnrollTextInput = styled.input`
+  width: 90%;
+  padding: 12px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  margin-left: 4%;
+  margin-top: 5%;
+`;
 export const FindButton = styled.button`
   padding: 10px;
   cursor: pointer;
-  background-color: #4caf50;
+  background-color: #00b031;
   color: white;
   border: none;
   font-size: 16px;
 
   &:hover {
-    background-color: #45a049;
+    background-color: #00b031;
   }
 `;
-
+export const ButtonHouse = styled.button`
+  width: 170px;
+  height: 43px;
+  flex-shrink: 0;
+  color: #fff;
+  font-family: Roboto;
+  font-size: 17px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 24px; /* 120% */
+  background-color: #00b031;
+  border: none;
+  margin-top: 3%;
+`;
 export const InsideContainer = styled.div`
   border-radius: 8px;
   border: 3px solid #000;
@@ -72,12 +101,14 @@ export const InsideContainerResult = styled.div`
   text-align: center;
   margin: 2%;
   flex-direction: column;
+  margin-top: 5%;
 `;
 export const RowContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
   height: 90%;
+  margin-top: 5%;
 `;
 export const Title = styled.div`
   color: #000;
@@ -86,6 +117,7 @@ export const Title = styled.div`
   font-style: normal;
   font-weight: 700;
   line-height: 24px; /* 120% */
+  margin-top: 5%;
 `;
 export const ButtonGo = styled.button`
   width: 366px;
@@ -99,16 +131,18 @@ export const ButtonGo = styled.button`
   font-weight: 700;
   line-height: 24px; /* 120% */
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
+  border: none;
 `;
 export const InputWithBorder = styled.input`
   width: 80%;
-  padding: 7%;
+  padding: 5%;
   box-sizing: border-box;
   border: 1px solid #ccc;
   font-size: 14px;
   margin-bottom: 10px; /* 추가: 하단 여백 */
   border-radius: 5px; /* 추가: 둥근 테두리 */
   outline: none; /* 추가: 포커스 효과 제거 */
+  margin-top: 3%;
 
   &:focus {
     border-color: black;

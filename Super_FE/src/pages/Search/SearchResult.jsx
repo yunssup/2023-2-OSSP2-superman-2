@@ -3,14 +3,48 @@ import { SearchContainer, NavBar, NavBarRow, NavBarSpan, NavBarSelect, ResultGro
 import { useLocation, useNavigate } from "react-router-dom";
 
 function SearchResult(){
-    const [orderSelected, setOrderSelected] = useState(false); // 오름차순/내림차순
-    
+
     const navigate = useNavigate();
     const location = useLocation();
-    const info = {...location.state};
+
+    const [selectedOptions, setSelectedOptions] = useState({
+        select1: '',
+        select2: '',
+        select3: '',
+        select4: ''
+    });
+
+    const handleSelectChange = (event, selectNumber) => {
+       const {value}=event.target;
+       console.log(value);
+       setSelectedOptions({
+        ...selectedOptions,
+       [selectNumber]: value
+      });
+
+      if(selectNumber === 'select2'){
+        setCondition(value);
+      }
+    }
+
+    useEffect(() => {
+        const searchParams = new URLSearchParams(location.search);
+        const select1 = searchParams.get('select1') || '';
+        const select2 = searchParams.get('select2') || '';
+        const select3 = searchParams.get('select3') || '';
+        const select4 = searchParams.get('select4') || '';
+
+        setSelectedOptions({
+            select1,
+            select2,
+            select3,
+            select4
+        });
+    }, [location.search]);
 
     const handleReturnClick = () => {
-        navigate("/Search");
+        const queryString = `?select1=${selectedOptions.select1}&select2=${selectedOptions.select2}&select3=${selectedOptions.select3}&select2=${selectedOptions.select2}&select4=${selectedOptions.select4}`;
+        navigate(`/Search${queryString}`);
     };
 
     const handleConfirmClick = () => {
@@ -19,19 +53,14 @@ function SearchResult(){
 
     const [condition, setCondition] = useState('0');
 
-    const handleOption = (e) => {
-        setCondition(e.target.value);
-    }
-
-    
-
     return (
         <SearchContainer>
             <NavBar>
                 <NavBarRow>
-                    <NavBarSpan>위치를 선택하세요 : 서울특별시 </NavBarSpan>
-                    <NavBarSelect>
-                        <option>구 선택</option>
+                    
+                    <NavBarSelect value={selectedOptions.select1} onChange={(e) => handleSelectChange(e, 'select1')}>
+                        <option>주소 입력 창 (시/군/구 선택)</option>
+                        <option value='11000'>서울특별시 전체</option>
                         <option value='11680'>강남구</option>
                         <option value='11740'>강동구</option>
                         <option value='11305'>강북구</option>
@@ -60,48 +89,48 @@ function SearchResult(){
                     </NavBarSelect>
                 </NavBarRow>
                 <NavBarRow>
-                <NavBarSelect onChange={handleOption}>
+                <NavBarSelect value={selectedOptions.select2} onChange={(e) => handleSelectChange(e, 'select2')}>
                     <option value='0'>조건 선택</option>
                     <option value='1'>가격</option>
                     <option value='2'>면적</option>
                 </NavBarSelect>
                 {condition==='0'?
-                    <NavBarSelect>
-                        <option>조건 세분화</option>
+                    <NavBarSelect value={selectedOptions.select3} onChange={(e) => handleSelectChange(e, 'select3')}>
+                        <option value='0'>조건 세분화</option>
                     </NavBarSelect>
                     :null}
                 {condition==='1'?
-                    <NavBarSelect>
-                        <option>조건 세분화</option>
-                        <option>20만원 미만</option>
-                        <option>20 ~ 40만원</option>
-                        <option>40 ~ 60만원</option>
-                        <option>60 ~ 80만원</option>
-                        <option>80 ~ 100만원</option>
-                        <option>100만원 이상</option>
+                    <NavBarSelect value={selectedOptions.select3} onChange={(e) => handleSelectChange(e, 'select3')}>
+                        <option value='0'>조건 세분화</option>
+                        <option value='1'>20만원 미만</option>
+                        <option value='2'>20 ~ 40만원</option>
+                        <option value='3'>40 ~ 60만원</option>
+                        <option value='4'>60 ~ 80만원</option>
+                        <option value='5'>80 ~ 100만원</option>
+                        <option value='6'>100만원 이상</option>
                     </NavBarSelect>
                     :null}
                 {condition==='2'?
-                    <NavBarSelect>
-                        <option>조건 세분화</option>
-                        <option>10평 미만</option>
-                        <option>10 ~ 20평</option>
-                        <option>20 ~ 30평</option>
-                        <option>30 ~ 40평</option>
-                        <option>40 ~ 50평</option>
-                        <option>50 ~ 60평</option>
-                        <option>60평 이상</option>
+                    <NavBarSelect value={selectedOptions.select3} onChange={(e) => handleSelectChange(e, 'select3')}>
+                        <option value='0'>조건 세분화</option>
+                        <option value='1'>10평 미만</option>
+                        <option value='2'>10 ~ 20평</option>
+                        <option value='3'>20 ~ 30평</option>
+                        <option value='4'>30 ~ 40평</option>
+                        <option value='5'>40 ~ 50평</option>
+                        <option value='6'>50 ~ 60평</option>
+                        <option value='7'>60평 이상</option>
                     </NavBarSelect>
                     :null}
-                <NavBarSelect>
-                    <option>이동 시간 선택</option>
-                    <option>~10분</option>
-                    <option>11분 ~ 20분</option>
-                    <option>21분 ~ 30분</option>
-                    <option>31분 ~ 40분</option>
-                    <option>41분 ~ 50분</option>
-                    <option>51분 ~ 60분</option>
-                    <option>60분 초과</option>
+                <NavBarSelect value={selectedOptions.select4} onChange={(e) => handleSelectChange(e, 'select4')}>
+                    <option value='0'>이동 시간 선택</option>
+                    <option value='1'>~10분</option>
+                    <option value='2'>11분 ~ 20분</option>
+                    <option value='3'>21분 ~ 30분</option>
+                    <option value='4'>31분 ~ 40분</option>
+                    <option value='5'>41분 ~ 50분</option>
+                    <option value='6'>51분 ~ 60분</option>
+                    <option value='7'>60분 초과</option>
                 </NavBarSelect>
             </NavBarRow>
             </NavBar>

@@ -1,10 +1,12 @@
 package com.superman.backend.Controller;
 
+import com.superman.backend.DTO.ApiHouseInfoResponseDTO;
 import com.superman.backend.DTO.CompareRequestDTO;
 import com.superman.backend.Entity.SessionData;
 import com.superman.backend.Entity.UserHouseData;
 import com.superman.backend.Repository.SessionDataRepository;
 import com.superman.backend.Service.CrawlingHouseInfoService;
+import com.superman.backend.Service.GetHouseInfoByApiService;
 import com.superman.backend.Service.TransportCostService;
 import com.superman.backend.Service.TravalTimeService;
 import com.superman.backend.Service.UserHouseInfoService;
@@ -27,13 +29,16 @@ public class CompareController {
     private final TransportCostService transportCostService;
     private final CrawlingHouseInfoService crawlingInfoService;
     private final SessionDataRepository sessionDataRepository;
+    private final GetHouseInfoByApiService getHouseInfoByApiService;
+    
     @Autowired
-    public CompareController(UserHouseInfoService userHouseInfoService, TravalTimeService travalTimeService, TransportCostService transportCostService, CrawlingHouseInfoService crawlingInfoService, SessionDataRepository sessionDataRepository) {
+    public CompareController(UserHouseInfoService userHouseInfoService, TravalTimeService travalTimeService, TransportCostService transportCostService, CrawlingHouseInfoService crawlingInfoService, SessionDataRepository sessionDataRepository, GetHouseInfoByApiService getHouseInfoByApiService) {
         this.userHouseInfoService = userHouseInfoService;
         this.travalTimeService = travalTimeService;
         this.transportCostService = transportCostService;
         this.crawlingInfoService = crawlingInfoService;
         this.sessionDataRepository = sessionDataRepository;
+        this.getHouseInfoByApiService = getHouseInfoByApiService;
     }
 
     @GetMapping("/compare/TravalTime")
@@ -89,6 +94,27 @@ public class CompareController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Error saving house information: " + e.getMessage());
+        }
+    }
+
+    // 집 정보 반환
+    @GetMapping("/compare/houseinfo")
+    public ResponseEntity<Map<String, Object>> getHouseInfo(@RequestParam String user, @RequestParam String address) {
+        try {
+            
+            Map<String, Object> response = new HashMap<>();
+            ApiHouseInfoResponseDTO apiRes = getHouseInfoByApiService.getHouseInfo(address);
+            response.put("houseInfo", apiRes);
+            //response.put("houseInfo", getHouseInfoByApiService.getHouseInfo(address));
+            System.out.println(apiRes.getPrc());
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error getting house info");
+            errorResponse.put("message", e.getMessage());
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
    /* @GetMapping("/realhouseinfo")

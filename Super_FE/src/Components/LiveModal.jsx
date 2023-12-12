@@ -56,23 +56,35 @@ const closeButtonStyle = {
   cursor: "pointer",
 };
 
-const Modal = ({ isOpen, onClose }) => {
+const LiveModal = ({ isOpen, onClose }) => {
   const [modalOpen, setModalOpen] = useState(isOpen);
   const [principal, setPrincipal] = useState("");
   const [interestRate, setInterestRate] = useState("");
-  const [result, setResult] = useState(0);
+  const [result, setResult] = useState(null);
 
   useEffect(() => {
     setModalOpen(isOpen);
   }, [isOpen]);
 
   const handleCompleteClick = () => {
-    // "입력 완료" 버튼 클릭 시 모달 닫기
     setModalOpen(false);
-    onClose();
+    onClose(result?.toFixed(2) || "0"); // result 값을 콜백으로 전달
     setPrincipal("");
     setInterestRate("");
   };
+
+  useEffect(() => {
+    const principalValue = parseFloat(principal);
+    const interestRateValue = parseFloat(interestRate);
+
+    if (!isNaN(principalValue) && !isNaN(interestRateValue)) {
+      const calculatedResult = principalValue * (interestRateValue / 100);
+      setResult(calculatedResult);
+    } else {
+      setResult(null);
+    }
+  }, [principal, interestRate]);
+
   return modalOpen
     ? ReactDOM.createPortal(
         <div style={modalStyle}>
@@ -105,7 +117,7 @@ const Modal = ({ isOpen, onClose }) => {
                 onChange={(e) => setInterestRate(e.target.value)}
               />
             </div>
-            <p>계산 결과: {result.toFixed(2)}원</p>
+            <p>계산 결과: {result?.toFixed(2)}원</p>
             <button style={buttonStyle} onClick={handleCompleteClick}>
               입력 완료
             </button>
@@ -116,4 +128,4 @@ const Modal = ({ isOpen, onClose }) => {
     : null;
 };
 
-export default Modal;
+export default LiveModal;
