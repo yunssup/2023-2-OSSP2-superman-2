@@ -194,6 +194,7 @@ public class TravalTimeService {
             // Extract totalTime from Tmap API response
             totalTime = extractTotalTimeFromResponse(responseBody);
             logger.info("Car total travel time: " + totalTime);
+            throw new RuntimeException("Tmap Api 연결 실패");
         } else {
             logger.error("Request to Tmap API failed");
         }

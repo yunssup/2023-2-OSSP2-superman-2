@@ -33,7 +33,10 @@ public class UserController {
     public static void main(String[] args) {
         SpringApplication.run(UserController.class, args);
     }
-
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생: " + ex.getMessage());
+    }
     @GetMapping
     public ResponseEntity<Map<String, Object>> generateSession(HttpServletRequest request) {
         Map<String, Object> response = new HashMap<>();
