@@ -40,7 +40,10 @@ public class CompareController {
         this.sessionDataRepository = sessionDataRepository;
         this.getHouseInfoByApiService = getHouseInfoByApiService;
     }
-
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생: " + ex.getMessage());
+    }
     @GetMapping("/compare/TravalTime")
     public ResponseEntity<Map<String, Object>> getTravelTime(@RequestParam String user, @RequestParam int house) {
         try {
@@ -67,6 +70,7 @@ public class CompareController {
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
+
     }
 
     @GetMapping("/compare/transport")

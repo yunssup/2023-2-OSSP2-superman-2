@@ -141,6 +141,7 @@ public class TravalTimeService {
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
+                throw new RuntimeException("Tmap Api 연결 실패");
             }
         } else {
             return null;
@@ -196,6 +197,7 @@ public class TravalTimeService {
             logger.info("Car total travel time: " + totalTime);
         } else {
             logger.error("Request to Tmap API failed");
+            throw new RuntimeException("Tmap Api 연결 실패");
         }
 
         return totalTime;
@@ -220,12 +222,12 @@ public class TravalTimeService {
             totalTime = properties.getString("totalTime");
         } catch (Exception e) {
             e.printStackTrace();
-            // 오류 발생 시 처리 로직 추가
+
         }
 
         return totalTime;
     }
-    private String[] getCoordinates(String address) throws JSONException {
+    public String[] getCoordinates(String address) throws JSONException {
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;

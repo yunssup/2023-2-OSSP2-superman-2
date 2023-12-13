@@ -105,7 +105,7 @@ public class TransportCostService {
         else return Integer.toString(TransportCost);
     }
     // 네이버 api이용 자동차 유류비 + 톨게이트비 비용 계산
-    private int getCarCost(String start, String goal, double fuelratio) throws JSONException{
+    public int getCarCost(String start, String goal, double fuelratio) throws JSONException{
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("X-NCP-APIGW-API-KEY-ID", na_id);
@@ -143,7 +143,7 @@ public class TransportCostService {
         return -1;
     }
 
-    private String[] getCoordinates(String address) throws JSONException {
+    public String[] getCoordinates(String address) throws JSONException {
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;
