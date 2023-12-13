@@ -24,12 +24,13 @@ public class RegionController {
     public ResponseEntity<String> handleRuntimeException(RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생: " + ex.getMessage());
     }
-    @GetMapping("/{regionid}/{condition}/{range}/{maxtraval}/{userid}")
-    public ResponseEntity<?> getMonthlyDataByCost(@PathVariable int regionid,
-                                                  @PathVariable int condition,
-                                                  @PathVariable int range,
-                                                  @PathVariable int maxtraval,
-                                                  @PathVariable String userid) {
+    @GetMapping()
+    public ResponseEntity<?> getMonthlyDataByCost(@RequestParam("userid") String userid,
+                                                  @RequestParam("regionid") int regionid,
+                                                  @RequestParam("condition") int condition,
+                                                  @RequestParam("range") int range,
+                                                  @RequestParam("maxtraval") int maxtraval)
+    {
         if (condition == 1 || condition == 2) {
             List<?> result = null;
             if (condition == 1) {
