@@ -98,6 +98,7 @@ public class TransportCostService {
                     TransportCost = getCarCost(start, goal, fuleratio);
                 }catch (Exception e){
                     logger.error("네이버 api 연결 실패" + e);
+                    throw new RuntimeException("네이버 api 연결 실패");
                 }
             }
         }
