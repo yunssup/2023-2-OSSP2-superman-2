@@ -8,7 +8,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/region")
@@ -29,24 +32,36 @@ public class RegionController {
                                                   @RequestParam("regionid") int regionid,
                                                   @RequestParam("condition") int condition,
                                                   @RequestParam("range") int range,
-                                                  @RequestParam("maxtraval") int maxtraval)
-    {
+                                                  @RequestParam("maxtraval") int maxtraval) {
+
         if (condition == 1 || condition == 2) {
             List<?> result = null;
+
             if (condition == 1) {
                 result = monthlyRentService.findMonthlyRentByCost(regionid, range, maxtraval, userid);
             } else if (condition == 2) {
                 result = monthlyRentService.findMonthlyRentByArea(regionid, range, maxtraval, userid);
             }
 
-            if (result.isEmpty()) {
+            if (result == null || result.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).body("조건내 검색된 항목이 없습니다");
             } else {
-                return ResponseEntity.ok(result);
+                List<Map<String, Object>> formattedResult = formatResultList(result);
+                return ResponseEntity.ok(formattedResult);
             }
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid condition value");
         }
+    }
+
+    private List<Map<String, Object>> formatResultList(List<?> result) {
+        List<Map<String, Object>> formattedResult = new ArrayList<>();
+        for (int i = 0; i < result.size(); i++) {
+            Map<String, Object> numberedMap = new LinkedHashMap<>();
+            numberedMap.put(String.valueOf(i + 1), result.get(i));
+            formattedResult.add(numberedMap);
+        }
+        return formattedResult;
     }
 
 }
