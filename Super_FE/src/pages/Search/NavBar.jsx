@@ -134,7 +134,7 @@ export const ResultPara = styled.div`
 `;
 
 export const ResultHeader = styled.h2`
-  height: 10%;
+  height: 20%;
   color: rgb(27, 27, 29);
   font-family: Arimo;
   font-size: 35px;

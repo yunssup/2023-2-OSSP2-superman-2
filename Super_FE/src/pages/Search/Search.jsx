@@ -96,8 +96,8 @@ function Search() {
     });
 }, [location.search]);
 
-const handleResultClick = () => {
-  const queryString = `?select1=${selectedOptions.select1}&select2=${selectedOptions.select2}&select3=${selectedOptions.select3}&select4=${selectedOptions.select4}`;
+const handleResultClick = (event) => {
+  const queryString = `?select1=${selectedOptions.select1}&select2=${selectedOptions.select2}&select3=${selectedOptions.select3}&select4=${selectedOptions.select4}&userId=${userId}&dataNum=${event.target.value}`;
   navigate(`/SearchResult${queryString}`);
 };
 
@@ -199,10 +199,10 @@ const handleResultClick = () => {
         </NavBarRow>
       </NavBar>
       <ResultGroup id="resultGroup">
-        <ButtonResult className="result" onClick={handleResultClick}>신내동</ButtonResult>
-        <ButtonResult className="result" onClick={handleResultClick}>공릉동</ButtonResult>
-        <ButtonResult className="result" onClick={handleResultClick}>장충동</ButtonResult>
-        <ButtonResult className="result" onClick={handleResultClick}>필동</ButtonResult>
+        <ButtonResult className="result" value="1" onClick={handleResultClick}>신내동</ButtonResult>
+        <ButtonResult className="result" value="2" onClick={handleResultClick}>공릉동</ButtonResult>
+        <ButtonResult className="result" value="3" onClick={handleResultClick}>장충동</ButtonResult>
+        <ButtonResult className="result" value="4" onClick={handleResultClick}>필동</ButtonResult>
       </ResultGroup>
       <NavBarRow>
         <ResultConfirm
