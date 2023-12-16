@@ -51,6 +51,12 @@ function Search() {
         console.log(data);
       })
       .catch(error => {
+        /*
+        document.querySelector('#resultGroup :nth-child(1)').innerHTML = '1';
+        document.querySelector('#resultGroup :nth-child(2)').innerHTML = '1';
+        document.querySelector('#resultGroup :nth-child(3)').innerHTML = '1';
+        document.querySelector('#resultGroup :nth-child(4)').innerHTML = '1';
+        */
         console.error("에러 발생", error);
       });
     for(let i = 0;i < result.length;i++) { //투명상태 해제

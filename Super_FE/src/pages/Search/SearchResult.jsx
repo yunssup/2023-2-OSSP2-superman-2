@@ -59,11 +59,13 @@ function SearchResult(){
             console.log(data);
         })
           .catch(error => {
+            /*
             document.querySelector('#resultPlace').innerHTML ='1';
             document.querySelector('#resultArea').innerHTML = '1';
             document.querySelector('#resultCost').innerHTML = '1';
             document.querySelector('#resultTime').innerHTML = '1';
             document.querySelector('#resultTransportCost').innerHTML = '1';
+            */
             console.error("에러 발생", error);
         });
     
