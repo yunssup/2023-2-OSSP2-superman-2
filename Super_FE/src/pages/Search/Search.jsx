@@ -14,6 +14,7 @@ import {
 } from "./NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import Post from "../../Components/Post";
+import axios from "axios";
 
 function Search() {
   const [orderSelected, setOrderSelected] = useState(false); // 오름차순/내림차순
@@ -36,16 +37,30 @@ function Search() {
     setOrderSelected(!orderSelected);
   };
 
+  const userId = "15DBD33BA753BBD63AA147C0AB1B28B1"; //임시 세션 ID, First 페이지에서 받아와야함
+
   const handleResultConfirm = () => {
     const result = document.getElementsByClassName("result");
-    for(let i = 0;i < result.length;i++){
+    axios.get(`http://localhost:8080/api/region?userid=${userId}&regionid=${selectedOptions.select1}&condition=${selectedOptions.select2}&range=${selectedOptions.select3}&maxtraval=${selectedOptions.select4}`)
+      .then(response => {
+        const data = response.data;
+        document.querySelector('#resultGroup :nth-child(1)').innerHTML = data["1"].place;
+        document.querySelector('#resultGroup :nth-child(2)').innerHTML = data["2"].place;
+        document.querySelector('#resultGroup :nth-child(3)').innerHTML = data["3"].place;
+        document.querySelector('#resultGroup :nth-child(4)').innerHTML = data["4"].place;
+        console.log(data);
+      })
+      .catch(error => {
+        console.error("에러 발생", error);
+      });
+    for(let i = 0;i < result.length;i++) { //투명상태 해제
       result[i].style.display = "block";
     }
   };
 
   const handleConfirmClick = () => {
     navigate("/main");
-};
+  };
 
   const [selectedOptions, setSelectedOptions] = useState({
     select1: '',
@@ -183,7 +198,7 @@ const handleResultClick = () => {
           </ButtonOrder>
         </NavBarRow>
       </NavBar>
-      <ResultGroup>
+      <ResultGroup id="resultGroup">
         <ButtonResult className="result" onClick={handleResultClick}>신내동</ButtonResult>
         <ButtonResult className="result" onClick={handleResultClick}>공릉동</ButtonResult>
         <ButtonResult className="result" onClick={handleResultClick}>장충동</ButtonResult>
