@@ -18,6 +18,7 @@ import axios from "axios";
 
 function Search() {
   const [orderSelected, setOrderSelected] = useState(false); // 오름차순/내림차순
+  const [userSessionData, setUserSessionData] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,11 +38,27 @@ function Search() {
     setOrderSelected(!orderSelected);
   };
 
-  const userId = "15DBD33BA753BBD63AA147C0AB1B28B1"; //임시 세션 ID, First 페이지에서 받아와야함
+  useEffect(() => {
+    const fetchUserSession = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/user", {
+          withCredentials: true,
+        });
+
+        const userData = response.data;
+        setUserSessionData(userData.session_id); // session_id 값을 setUserSessionData로 설정
+        console.log("유저 세션 데이터:", userData);
+      } catch (error) {
+        console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
+      }
+    };
+
+    fetchUserSession();
+  }, []);
 
   const handleResultConfirm = () => {
     const result = document.getElementsByClassName("result");
-    axios.get(`http://localhost:8080/api/region?userid=${userId}&regionid=${selectedOptions.select1}&condition=${selectedOptions.select2}&range=${selectedOptions.select3}&maxtraval=${selectedOptions.select4}`)
+    axios.get(`http://localhost:8080/api/region?userid=${userSessionData}&regionid=${selectedOptions.select1}&condition=${selectedOptions.select2}&range=${selectedOptions.select3}&maxtraval=${selectedOptions.select4}`)
       .then(response => {
         const data = response.data;
         document.querySelector('#resultGroup :nth-child(1)').innerHTML = data["1"].place;
