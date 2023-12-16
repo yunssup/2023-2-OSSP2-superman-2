@@ -14,9 +14,11 @@ import {
 } from "./NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import Post from "../../Components/Post";
+import axios from "axios";
 
 function Search() {
   const [orderSelected, setOrderSelected] = useState(false); // 오름차순/내림차순
+  const [userSessionData, setUserSessionData] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,16 +38,52 @@ function Search() {
     setOrderSelected(!orderSelected);
   };
 
+  useEffect(() => {
+    const fetchUserSession = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/user", {
+          withCredentials: true,
+        });
+
+        const userData = response.data;
+        setUserSessionData(userData.session_id); // session_id 값을 setUserSessionData로 설정
+        console.log("유저 세션 데이터:", userData);
+      } catch (error) {
+        console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
+      }
+    };
+
+    fetchUserSession();
+  }, []);
+
   const handleResultConfirm = () => {
     const result = document.getElementsByClassName("result");
-    for(let i = 0;i < result.length;i++){
+    axios.get(`http://localhost:8080/api/region?userid=${userSessionData}&regionid=${selectedOptions.select1}&condition=${selectedOptions.select2}&range=${selectedOptions.select3}&maxtraval=${selectedOptions.select4}`)
+      .then(response => {
+        const data = response.data;
+        document.querySelector('#resultGroup :nth-child(1)').innerHTML = data["1"].place;
+        document.querySelector('#resultGroup :nth-child(2)').innerHTML = data["2"].place;
+        document.querySelector('#resultGroup :nth-child(3)').innerHTML = data["3"].place;
+        document.querySelector('#resultGroup :nth-child(4)').innerHTML = data["4"].place;
+        console.log(data);
+      })
+      .catch(error => {
+        /*
+        document.querySelector('#resultGroup :nth-child(1)').innerHTML = '1';
+        document.querySelector('#resultGroup :nth-child(2)').innerHTML = '1';
+        document.querySelector('#resultGroup :nth-child(3)').innerHTML = '1';
+        document.querySelector('#resultGroup :nth-child(4)').innerHTML = '1';
+        */
+        console.error("에러 발생", error);
+      });
+    for(let i = 0;i < result.length;i++) { //투명상태 해제
       result[i].style.display = "block";
     }
   };
 
   const handleConfirmClick = () => {
     navigate("/main");
-};
+  };
 
   const [selectedOptions, setSelectedOptions] = useState({
     select1: '',
@@ -81,8 +119,8 @@ function Search() {
     });
 }, [location.search]);
 
-const handleResultClick = () => {
-  const queryString = `?select1=${selectedOptions.select1}&select2=${selectedOptions.select2}&select3=${selectedOptions.select3}&select4=${selectedOptions.select4}`;
+const handleResultClick = (event) => {
+  const queryString = `?select1=${selectedOptions.select1}&select2=${selectedOptions.select2}&select3=${selectedOptions.select3}&select4=${selectedOptions.select4}&userId=${userId}&dataNum=${event.target.value}`;
   navigate(`/SearchResult${queryString}`);
 };
 
@@ -183,11 +221,11 @@ const handleResultClick = () => {
           </ButtonOrder>
         </NavBarRow>
       </NavBar>
-      <ResultGroup>
-        <ButtonResult className="result" onClick={handleResultClick}>신내동</ButtonResult>
-        <ButtonResult className="result" onClick={handleResultClick}>공릉동</ButtonResult>
-        <ButtonResult className="result" onClick={handleResultClick}>장충동</ButtonResult>
-        <ButtonResult className="result" onClick={handleResultClick}>필동</ButtonResult>
+      <ResultGroup id="resultGroup">
+        <ButtonResult className="result" value="1" onClick={handleResultClick}>신내동</ButtonResult>
+        <ButtonResult className="result" value="2" onClick={handleResultClick}>공릉동</ButtonResult>
+        <ButtonResult className="result" value="3" onClick={handleResultClick}>장충동</ButtonResult>
+        <ButtonResult className="result" value="4" onClick={handleResultClick}>필동</ButtonResult>
       </ResultGroup>
       <NavBarRow>
         <ResultConfirm

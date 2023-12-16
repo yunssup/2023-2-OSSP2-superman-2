@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { SearchContainer, NavBar, NavBarRow, NavBarSpan, NavBarSelect, ResultGroup, ButtonReturn, ResultPara, ResultHeader, ResultDiv, ResultSpan, ResultValue, ResultConfirm } from "./NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function SearchResult(){
 
@@ -11,7 +12,9 @@ function SearchResult(){
         select1: '',
         select2: '',
         select3: '',
-        select4: ''
+        select4: '',
+        userId: '',
+        dataNum: ''
     });
 
     const handleSelectChange = (event, selectNumber) => {
@@ -29,17 +32,43 @@ function SearchResult(){
 
     useEffect(() => {
         const searchParams = new URLSearchParams(location.search);
-        const select1 = searchParams.get('select1') || '';
+        const select1 = searchParams.get('select1') || ''; //전달받은 select 설정
         const select2 = searchParams.get('select2') || '';
         const select3 = searchParams.get('select3') || '';
         const select4 = searchParams.get('select4') || '';
+        const userId = searchParams.get('userId') || '';
+        const dataNum = searchParams.get('dataNum') || '';
 
         setSelectedOptions({
             select1,
             select2,
             select3,
-            select4
+            select4,
+            userId,
+            dataNum
         });
+
+        axios.get(`http://localhost:8080/api/region?userid=${userId}&regionid=${selectedOptions.select1}&condition=${selectedOptions.select2}&range=${selectedOptions.select3}&maxtraval=${selectedOptions.select4}`)
+        .then(response => {
+            const data = response.data;
+            document.querySelector('#resultPlace').innerHTML = data[dataNum].place;
+            document.querySelector('#resultArea').innerHTML = data[dataNum].area;
+            document.querySelector('#resultCost').innerHTML = data[dataNum].cost;
+            document.querySelector('#resultTime').innerHTML = data[dataNum].time;
+            document.querySelector('#resultTransportCost').innerHTML = data[dataNum].transportcost;
+            console.log(data);
+        })
+          .catch(error => {
+            /*
+            document.querySelector('#resultPlace').innerHTML ='1';
+            document.querySelector('#resultArea').innerHTML = '1';
+            document.querySelector('#resultCost').innerHTML = '1';
+            document.querySelector('#resultTime').innerHTML = '1';
+            document.querySelector('#resultTransportCost').innerHTML = '1';
+            */
+            console.error("에러 발생", error);
+        });
+    
     }, [location.search]);
 
     const handleReturnClick = () => {
@@ -57,7 +86,6 @@ function SearchResult(){
         <SearchContainer>
             <NavBar>
                 <NavBarRow>
-                    
                     <NavBarSelect value={selectedOptions.select1} onChange={(e) => handleSelectChange(e, 'select1')}>
                         <option>주소 입력 창 (시/군/구 선택)</option>
                         <option value='11000'>서울특별시 전체</option>
@@ -136,29 +164,25 @@ function SearchResult(){
             </NavBar>
             <ResultGroup>
                 <ResultPara>
-                    <ResultHeader>신내동</ResultHeader>
+                    <ResultHeader id='resultPlace'>신내동</ResultHeader>
                     <ButtonReturn
                         onClick={handleReturnClick}
                     ></ButtonReturn>
                     <ResultDiv>
                         <ResultSpan>평균 가격</ResultSpan>
-                        <ResultValue>ABCDEF</ResultValue>
+                        <ResultValue id='resultCost'>ABCDEF</ResultValue>
                     </ResultDiv>
                     <ResultDiv>
                         <ResultSpan>평균 면적</ResultSpan>
-                        <ResultValue>ABCDEF</ResultValue>
+                        <ResultValue id='resultArea'>ABCDEF</ResultValue>
                     </ResultDiv>
                     <ResultDiv>
                         <ResultSpan>이동 시간</ResultSpan>
-                        <ResultValue>ABCDEF</ResultValue>
+                        <ResultValue id='resultTime'>ABCDEF</ResultValue>
                     </ResultDiv>
                     <ResultDiv>
                         <ResultSpan>교통비</ResultSpan>
-                        <ResultValue>ABCDEF</ResultValue>
-                    </ResultDiv>
-                    <ResultDiv>
-                        <ResultSpan>유류비</ResultSpan>
-                        <ResultValue>ABCDEF</ResultValue>
+                        <ResultValue id='resultTransportCost'>ABCDEF</ResultValue>
                     </ResultDiv>
                 </ResultPara>
             </ResultGroup>
