@@ -103,7 +103,7 @@ public class CompareController {
 
     // 집 정보 반환
     @GetMapping("/compare/houseinfo")
-    public ResponseEntity<Map<String, Object>> getHouseInfo(@RequestParam String user, @RequestParam String address) {
+    public ResponseEntity<Map<String, Object>> getHouseInfo(@RequestParam String address) {
         try {
             
             Map<String, Object> response = new HashMap<>();
