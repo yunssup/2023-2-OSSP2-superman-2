@@ -9,6 +9,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class BackendApplication {
 	public static void main(String[] args) {
-		SpringApplication.run(UserController.class, args); //서버가 시작되면 바로 세션을 줌.
 	}
 }

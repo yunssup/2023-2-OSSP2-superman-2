@@ -36,7 +36,9 @@ dependencies {
 	implementation 'org.seleniumhq.selenium:selenium-java:4.1.0'
 	
 }
-
+bootJar {
+	mainClassName = 'com.superman.backend.BackendApplication'
+}
 tasks.named('test') {
 	useJUnitPlatform()
 }
