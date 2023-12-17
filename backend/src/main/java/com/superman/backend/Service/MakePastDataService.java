@@ -139,9 +139,19 @@ public class MakePastDataService {
     private LumpSumLeaseData convertToLumpSumLeaseData(DongDataDTO dto) {
         LumpSumLeaseData lumpSumLeaseData = new LumpSumLeaseData();
         lumpSumLeaseData.setDongName(dto.getDongName());
-        lumpSumLeaseData.setDeposit(dto.getDeposit());
-        lumpSumLeaseData.setMonthly(dto.getMonthly());
-        lumpSumLeaseData.setArea(dto.getArea());
+
+        // 문자열 값을 숫자로 변환하여 Area 필드에 설정
+        double areaValue = Double.parseDouble(dto.getArea());
+        lumpSumLeaseData.setArea(areaValue);
+
+        // 문자열을 숫자로 변환하여 설정
+        int depositValue = Integer.parseInt(dto.getDeposit().replace(",", ""));
+        int monthlyValue = Integer.parseInt(dto.getMonthly().replace(",", ""));
+
+        // 숫자값을 필드에 설정
+        lumpSumLeaseData.setDeposit(depositValue);
+        lumpSumLeaseData.setMonthly(monthlyValue);
+
         return lumpSumLeaseData;
     }
 
@@ -149,9 +159,12 @@ public class MakePastDataService {
     private MonthlyRentData convertToMonthlyRentData(DongDataDTO dto) {
         MonthlyRentData entity = new MonthlyRentData();
         entity.setDongName(dto.getDongName());
-        entity.setDeposit(dto.getDeposit());
-        entity.setMonthly(dto.getMonthly());
-        entity.setArea(dto.getArea());
+        int depositValue = Integer.parseInt(dto.getDeposit().replace(",", ""));
+        int monthlyValue = Integer.parseInt(dto.getMonthly().replace(",", ""));
+        entity.setDeposit(depositValue);
+        entity.setMonthly(monthlyValue);
+        double areaValue = Double.parseDouble(dto.getArea());
+        entity.setArea(areaValue);
         return entity;
     }
     private boolean monthlyOrLumpSumLease(double deposit, double monthly) {

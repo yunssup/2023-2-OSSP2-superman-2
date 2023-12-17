@@ -28,31 +28,28 @@ public class RegionController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 오류 발생: " + ex.getMessage());
     }
     @GetMapping()
-    public ResponseEntity<?> getMonthlyDataByCost(@RequestParam("userid") String userid,
-                                                  @RequestParam("regionid") int regionid,
-                                                  @RequestParam("condition") int condition,
-                                                  @RequestParam("range") int range,
-                                                  @RequestParam("maxtraval") int maxtraval) {
+    public ResponseEntity<?> getBestHousesByCondition(@RequestParam("userid") String userid,
+                                                      @RequestParam("regionid") int regionid,
+                                                      @RequestParam("condition") int condition,
+                                                      @RequestParam("range") int range,
+                                                      @RequestParam("maxtraval") int maxtraval) {
 
-        if (condition == 1 || condition == 2) {
-            List<?> result = null;
+        SearchConditionDTO searchConditionDTO = new SearchConditionDTO(regionid, range, maxtraval, userid, condition);
 
-            if (condition == 1) {
-                result = monthlyRentService.findMonthlyRentByCost(regionid, range, maxtraval, userid);
-            } else if (condition == 2) {
-                result = monthlyRentService.findMonthlyRentByArea(regionid, range, maxtraval, userid);
-            }
+        try {
+            List<?> result = searchBestHouseService.getBestHousesByCondition(searchConditionDTO);
 
             if (result == null || result.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("조건내 검색된 항목이 없습니다");
+                return ResponseEntity.status(HttpStatus.NO_CONTENT).body("조건 내 검색된 항목이 없습니다");
             } else {
                 List<Map<String, Object>> formattedResult = formatResultList(result);
                 return ResponseEntity.ok(formattedResult);
             }
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid condition value");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
 
     private List<Map<String, Object>> formatResultList(List<?> result) {
         List<Map<String, Object>> formattedResult = new ArrayList<>();
