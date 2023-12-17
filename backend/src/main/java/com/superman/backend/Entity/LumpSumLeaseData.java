@@ -11,9 +11,9 @@ public class LumpSumLeaseData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int SurrogateKey;
     private String DongName;
-    private String Deposit;
-    private String Monthly;
-    private String area;
+    private int Deposit;
+    private int Monthly;
+    private double area;
 
     @ManyToOne
     @JoinColumn(name = "logical_code", referencedColumnName = "LogicalCode")

@@ -5,23 +5,17 @@ import lombok.Data;
 
 @Data
 public class SearchConditionDTO {
-    @JsonProperty("region")
     private int regionId;
-
-    @JsonProperty("maxtraveltime")
     private int maxTravelTime;
-
+    private String userID;
     private int condition;
     private int range;
-    private int homeType;
 
-    // 생성자
-    public SearchConditionDTO(int regionId, int maxTravelTime, int condition, int range, int hometype) {
-        this.regionId = regionId;
-        this.maxTravelTime = maxTravelTime;
-        this.condition = condition;
+    public SearchConditionDTO(int regionid, int range, int maxtraval, String userid, int condition) {
+        this.regionId = regionid;
         this.range = range;
-        this.homeType = hometype;
+        this.maxTravelTime = maxtraval;
+        this.userID = userid;
+        this.condition = condition;
     }
-    // 기본 생성자 - 필요에 따라 추가하셔도 됩니다.
 }

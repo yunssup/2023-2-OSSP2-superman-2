@@ -26,6 +26,8 @@ public class SessionData {
     private String OftenPlaceX;
     @Column(nullable = true)
     private String OftenPlaceY;
+    @Column
+    private String OftenDong;
 
     @JsonManagedReference
     @OneToOne(mappedBy = "sessionData", cascade = CascadeType.PERSIST)
