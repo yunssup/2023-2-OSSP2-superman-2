@@ -20,7 +20,7 @@ public class ScheduledDataImportService {
         this.makePastDataService = makePastDataService;
         this.lastProcessedCodeService = lastProcessedCodeService;
     }
-   /* @PostConstruct
+   /*@PostConstruct
     public void init() {
         importScheduledData(); // 서버 시작시 한번 실행
     }*/
