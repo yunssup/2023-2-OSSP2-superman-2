@@ -21,10 +21,10 @@ public class ScheduledDataImportService {
         this.lastProcessedCodeService = lastProcessedCodeService;
     }
 
-    /*@PostConstruct
+    @PostConstruct
     public void init() {
         importScheduledData(); // 서버 시작시 한번 실행
-    }*/
+    }
 
     // 매일 자정에 데이터를 자동으로 가져오는 예약된 작업
     @Scheduled(cron = "0 0 0 * * ?")
