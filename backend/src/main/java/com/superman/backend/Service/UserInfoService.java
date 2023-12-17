@@ -19,13 +19,14 @@ public class UserInfoService {
         return sessionDataRepository.existsById(sessionId);
     }
 
-    public void insertSessionData(String sessionId, int homeType, int transportationType, double fuelCost, String oftenPlace) {
+    public void insertSessionData(String sessionId, int homeType, int transportationType, double fuelCost, String oftenPlace, int Interest) {
         SessionData sessionData = new SessionData();
         sessionData.setSessionId(sessionId);
         sessionData.setHomeType(homeType);
         sessionData.setTransportationType(transportationType);
         sessionData.setFuelCost(fuelCost);
         sessionData.setOftenPlace(oftenPlace);
+        sessionData.setInterest(Interest);
         sessionDataRepository.save(sessionData);
     }
 }

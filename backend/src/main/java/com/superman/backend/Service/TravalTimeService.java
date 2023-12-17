@@ -6,6 +6,7 @@ import com.superman.backend.Entity.SessionData;
 import com.superman.backend.Entity.UserHouseData;
 import com.superman.backend.Repository.SessionDataRepository;
 import com.superman.backend.Repository.UserHouseDataRepository;
+import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,9 +80,9 @@ public class TravalTimeService {
             {
                 String time = sendTransportTimeRequest(HouseX, HouseY, oftenPlaceX, oftenPlaceY);
                 if(time != null) {
-                    int seconds = Integer.parseInt(time);
-                    int hours = seconds / 3600;
-                    int minutes = (seconds % 3600) / 60;
+                    int totaltime = Integer.parseInt(time);
+                    int hours = totaltime / 60;
+                    int minutes = totaltime % 60;
                     return String.format("%d시간 %d분", hours, minutes);
                 }else{
                     return "대중교통 서버 응답 실패";
@@ -97,57 +98,58 @@ public class TravalTimeService {
         }
         return "gg";
     }
-    public String sendTransportTimeRequest(String HouseX, String HouseY, String oftenPlaceX, String oftenPlaceY){
-        String url = "https://apis.openapi.sk.com/transit/routes/sub";
+    public String sendTransportTimeRequest(String HouseX, String HouseY, String oftenPlaceX, String oftenPlaceY) {
+        String url = "https://api.odsay.com/v1/api/searchPubTransPathT";
 
-        String requestBody = "{\n" +
-                "    \"startX\" : \n" + HouseX + "\",\n" +
-                "    \"startY\" : \n" + HouseY + "\",\n" +
-                "    \"endX\": \"" + oftenPlaceX + "\",\n" +
-                "    \"endY\": \"" + oftenPlaceY + "\",\n" +
-                "    \"format\" : \"json\",\n" +
-                "    \"count\" : \"1\",\n" +
-                "    \"searchDttm\" : \"202209100800\",\n" +
-                "}";
+        String apiKey = "EUO/FEnTO0j22YOdjKHNQB5Qc9o5toRfkv58WS/PjgM"; // 여기에 새로운 API의 키를 넣어주세요
 
-        // Creating the HTTP Headers for Tmap API
+        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("SX", HouseX)
+                .queryParam("SY", HouseY)
+                .queryParam("EX", oftenPlaceX)
+                .queryParam("EY", oftenPlaceY)
+                .queryParam("apiKey", apiKey)
+                .build();
+
+        // Creating the HTTP Headers for the new API
         HttpHeaders headers = new HttpHeaders();
         headers.set("accept", "application/json");
-        headers.set("content-type", "application/json");
-        headers.set("appKey", sktappkey);
 
-        // Creating the HTTP Entity for Tmap API
-        HttpEntity<String> entity = new HttpEntity<>(requestBody, headers);
+        // Creating the HTTP Entity for the new API
+        HttpEntity<?> entity = new HttpEntity<>(headers);
 
-        // Making the POST request to Tmap API
+        // Making the GET request to the new API
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
+        ResponseEntity<String> response = restTemplate.exchange(
+                uriComponents.toUriString(),
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
 
-        // Handling the response from Tmap API
+        // Handling the response from the new API
         String totalTime = "";
         if (response.getStatusCode() == HttpStatus.OK) {
             String responseBody = response.getBody();
 
             try {
                 JSONObject jsonResponse = new JSONObject(responseBody);
-                JSONObject metaData = jsonResponse.getJSONObject("metaData");
-                JSONObject plan = metaData.getJSONObject("plan");
-                JSONArray itineraries = plan.getJSONArray("itineraries");
-
-                if (itineraries.length() > 0) {
-                    JSONObject firstItinerary = itineraries.getJSONObject(0);
-                    JSONObject totalTimeObject = firstItinerary.getJSONObject("totalTime");
-                    totalTime = totalTimeObject.getString("totalTime");
-                }
+                JSONObject result = jsonResponse.getJSONObject("result");
+                JSONArray path = result.getJSONArray("path");
+                JSONObject firstPath = path.getJSONObject(0);
+                JSONObject info = firstPath.getJSONObject("info");
+                totalTime = info.getString("totalTime");
             } catch (JSONException e) {
                 e.printStackTrace();
+                throw new RuntimeException("Failed to parse the response from the new API");
             }
         } else {
-            return null;
+            throw new RuntimeException("Request to the new API failed");
         }
 
         return totalTime;
     }
+
     public String sendCarTimeRequest(String HouseX, String HouseY, String oftenPlaceX, String oftenPlaceY) {
         String url = "https://apis.openapi.sk.com/tmap/routes/prediction?totalValue=2";
         String reqCoordType = "WGS84GEO";
@@ -196,6 +198,7 @@ public class TravalTimeService {
             logger.info("Car total travel time: " + totalTime);
         } else {
             logger.error("Request to Tmap API failed");
+            throw new RuntimeException("Tmap Api 연결 실패");
         }
 
         return totalTime;
@@ -220,12 +223,12 @@ public class TravalTimeService {
             totalTime = properties.getString("totalTime");
         } catch (Exception e) {
             e.printStackTrace();
-            // 오류 발생 시 처리 로직 추가
+
         }
 
         return totalTime;
     }
-    private String[] getCoordinates(String address) throws JSONException {
+    public String[] getCoordinates(String address) throws JSONException {
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;

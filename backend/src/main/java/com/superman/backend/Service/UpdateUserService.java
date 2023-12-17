@@ -52,14 +52,15 @@ public class UpdateUserService {
                 existingData.setTransportationType(sessionData.getTransportationType());
                 existingData.setOftenPlace(sessionData.getOftenPlace());
                 existingData.setFuelCost(sessionData.getFuelCost());
-
+                existingData.setInterest(sessionData.getInterest());
                 sessionDataRepository.save(existingData);
             } else {
                 return new ResponseEntity<>("사용자를 찾을 수 없음", HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             logger.error("사용자 데이터 업데이트 중 오류 발생", e);
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new RuntimeException("카카오 api 연결 실패");
+            //return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         return new ResponseEntity<>("사용자 데이터가 성공적으로 업데이트되었습니다", HttpStatus.OK);

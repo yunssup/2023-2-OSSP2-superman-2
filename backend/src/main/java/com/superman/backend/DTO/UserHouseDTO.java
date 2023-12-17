@@ -8,5 +8,7 @@ public class UserHouseDTO {
 
     private String sessionId;
     private String firstHome;
+    private String firstHomeDetail;
     private String secondHome;
+    private String secondHomeDetail;
 }

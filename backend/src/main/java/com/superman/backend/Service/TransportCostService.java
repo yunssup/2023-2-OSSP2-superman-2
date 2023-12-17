@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONException;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -89,7 +86,7 @@ public class TransportCostService {
 
         if(transportType != 0) {
             if (transportType == 1) {
-                TransportCost = getTransportCost(start, goal);
+                TransportCost = getTransportCost(HouseX, HouseY, oftenPlaceX, oftenPlaceY);
             }
             else {
                 if(fuleratio == 0)
@@ -98,6 +95,7 @@ public class TransportCostService {
                     TransportCost = getCarCost(start, goal, fuleratio);
                 }catch (Exception e){
                     logger.error("네이버 api 연결 실패" + e);
+                    throw new RuntimeException("네이버 api 연결 실패");
                 }
             }
         }
@@ -105,7 +103,7 @@ public class TransportCostService {
         else return Integer.toString(TransportCost);
     }
     // 네이버 api이용 자동차 유류비 + 톨게이트비 비용 계산
-    private int getCarCost(String start, String goal, double fuelratio) throws JSONException{
+    public int getCarCost(String start, String goal, double fuelratio) throws JSONException{
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set("X-NCP-APIGW-API-KEY-ID", na_id);
@@ -138,12 +136,59 @@ public class TransportCostService {
         return totalCost;
     }
     // 대중교통 api 이용 대중교통비 계산.
-    private int getTransportCost(String start, String goal){
+    public int getTransportCost(String HouseX, String HouseY, String oftenPlaceX, String oftenPlaceY) {
+        String url = "https://api.odsay.com/v1/api/searchPubTransPathT";
 
-        return -1;
+        String apiKey = "EUO/FEnTO0j22YOdjKHNQB5Qc9o5toRfkv58WS/PjgM"; // 여기에 새로운 API의 키를 넣어주세요
+
+        UriComponents uriComponents = UriComponentsBuilder.fromHttpUrl(url)
+                .queryParam("SX", HouseX)
+                .queryParam("SY", HouseY)
+                .queryParam("EX", oftenPlaceX)
+                .queryParam("EY", oftenPlaceY)
+                .queryParam("apiKey", apiKey)
+                .build();
+
+        // Creating the HTTP Headers for the new API
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("accept", "application/json");
+
+        // Creating the HTTP Entity for the new API
+        HttpEntity<?> entity = new HttpEntity<>(headers);
+
+        // Making the GET request to the new API
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(
+                uriComponents.toUriString(),
+                HttpMethod.GET,
+                entity,
+                String.class
+        );
+
+        // Handling the response from the new API
+        int payment = 0;
+        if (response.getStatusCode() == HttpStatus.OK) {
+            String responseBody = response.getBody();
+
+            try {
+                JSONObject jsonResponse = new JSONObject(responseBody);
+                JSONObject result = jsonResponse.getJSONObject("result");
+                JSONArray path = result.getJSONArray("path");
+                JSONObject firstPath = path.getJSONObject(0);
+                JSONObject info = firstPath.getJSONObject("info");
+                payment = info.getInt("payment");
+            } catch (JSONException e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed to parse the response from the new API");
+            }
+        } else {
+            throw new RuntimeException("Request to the new API failed");
+        }
+
+        return payment;
     }
 
-    private String[] getCoordinates(String address) throws JSONException {
+    public String[] getCoordinates(String address) throws JSONException {
         RestTemplate restTemplate = new RestTemplate();
 
         String apiKey = "KakaoAK " + kakaoLocalKey;
