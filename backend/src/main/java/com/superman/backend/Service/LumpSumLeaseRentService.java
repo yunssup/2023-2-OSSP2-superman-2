@@ -1,7 +1,9 @@
 package com.superman.backend.Service;
 
+import com.superman.backend.Entity.PreSearchData;
 import com.superman.backend.Entity.SessionData;
 import com.superman.backend.Repository.LumpSumLeaseRepository;
+import com.superman.backend.Repository.PreSearchDataRepository;
 import com.superman.backend.Repository.SessionDataRepository;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,6 +25,8 @@ import java.util.stream.Collectors;
 @Service
 public class LumpSumLeaseRentService {
     private static final Logger logger = LoggerFactory.getLogger(TransportCostService.class);
+    @Autowired
+    PreSearchDataRepository preSearchDataRepository;
 
     @Autowired
     LumpSumLeaseRepository lumpsumLeaseRepository;
@@ -34,7 +38,7 @@ public class LumpSumLeaseRentService {
     TravalTimeService travalTimeService;
     public List<?> findLumpSumLeaseRentByCost(int region_id, int range, int maxtraval, String userid){
         int min = 0, max = 0;
-        String X; String Y;  int transportType;
+        String X; String Y; String startdong; int transportType;
         switch (range) {
             case 1:
                 min = 0;
@@ -67,6 +71,7 @@ public class LumpSumLeaseRentService {
         if (existingData != null) {
             X = existingData.getOftenPlaceX();
             Y = existingData.getOftenPlaceY();
+            startdong = existingData.getOftenDong();
             transportType = existingData.getTransportationType();
         }else{
             List<String> errorResult = new ArrayList<>();
@@ -82,9 +87,11 @@ public class LumpSumLeaseRentService {
 
         for (Object[] item : data) {
             try {
-                String place = (String) item[0]; // 동 이름 (예를 들어, 동 이름이 첫 번째 열이라 가정)
-                int logical_code = Integer.parseInt(item[0].toString());
-                if(region_id == 11000) place = lawdCodeToDistrictMap.get(logical_code);
+                String place;
+                if(region_id == 11000) {
+                    int logical_code = Integer.parseInt(item[0].toString());
+                    place = lawdCodeToDistrictMap.get(logical_code);
+                }
                 else place = (String) item[0];
 
                 double area = (double) item[1];
@@ -93,22 +100,41 @@ public class LumpSumLeaseRentService {
                 String[] coordinates = travalTimeService.getCoordinates("서울시 " + place);
                 String start, goal;
                 int time;int transportcost = 0;
-                try {
-                    if (transportType == 2) {
-                        time = Integer.parseInt(travalTimeService.sendCarTimeRequest(coordinates[0], coordinates[1], X, Y));
-                        start = X + ", " + Y;
-                        goal = coordinates[0] + ", " + Y;
-                        transportcost = transportCostService.getCarCost(start, goal, 14.0);
-                    } else if (transportType == 1) {
-                        time = Integer.parseInt(travalTimeService.sendTransportTimeRequest(coordinates[0], coordinates[1], X, Y));
-                        //transportcost = transportCostService.getTransportCost(coordinates[0], coordinates[1], X, Y);
-                    } else {
-                        throw new RuntimeException("유저 교통 정보 없음.");
+                PreSearchData esearchData = preSearchDataRepository.findByStartDongAndEndDongAndTransportType(startdong, coordinates[2], transportType);
+
+// 만약에 검색한 데이터가 존재한다면, 해당 데이터의 값을 가져와 엔티티에 설정
+                if (esearchData != null) {
+                    // searchData에서 시간과 운송 비용 가져와서 엔티티에 설정
+                    time = esearchData.getTime();
+                    transportcost = esearchData.getFee();
+                } else {
+                    try {
+                        if (transportType == 2) {
+                            time = Integer.parseInt(travalTimeService.sendCarTimeRequest(coordinates[0], coordinates[1], X, Y));
+                            start = X + ", " + Y;
+                            goal = coordinates[0] + ", " + Y;
+                            transportcost = transportCostService.getCarCost(start, goal, 14.0);
+                        } else if (transportType == 1) {
+                            time = Integer.parseInt(travalTimeService.sendTransportTimeRequest(coordinates[0], coordinates[1], X, Y));
+                            transportcost = transportCostService.getTransportCost(coordinates[0], coordinates[1], X, Y);
+                        } else {
+                            throw new RuntimeException("유저 교통 정보 없음.");
+                        }
+                    } catch (Exception e) {
+                        logger.error("교통 실패", e);
+                        throw new RuntimeException("교통 실패: " + e.getMessage());
                     }
                 }
-                catch (Exception e) {
-                    logger.error("교통 실패", e);
-                    throw new RuntimeException("교통 실패: " + e.getMessage());
+                if(esearchData == null && time != 0 && transportcost != 0)
+                {
+                    PreSearchData searchData = new PreSearchData();
+                    searchData.setStartDong(startdong);
+                    searchData.setEndDong(coordinates[2]);
+                    searchData.setTransportType(transportType);
+                    searchData.setFee(transportcost); // 적절한 비용 값으로 설정
+                    searchData.setTime(time); // 적절한 시간 값으로 설정
+
+                    preSearchDataRepository.save(searchData);
                 }
                 int hours = time / 3600;
                 int minutes = (time % 3600) / 60;
@@ -140,7 +166,7 @@ public class LumpSumLeaseRentService {
 
     public List<?> findLumpSumLeaseRentByArea(int region_id, int range, int maxtraval, String userid){
         int min = 0, max = 0;
-        String X; String Y;  int transportType;
+        String X; String Y;  String startdong; int transportType;
         switch (range) {
             case 1:
                 min = 0;
@@ -163,7 +189,7 @@ public class LumpSumLeaseRentService {
                 max = 10000;
                 break;
             case 6:
-                min = 10000;
+                min = 1000;
                 max = 200000;
                 break;
 
@@ -173,6 +199,7 @@ public class LumpSumLeaseRentService {
         if (existingData != null) {
             X = existingData.getOftenPlaceX();
             Y = existingData.getOftenPlaceY();
+            startdong = existingData.getOftenDong();
             transportType = existingData.getTransportationType();
         }else{
             List<String> errorResult = new ArrayList<>();
@@ -189,8 +216,10 @@ public class LumpSumLeaseRentService {
         for (Object[] item : data) {
             try {
                 String place;
-                int logical_code = Integer.parseInt(item[0].toString());
-                if(region_id == 11000) place = lawdCodeToDistrictMap.get(logical_code);
+                if(region_id == 11000) {
+                    int logical_code = Integer.parseInt(item[0].toString());
+                    place = lawdCodeToDistrictMap.get(logical_code);
+                }
                 else place = (String) item[0];
 
                 BigDecimal cost = (BigDecimal) item[2];
@@ -198,22 +227,41 @@ public class LumpSumLeaseRentService {
                 String[] coordinates = travalTimeService.getCoordinates("서울시 " + place);
                 String start, goal;
                 int time; int transportcost = 0;
-                try {
-                    if (transportType == 2) {
-                        time = Integer.parseInt(travalTimeService.sendCarTimeRequest(coordinates[0], coordinates[1], X, Y));
-                        start = X + ", " + Y;
-                        goal = coordinates[0] + ", " + coordinates[1];
-                        transportcost = transportCostService.getCarCost(start, goal, 14.0);
-                    } else if (transportType == 1) {
-                        time = Integer.parseInt(travalTimeService.sendTransportTimeRequest(coordinates[0], coordinates[1], X, Y)) * 60;
-                        //transportcost = transportCostService.getTransportCost(X, Y, coordinates[0], coordinates[1]);
-                    } else {
-                        throw new RuntimeException("잘못된 교통 타입.");
+                PreSearchData esearchData = preSearchDataRepository.findByStartDongAndEndDongAndTransportType(startdong, coordinates[2], transportType);
+
+// 만약에 검색한 데이터가 존재한다면, 해당 데이터의 값을 가져와 엔티티에 설정
+                if (esearchData != null) {
+                    // searchData에서 시간과 운송 비용 가져와서 엔티티에 설정
+                    time = esearchData.getTime();
+                    transportcost = esearchData.getFee();
+                } else {
+                    try {
+                        if (transportType == 2) {
+                            time = Integer.parseInt(travalTimeService.sendCarTimeRequest(coordinates[0], coordinates[1], X, Y));
+                            start = X + ", " + Y;
+                            goal = coordinates[0] + ", " + coordinates[1];
+                            transportcost = transportCostService.getCarCost(start, goal, 14.0);
+                        } else if (transportType == 1) {
+                            time = Integer.parseInt(travalTimeService.sendTransportTimeRequest(coordinates[0], coordinates[1], X, Y)) * 60;
+                            transportcost = transportCostService.getTransportCost(X, Y, coordinates[0], coordinates[1]);
+                        } else {
+                            throw new RuntimeException("잘못된 교통 타입.");
+                        }
+                    } catch (Exception e) {
+                        logger.error("교통 실패", e);
+                        throw new RuntimeException("교통 실패: " + e.getMessage());
                     }
                 }
-                catch (Exception e) {
-                    logger.error("교통 실패", e);
-                    throw new RuntimeException("교통 실패: " + e.getMessage());
+                if(esearchData == null && time != 0 && transportcost != 0)
+                {
+                    PreSearchData searchData = new PreSearchData();
+                    searchData.setStartDong(startdong);
+                    searchData.setEndDong(coordinates[2]);
+                    searchData.setTransportType(transportType);
+                    searchData.setFee(transportcost); // 적절한 비용 값으로 설정
+                    searchData.setTime(time); // 적절한 시간 값으로 설정
+
+                    preSearchDataRepository.save(searchData);
                 }
                 int hours = time / 3600;
                 int minutes = (time % 3600) / 60;

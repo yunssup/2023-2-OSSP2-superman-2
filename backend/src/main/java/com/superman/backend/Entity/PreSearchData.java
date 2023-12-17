@@ -8,17 +8,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PreSerchData {
+public class PreSearchData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int SurrogateKey;
-    private String StartDong;
-    private String EndDong;
-    private String TransportType;
-    private double Fee;
-    private double Time;
+    private int surrogateKey;
+    private String startDong;
+    private String endDong;
+    private int transportType;
+    private int fee;
+    private int time;
 }
