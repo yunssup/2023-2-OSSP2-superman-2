@@ -17,13 +17,13 @@ import Post from "../../Components/Post";
 import axios from "axios";
 
 function Search() {
-  const [orderSelected, setOrderSelected] = useState(false); // 오름차순/내림차순
+  // const [orderSelected, setOrderSelected] = useState(false); // 오름차순/내림차순
   const [userSessionData, setUserSessionData] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
 
-  const handleOrderClick = () => {
+  /*const handleOrderClick = () => {
     const buttonOrder = document.getElementById("order");
     if (buttonOrder.textContent === "평균 면적 크기 순 ↑") {
       buttonOrder.textContent = "평균 면적 크기 순 ↓";
@@ -36,7 +36,7 @@ function Search() {
       buttonOrder.textContent = "평균 가격 순 ↑"
     }
     setOrderSelected(!orderSelected);
-  };
+  };*/
 
   useEffect(() => {
     const fetchUserSession = async () => {
@@ -126,11 +126,11 @@ const handleResultClick = (event) => {
 
   const [condition, setCondition] = useState('0');
 
-  useEffect(()=>{
+  /*useEffect(()=>{
     const buttonOrder = document.getElementById("order");
     if (condition==='1') buttonOrder.textContent = "평균 면적 크기 순 ↓";
     else if (condition==='0' || condition==='2') buttonOrder.textContent = "평균 가격 순 ↓";
-  }, [condition]) /* 순서 클릭했을 시 condition 변경으로 오름/내림 전환 */
+  }, [condition])  순서 클릭했을 시 condition 변경으로 오름/내림 전환 */
 
   return (
     <SearchContainer>
@@ -216,9 +216,6 @@ const handleResultClick = (event) => {
         </NavBarRow>
         <NavBarRow>
           <NavBarSpan>원하는 동네를 클릭해서 자세한 정보를 확인하세요!</NavBarSpan>
-          <ButtonOrder id="order" onClick={handleOrderClick}>
-            평균 면적 크기 순 ↓
-          </ButtonOrder>
         </NavBarRow>
       </NavBar>
       <ResultGroup id="resultGroup">
@@ -235,5 +232,9 @@ const handleResultClick = (event) => {
     </SearchContainer>
   );
 }
+
+        /*<ButtonOrder id="order" onClick={handleOrderClick}>
+        평균 면적 크기 순 ↓
+        </ButtonOrder>*/
 
 export default Search;
