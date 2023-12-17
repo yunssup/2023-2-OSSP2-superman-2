@@ -6,7 +6,6 @@ import Main from "./pages/Main/Main";
 import Compare from "./pages/compare/compare";
 import Search from "./pages/Search/Search";
 import SearchResult from "./pages/Search/SearchResult";
-
 import "./index.css";
 
 function App() {
