@@ -141,7 +141,7 @@ public class TravalTimeService {
                 totalTime = info.getString("totalTime");
             } catch (JSONException e) {
                 e.printStackTrace();
-                throw new RuntimeException("Failed to parse the response from the new API");
+                throw new RuntimeException("대중교통 시간 API" + e);
             }
         } else {
             throw new RuntimeException("Request to the new API failed");
@@ -253,8 +253,12 @@ public class TravalTimeService {
         JSONArray documents = json.getJSONArray("documents");
         String x = documents.getJSONObject(0).getString("x");
         String y = documents.getJSONObject(0).getString("y");
+        JSONObject firstDocument = documents.getJSONObject(0);
+        JSONObject addres = firstDocument.getJSONObject("address");
 
-        return new String[]{x, y};
+// address 객체 안에 있는 b_code 값 추출하기
+        String bCode = addres.getString("b_code");
+        return new String[]{x, y, bCode};
     }
 }
 

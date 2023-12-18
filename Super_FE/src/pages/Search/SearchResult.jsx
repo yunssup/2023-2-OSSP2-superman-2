@@ -31,6 +31,14 @@ function SearchResult() {
     dataNum: "",
   });
 
+  const [fetchedData, setFetchedData] = useState({
+    place: "로딩 중입니다...",
+    area: "",
+    cost: "",
+    time: "",
+    transportcost: "",
+  });
+
   const handleSelectChange = (event, selectNumber) => {
     const { value } = event.target;
     console.log(value);
@@ -61,33 +69,36 @@ function SearchResult() {
       userId,
       dataNum,
     });
+  }, [location.search]);
 
+  useEffect(() => {
     axios
       .get(
-        `http://localhost:8080/api/region?userid=${userId}&regionid=${parseInt(
-          selectedOptions.select1
-        )}&condition=${parseInt(selectedOptions.select2)}&range=${parseInt(
-          selectedOptions.select3
-        )}&maxtraval=${parseInt(selectedOptions.select4)}`
+        `http://localhost:8080/api/region?userid=${
+          selectedOptions.userId
+        }&regionid=${parseInt(selectedOptions.select1)}&condition=${parseInt(
+          selectedOptions.select2
+        )}&range=${parseInt(selectedOptions.select3)}&maxtraval=${parseInt(
+          selectedOptions.select4
+        )}`
       )
       .then((response) => {
         const data = response.data;
-        document.querySelector("#resultPlace").innerHTML =
-          data[dataNum - 1][dataNum].place;
-        document.querySelector("#resultArea").innerHTML =
-          data[dataNum - 1][dataNum].area;
-        document.querySelector("#resultCost").innerHTML =
-          data[dataNum - 1][dataNum].cost;
-        document.querySelector("#resultTime").innerHTML =
-          data[dataNum - 1][dataNum].time;
-        document.querySelector("#resultTransportCost").innerHTML =
-          data[dataNum - 1][dataNum].transportcost;
+        const dataNum = selectedOptions.dataNum;
+        setFetchedData({
+          place: data[dataNum - 1][dataNum].place,
+          area: data[dataNum - 1][dataNum].area,
+          cost: data[dataNum - 1][dataNum].cost,
+          time: data[dataNum - 1][dataNum].time,
+          transportcost: data[dataNum - 1][dataNum].transportcost,
+        });
+
         console.log(data);
       })
       .catch((error) => {
         console.error("에러 발생", error);
       });
-  }, [location.search]);
+  }, [selectedOptions]);
 
   const handleReturnClick = () => {
     const queryString = `?select1=${selectedOptions.select1}&select2=${selectedOptions.select2}&select3=${selectedOptions.select3}&select2=${selectedOptions.select2}&select4=${selectedOptions.select4}`;
@@ -207,23 +218,25 @@ function SearchResult() {
         </NavBar>
         <ResultGroup>
           <ResultPara>
-            <ResultHeader id="resultPlace"></ResultHeader>
+            <ResultHeader id="resultPlace">{fetchedData.place}</ResultHeader>
             <ButtonReturn onClick={handleReturnClick}></ButtonReturn>
             <ResultDiv>
               <ResultSpan>평균 가격</ResultSpan>
-              <ResultValue id="resultCost"></ResultValue>
+              <ResultValue id="resultCost">{fetchedData.cost}</ResultValue>
             </ResultDiv>
             <ResultDiv>
               <ResultSpan>평균 면적</ResultSpan>
-              <ResultValue id="resultArea"></ResultValue>
+              <ResultValue id="resultArea">{fetchedData.area}</ResultValue>
             </ResultDiv>
             <ResultDiv>
               <ResultSpan>이동 시간</ResultSpan>
-              <ResultValue id="resultTime"></ResultValue>
+              <ResultValue id="resultTime">{fetchedData.time}</ResultValue>
             </ResultDiv>
             <ResultDiv>
               <ResultSpan>교통비</ResultSpan>
-              <ResultValue id="resultTransportCost"></ResultValue>
+              <ResultValue id="resultTransportCost">
+                {fetchedData.transportcost}
+              </ResultValue>
             </ResultDiv>
           </ResultPara>
         </ResultGroup>

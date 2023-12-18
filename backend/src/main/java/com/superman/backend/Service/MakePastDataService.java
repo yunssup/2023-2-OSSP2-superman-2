@@ -34,10 +34,11 @@ public class MakePastDataService {
     private LumpSumLeaseRepository lumpSumLeaseRepository;
     @Autowired
     private MonthlyRentRepository monthlyRentRepository;
+
     @Transactional
     public void makePastData(String lawdCode, String dealYmd, String serviceKey) {
         try {
-            String apiUrl = "http://openapi.molit.go.kr/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcOffiRent?LAWD_CD="
+            String apiUrl = "http://openapi.molit.go.kr:8081/OpenAPI_ToolInstallPackage/service/rest/RTMSOBJSvc/getRTMSDataSvcRHRent?LAWD_CD="
                     + lawdCode + "&DEAL_YMD=" + dealYmd + "&serviceKey=" + serviceKey;
 
             URL url = new URL(apiUrl);
@@ -63,8 +64,8 @@ public class MakePastDataService {
                     String logicalCode = getNodeValue("지역코드", item);
                     String dongName = getNodeValue("법정동", item);
 
-                    String deposit = getNodeValue("보증금", item);
-                    String monthly = getNodeValue("월세", item);
+                    String deposit = getNodeValue("보증금액", item);
+                    String monthly = getNodeValue("월세금액", item);
 
                     double depositValue = Double.parseDouble(deposit.replace(",", ""));
                     double monthlyValue = Double.parseDouble(monthly.replace(",", ""));
@@ -84,7 +85,6 @@ public class MakePastDataService {
 
                     // DTO to Entity 변환
                     PastHouseData pastHouseData = convertToPastHouseData(pastHouseDTO);
-
                     // 엔티티 저장
                     pastHouseDataRepository.save(pastHouseData);
                     if (monthlyOrLumpSumLease(depositValue, monthlyValue)) {
@@ -108,13 +108,13 @@ public class MakePastDataService {
         NodeList nodeList = item.getChildNodes();
         for (int i = 0; i < nodeList.getLength(); i++) {
             Node node = nodeList.item(i);
-            if (node.getNodeName().equals(tagName)) {
-                return node.getTextContent();
+            if (node.getNodeType() == Node.ELEMENT_NODE && node.getNodeName().equals(tagName)) {
+                String content = node.getTextContent().trim();
+                return content.isEmpty() ? "0" : content; // 빈 문자열일 경우 "0" 반환하도록 수정
             }
         }
-        return "";
+        return "0"; // 태그를 찾지 못할 경우 기본값 "0" 반환
     }
-
     // DTO to Entity 변환 메서드
     private PastHouseData convertToPastHouseData(PastHouseDTO dto) {
         PastHouseData entity = new PastHouseData();
@@ -139,9 +139,19 @@ public class MakePastDataService {
     private LumpSumLeaseData convertToLumpSumLeaseData(DongDataDTO dto) {
         LumpSumLeaseData lumpSumLeaseData = new LumpSumLeaseData();
         lumpSumLeaseData.setDongName(dto.getDongName());
-        lumpSumLeaseData.setDeposit(dto.getDeposit());
-        lumpSumLeaseData.setMonthly(dto.getMonthly());
-        lumpSumLeaseData.setArea(dto.getArea());
+
+        // 문자열 값을 숫자로 변환하여 Area 필드에 설정
+        double areaValue = Double.parseDouble(dto.getArea());
+        lumpSumLeaseData.setArea(areaValue);
+
+        // 문자열을 숫자로 변환하여 설정
+        int depositValue = Integer.parseInt(dto.getDeposit().replace(",", ""));
+        int monthlyValue = Integer.parseInt(dto.getMonthly().replace(",", ""));
+
+        // 숫자값을 필드에 설정
+        lumpSumLeaseData.setDeposit(depositValue);
+        lumpSumLeaseData.setMonthly(monthlyValue);
+
         return lumpSumLeaseData;
     }
 
@@ -149,9 +159,12 @@ public class MakePastDataService {
     private MonthlyRentData convertToMonthlyRentData(DongDataDTO dto) {
         MonthlyRentData entity = new MonthlyRentData();
         entity.setDongName(dto.getDongName());
-        entity.setDeposit(dto.getDeposit());
-        entity.setMonthly(dto.getMonthly());
-        entity.setArea(dto.getArea());
+        int depositValue = Integer.parseInt(dto.getDeposit().replace(",", ""));
+        int monthlyValue = Integer.parseInt(dto.getMonthly().replace(",", ""));
+        entity.setDeposit(depositValue);
+        entity.setMonthly(monthlyValue);
+        double areaValue = Double.parseDouble(dto.getArea());
+        entity.setArea(areaValue);
         return entity;
     }
     private boolean monthlyOrLumpSumLease(double deposit, double monthly) {

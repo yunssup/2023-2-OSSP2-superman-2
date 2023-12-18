@@ -179,7 +179,7 @@ public class TransportCostService {
                 payment = info.getInt("payment");
             } catch (JSONException e) {
                 e.printStackTrace();
-                throw new RuntimeException("Failed to parse the response from the new API");
+                throw new RuntimeException("대중교통 비용 api" + e);
             }
         } else {
             throw new RuntimeException("Request to the new API failed");

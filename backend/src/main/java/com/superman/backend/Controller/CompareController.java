@@ -103,11 +103,12 @@ public class CompareController {
 
     // 집 정보 반환
     @GetMapping("/compare/houseinfo")
-    public ResponseEntity<Map<String, Object>> getHouseInfo(@RequestParam String address) {
+    public ResponseEntity<Map<String, Object>> getHouseInfo(@RequestParam String address,
+                                                            @RequestParam String user) {
         try {
             
             Map<String, Object> response = new HashMap<>();
-            ApiHouseInfoResponseDTO apiRes = getHouseInfoByApiService.getHouseInfo(address);
+            ApiHouseInfoResponseDTO apiRes = getHouseInfoByApiService.getHouseInfo(address, user);
             response.put("houseInfo", apiRes);
             //response.put("houseInfo", getHouseInfoByApiService.getHouseInfo(address));
             System.out.println(apiRes.getPrc());

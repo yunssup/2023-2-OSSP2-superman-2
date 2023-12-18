@@ -94,7 +94,13 @@ function Compare() {
     console.log("Show Results:", enroll_company);
     // 결과를 어떻게 보여줄지에 대한 구체적인 로직을 추가하세요.
   };
+
   const [transportCosts, setTransportCosts] = useState([null, null]);
+  const [rent1, setRent1] = useState(null);
+  const [rent2, setRent2] = useState(null);
+  const [loanInterest1, setLoanInterest1] = useState(null);
+  const [loanInterest2, setLoanInterest2] = useState(null);
+  const [comparePrc, setComparePrc] = useState(null);
 
   // handleAddressInputComplete 함수에서 각 집에 대한 교통비를 업데이트합니다.
   const handleAddressInputComplete = (houseNum) => {
@@ -129,6 +135,35 @@ function Compare() {
               updatedTransportCosts[houseNum - 1] = getResponse.data.cost;
               return updatedTransportCosts;
             });
+
+            // 여기에서 houseInfoUrl 주소 값을 postData의 HouseAddress를 사용하여 동적으로 생성
+            const houseInfoUrl = `http://localhost:8080/api/compare/houseinfo?address=${encodeURIComponent(
+              postData.HouseAddress
+            )}&user=${encodeURIComponent(userSessionData)}`;
+
+            axios
+              .get(houseInfoUrl, { withCredentials: true })
+              .then((houseInfoResponse) => {
+                console.log("매물 정보 응답:", houseInfoResponse.data);
+
+                // 여기에서 houseInfoResponse.data를 이용하여 화면에 필요한 정보를 출력하는 로직을 추가할 수 있습니다.
+                const houseInfo = houseInfoResponse.data.houseInfo;
+
+                console.log("매물 정보:", houseInfo);
+                setRent1(houseNum === 1 ? houseInfo.prc : rent1);
+                setRent2(houseNum === 2 ? houseInfo.prc : rent2);
+                setLoanInterest1(
+                  houseNum === 1 ? houseInfo.대출이자 : loanInterest1
+                );
+                setLoanInterest2(
+                  houseNum === 2 ? houseInfo.대출이자 : loanInterest2
+                );
+                setComparePrc(houseInfo.compare_prc);
+              })
+
+              .catch((houseInfoError) => {
+                console.error("매물 정보 가져오기 실패", houseInfoError);
+              });
           })
           .catch((getError) => {
             console.error("교통비 가져오기 실패", getError);
@@ -137,21 +172,6 @@ function Compare() {
       .catch((error) => {
         console.error("데이터 전송 실패", error);
       });
-    // 입력 완료 버튼을 눌렀을 때 주소에 대한 매물 정보 요청
-    // const add = {
-    //   User: userSessionData,
-    //   address: enroll_company[`address${houseNum}`],
-    // };
-    // axios
-    //   .post("http://localhost:8080/api/compare/houseinfo", add)
-    //   .then((response) => {
-    //     console.log("반환 데이터", response.data);
-    //     // 해당 부분에서 화면 월세, 보증금, 대출이자, 교통비 데이터 출력 로직 필요
-    //   })
-    //   .catch((error) => {
-    //     // 오류가 발생했을 때 처리하는 부분
-    //     console.error("데이터 전송 실패", error);
-    //   });
   };
   // 하단 홈 버튼 클릭 시 메인 화면으로 복귀
   const handleImageClick = () => {
@@ -236,25 +256,25 @@ function Compare() {
       </AddressContainerInputContainer>
       <RowContainer>
         <InsideContainer>
-          월세
+          보증금
           <br />
-          값 불러올 자리
+          {rent1 !== null ? rent1 : " "}
           <br />
           대출이자
           <br />
-          값 불러올 자리
+          {loanInterest1 !== null ? loanInterest1 : " "}
           <br />
           교통비
           <br /> {transportCosts[0] !== null ? `${transportCosts[0]}원` : " "}
         </InsideContainer>
         <InsideContainer>
-          월세
+          보증금
           <br />
-          값 불러올 자리
+          {rent2 !== null ? rent2 : " "}
           <br />
           대출이자
           <br />
-          값 불러올 자리
+          {loanInterest2 !== null ? loanInterest2 : " "}
           <br />
           교통비
           <br />

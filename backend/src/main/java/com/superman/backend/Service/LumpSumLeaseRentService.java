@@ -2,7 +2,7 @@ package com.superman.backend.Service;
 
 import com.superman.backend.Entity.PreSearchData;
 import com.superman.backend.Entity.SessionData;
-import com.superman.backend.Repository.MonthlyRentRepository;
+import com.superman.backend.Repository.LumpSumLeaseRepository;
 import com.superman.backend.Repository.PreSearchDataRepository;
 import com.superman.backend.Repository.SessionDataRepository;
 import lombok.Getter;
@@ -23,19 +23,20 @@ import java.util.logging.ErrorManager;
 import java.util.stream.Collectors;
 
 @Service
-public class MonthlyRentService {
+public class LumpSumLeaseRentService {
     private static final Logger logger = LoggerFactory.getLogger(TransportCostService.class);
     @Autowired
     PreSearchDataRepository preSearchDataRepository;
+
     @Autowired
-    MonthlyRentRepository monthlyRentRepository;
+    LumpSumLeaseRepository lumpsumLeaseRepository;
     @Autowired
     SessionDataRepository sessionDataRepository;
     @Autowired
     TransportCostService transportCostService;
     @Autowired
     TravalTimeService travalTimeService;
-    public List<?> findMonthlyRentByCost(int region_id, int range, int maxtraval, String userid){
+    public List<?> findLumpSumLeaseRentByCost(int region_id, int range, int maxtraval, String userid){
         int min = 0, max = 0;
         String X; String Y; String startdong; int transportType;
         switch (range) {
@@ -61,7 +62,7 @@ public class MonthlyRentService {
                 break;
             case 6:
                 min = 100;
-                max = 20000;
+                max = 2000;
                 break;
 
         }
@@ -79,9 +80,9 @@ public class MonthlyRentService {
         }
         List<Object[]> data;
         if(region_id == 11000)
-            data = (List<Object[]>) monthlyRentRepository.getMonthlyRentDataByCostALL(min, max);
+            data = (List<Object[]>) lumpsumLeaseRepository.getLumpSumLeaseDataByCostALL(min, max);
         else
-            data = (List<Object[]>) monthlyRentRepository.getMonthlyRentDataByCost(region_id, min, max);
+            data = (List<Object[]>) lumpsumLeaseRepository.getLumpSumLeaseDataByCost(region_id, min, max);
         List<RentDetails> filteredTop5 = new ArrayList<>();
 
         for (Object[] item : data) {
@@ -108,16 +109,14 @@ public class MonthlyRentService {
                     transportcost = esearchData.getFee();
                 } else {
                     try {
-
-
                         if (transportType == 2) {
                             time = Integer.parseInt(travalTimeService.sendCarTimeRequest(coordinates[0], coordinates[1], X, Y));
                             start = X + ", " + Y;
-                            goal = coordinates[0] + ", " + coordinates[1];
+                            goal = coordinates[0] + ", " + Y;
                             transportcost = transportCostService.getCarCost(start, goal, 14.0);
                         } else if (transportType == 1) {
-                            time = Integer.parseInt(travalTimeService.sendTransportTimeRequest(coordinates[0], coordinates[1], X, Y)) * 60;
-                            transportcost = transportCostService.getTransportCost(X, Y, coordinates[0], coordinates[1]);
+                            time = Integer.parseInt(travalTimeService.sendTransportTimeRequest(coordinates[0], coordinates[1], X, Y));
+                            transportcost = transportCostService.getTransportCost(coordinates[0], coordinates[1], X, Y);
                         } else {
                             throw new RuntimeException("유저 교통 정보 없음.");
                         }
@@ -142,12 +141,13 @@ public class MonthlyRentService {
                 if((hours*60+minutes) / 60 > maxtraval)
                     continue;
                 RentDetails rentDetails = new RentDetails();
+
                 rentDetails.setPlace(place);
                 rentDetails.setArea(area + "평");
                 DecimalFormat decimalFormat = new DecimalFormat("#,###");
                 String formattedCost = decimalFormat.format(cost);
                 rentDetails.setCost(formattedCost + " 만원");
-                rentDetails.setTransportcost(transportcost + " 원");
+                rentDetails.setTransportcost(String.valueOf((transportcost)));
                 rentDetails.setTime(hours + "시간 " + minutes + "분");
 
                 filteredTop5.add(rentDetails);
@@ -164,33 +164,33 @@ public class MonthlyRentService {
         return filteredTop5;
     }
 
-    public List<?> findMonthlyRentByArea(int region_id, int range, int maxtraval, String userid){
+    public List<?> findLumpSumLeaseRentByArea(int region_id, int range, int maxtraval, String userid){
         int min = 0, max = 0;
-        String X; String Y;  String startdong;int transportType;
+        String X; String Y;  String startdong; int transportType;
         switch (range) {
-            case 1:
+            case 1: // 평
                 min = 0;
-                max = 20;
+                max = 33;
                 break;
             case 2:
-                min = 20;
-                max = 40;
+                min = 33;
+                max = 66;
                 break;
             case 3:
-                min = 40;
-                max = 60;
+                min = 99;
+                max = 132;
                 break;
             case 4:
-                min = 60;
-                max = 80;
+                min = 165;
+                max = 198;
                 break;
             case 5:
-                min = 80;
-                max = 100;
+                min = 220;
+                max = 252;
                 break;
             case 6:
-                min = 100;
-                max = 20000;
+                min = 252;
+                max = 200000;
                 break;
 
         }
@@ -208,9 +208,9 @@ public class MonthlyRentService {
         }
         List<Object[]> data;
         if(region_id == 11000)
-             data = (List<Object[]>) monthlyRentRepository.getMonthlyRentDataByAreaALL(min, max);
+            data = (List<Object[]>) lumpsumLeaseRepository.getLumpSumLeaseDataByAreaALL(min, max);
         else
-             data = (List<Object[]>) monthlyRentRepository.getMonthlyRentDataByArea(region_id, min, max);
+            data = (List<Object[]>) lumpsumLeaseRepository.getLumpSumLeaseDataByArea(region_id, min, max);
         List<RentDetails> filteredTop5 = new ArrayList<>();
 
         for (Object[] item : data) {
@@ -222,9 +222,8 @@ public class MonthlyRentService {
                 }
                 else place = (String) item[0];
 
-                double area = (double) item[2];
-                BigDecimal cost = (BigDecimal) item[1];
-
+                BigDecimal cost = (BigDecimal) item[2];
+                double area = (double) item[1];
                 String[] coordinates = travalTimeService.getCoordinates("서울시 " + place);
                 String start, goal;
                 int time; int transportcost = 0;
@@ -244,7 +243,7 @@ public class MonthlyRentService {
                             transportcost = transportCostService.getCarCost(start, goal, 14.0);
                         } else if (transportType == 1) {
                             time = Integer.parseInt(travalTimeService.sendTransportTimeRequest(coordinates[0], coordinates[1], X, Y)) * 60;
-                            transportcost = transportCostService.getTransportCost(coordinates[0], coordinates[1], X, Y);
+                            transportcost = transportCostService.getTransportCost(X, Y, coordinates[0], coordinates[1]);
                         } else {
                             throw new RuntimeException("잘못된 교통 타입.");
                         }
@@ -266,7 +265,6 @@ public class MonthlyRentService {
                 }
                 int hours = time / 3600;
                 int minutes = (time % 3600) / 60;
-
                 if((hours*60+minutes) / 60 > maxtraval)
                     continue;
                 RentDetails rentDetails = new RentDetails();

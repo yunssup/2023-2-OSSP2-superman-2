@@ -1,15 +1,16 @@
 package com.superman.backend.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.superman.backend.DTO.ApiHouseInfoResponseDTO;
+import com.superman.backend.Entity.SessionData;
+import com.superman.backend.Repository.SessionDataRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,8 +28,18 @@ public class GetHouseInfoByApiService {
     @Value("8a05fe527e9190e5d824d5593ecab17f")//${kakao.local.key}
     private String kakaoLocalKey = "8a05fe527e9190e5d824d5593ecab17f";
 
+    @Autowired
+    SessionDataRepository sessionDataRepository;
     // 네이버 부동산 api를 통한 최종 집 정보 (전월세 가격 / 보증금 / 면적)
-    public ApiHouseInfoResponseDTO getHouseInfo(String address) throws JSONException {
+    public ApiHouseInfoResponseDTO getHouseInfo(String address, String user) throws JSONException {
+
+        SessionData existingData = sessionDataRepository.findById(user).orElse(null);
+        // 홈타입 기본값 1
+        int homeType = 1;
+
+        homeType = existingData.getHomeType();
+
+
         ApiHouseInfoResponseDTO apiHouseInfo = new ApiHouseInfoResponseDTO();
 
         // 카카오 api 호출
@@ -55,7 +66,7 @@ public class GetHouseInfoByApiService {
         ArrayList<ApiHouseInfoResponseDTO> hInfoArr = getApiHouseInfoList(nodeListMap);
 
         // 전월세 가장 싼 건물의 전월세가격/면적 가공
-        apiHouseInfo = compareApiHouseInfo(hInfoArr);
+        apiHouseInfo = compareApiHouseInfo(hInfoArr, homeType);
         // System.out.println(apiHouseInfo.getPrc() + " ||| " + apiHouseInfo.getSpc());
 
         System.out.println("apiHouseInfo" + apiHouseInfo);
@@ -251,16 +262,25 @@ public class GetHouseInfoByApiService {
     }
 
     // 전월세 통합해서 비교한 다음 가장 싼 매물 반환
-    private ApiHouseInfoResponseDTO compareApiHouseInfo(ArrayList<ApiHouseInfoResponseDTO> infoArr) {
+    private ApiHouseInfoResponseDTO compareApiHouseInfo(ArrayList<ApiHouseInfoResponseDTO> infoArr, int homeType) {
         ApiHouseInfoResponseDTO min = new ApiHouseInfoResponseDTO();
 
-        for (ApiHouseInfoResponseDTO info : infoArr) {
-            if (info.getComparePrice() < min.getComparePrice()) {
-                min = info;
+        if (homeType == 1) {
+            for (ApiHouseInfoResponseDTO info : infoArr) {
+                if (min.getPrc() == 0 && min.getRentPrc() == 0) {
+                    min = info;
+                } else if (info.getRentPrc() == 0 && info.getPrc() < min.getPrc()) min = info;
+                // 전세일 때는 prc값(전세)만 반환
+            }
+        } else {
+            for (ApiHouseInfoResponseDTO info : infoArr) {
+                if (min.getPrc() == 0 && min.getRentPrc() == 0) {
+                    min = info;
+                } else if (info.getRentPrc() != 0 && info.getComparePrc() < min.getComparePrc()) min = info;
+                // 월세일 때는 rentprc와 prc 합산으로 비교하여 반환
             }
         }
 
         return min;
     }
 }
-
