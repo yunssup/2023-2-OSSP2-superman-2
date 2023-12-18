@@ -44,9 +44,10 @@ export const NavBarRow = styled.div`
 export const NavBarSpan = styled.span`
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 50px;
-  width: 66.6%;
-  margin: 20px 15px;
+  width: 100%;
+  margin: 20px;
 `;
 
 export const ResultGroup = styled.div`
