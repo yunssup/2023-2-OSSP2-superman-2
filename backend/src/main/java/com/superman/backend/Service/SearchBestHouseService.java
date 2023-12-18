@@ -31,7 +31,7 @@ public class SearchBestHouseService {
         }
         int condition = searchConditionDTO.getCondition();
 
-        if (homeType == 1) {
+        if (homeType == 2) {
             if (condition == 1) {
                 return monthlyRentService.findMonthlyRentByCost(
                         searchConditionDTO.getRegionId(),
@@ -49,7 +49,7 @@ public class SearchBestHouseService {
             } else {
                 throw new IllegalArgumentException("Invalid condition for monthly rent");
             }
-        } else if (homeType == 2) {
+        } else if (homeType == 1) {
             if (condition == 1) {
                 return lumpSumLeaseRentService.findLumpSumLeaseRentByCost(
                         searchConditionDTO.getRegionId(),

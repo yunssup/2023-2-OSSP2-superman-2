@@ -141,7 +141,7 @@ public class TravalTimeService {
                 totalTime = info.getString("totalTime");
             } catch (JSONException e) {
                 e.printStackTrace();
-                throw new RuntimeException("대중교통 시간 API");
+                throw new RuntimeException("대중교통 시간 API" + e);
             }
         } else {
             throw new RuntimeException("Request to the new API failed");

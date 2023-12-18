@@ -168,28 +168,28 @@ public class LumpSumLeaseRentService {
         int min = 0, max = 0;
         String X; String Y;  String startdong; int transportType;
         switch (range) {
-            case 1:
+            case 1: // 평
                 min = 0;
-                max = 2000;
+                max = 33;
                 break;
             case 2:
-                min = 2000;
-                max = 4000;
+                min = 33;
+                max = 66;
                 break;
             case 3:
-                min = 4000;
-                max = 6000;
+                min = 99;
+                max = 132;
                 break;
             case 4:
-                min = 6000;
-                max = 8000;
+                min = 165;
+                max = 198;
                 break;
             case 5:
-                min = 8000;
-                max = 10000;
+                min = 220;
+                max = 252;
                 break;
             case 6:
-                min = 1000;
+                min = 252;
                 max = 200000;
                 break;
 
