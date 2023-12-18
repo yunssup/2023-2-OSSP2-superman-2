@@ -42,27 +42,27 @@ public class LumpSumLeaseRentService {
         switch (range) {
             case 1:
                 min = 0;
-                max = 20;
+                max = 2000;
                 break;
             case 2:
-                min = 20;
-                max = 40;
+                min = 2000;
+                max = 4000;
                 break;
             case 3:
-                min = 40;
-                max = 60;
+                min = 4000;
+                max = 6000;
                 break;
             case 4:
-                min = 60;
-                max = 80;
+                min = 6000;
+                max = 8000;
                 break;
             case 5:
-                min = 80;
-                max = 100;
+                min = 8000;
+                max = 10000;
                 break;
             case 6:
-                min = 100;
-                max = 2000;
+                min = 10000;
+                max = 2000000;
                 break;
 
         }
