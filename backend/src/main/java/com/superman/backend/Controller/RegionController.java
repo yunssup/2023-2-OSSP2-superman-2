@@ -15,7 +15,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/region")
-@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
+@CrossOrigin(origins = {
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "http://43.202.189.160:5173",
+        "http://43.202.189.160"
+}, allowCredentials = "true")
 public class RegionController {
 
     @Autowired
