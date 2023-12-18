@@ -37,7 +37,7 @@ function First() {
   useEffect(() => {
     const fetchUserSession = async () => {
       try {
-        const response = await axios.get("52.78.118.198/api/user", {
+        const response = await axios.get("52.78.118.198:8080/api/user", {
           withCredentials: true,
         });
 
