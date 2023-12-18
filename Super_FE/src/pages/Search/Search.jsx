@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  BackGround,
   SearchContainer,
   NavBar,
   NavBarSpan,
@@ -66,6 +67,9 @@ function Search() {
         document.querySelector('#resultGroup :nth-child(3)').innerHTML = data["3"].place;
         document.querySelector('#resultGroup :nth-child(4)').innerHTML = data["4"].place;
         console.log(data);
+        for(let i = 0;i < result.length;i++) { //투명상태 해제
+          result[i].style.display = "block";
+        }
       })
       .catch(error => {
         /*
@@ -75,10 +79,9 @@ function Search() {
         document.querySelector('#resultGroup :nth-child(4)').innerHTML = '1';
         */
         console.error("에러 발생", error);
+        document.getElementById('span').innerHTML="선택한 장소 정보를 찾을 수 없습니다.";
       });
-    for(let i = 0;i < result.length;i++) { //투명상태 해제
-      result[i].style.display = "block";
-    }
+    
   };
 
   const handleConfirmClick = () => {
@@ -120,7 +123,7 @@ function Search() {
 }, [location.search]);
 
 const handleResultClick = (event) => {
-  const queryString = `?select1=${selectedOptions.select1}&select2=${selectedOptions.select2}&select3=${selectedOptions.select3}&select4=${selectedOptions.select4}&userId=${userId}&dataNum=${event.target.value}`;
+  const queryString = `?select1=${paresInt(selectedOptions.select1)}&select2=${paresInt(selectedOptions.select2)}&select3=${paresInt(selectedOptions.select3)}&select4=${paresInt(selectedOptions.select4)}&userId=${userId}&dataNum=${paresInt(event.target.value)}`;
   navigate(`/SearchResult${queryString}`);
 };
 
@@ -133,6 +136,7 @@ const handleResultClick = (event) => {
   }, [condition])  순서 클릭했을 시 condition 변경으로 오름/내림 전환 */
 
   return (
+    <BackGround>
     <SearchContainer>
       <NavBar>
         <NavBarRow>
@@ -202,27 +206,27 @@ const handleResultClick = (event) => {
           :null}
           <NavBarSelect value={selectedOptions.select4} onChange={(e) => handleSelectChange(e, 'select4')}>
             <option value='0'>이동 시간 선택</option>
-            <option value='1'>~10분</option>
-            <option value='2'>11분 ~ 20분</option>
-            <option value='3'>21분 ~ 30분</option>
-            <option value='4'>31분 ~ 40분</option>
-            <option value='5'>41분 ~ 50분</option>
-            <option value='6'>51분 ~ 60분</option>
-            <option value='7'>60분 초과</option>
+            <option value='1'>10분 미만</option>
+            <option value='2'>20분 미만</option>
+            <option value='3'>30분 미만</option>
+            <option value='4'>40분 미만</option>
+            <option value='5'>50분 미만</option>
+            <option value='6'>60분 미만</option>
+            <option value='7'>60분 이상</option>
           </NavBarSelect>
         </NavBarRow>
         <NavBarRow>
           <NavBarConfirm onClick={handleResultConfirm}>선택 완료</NavBarConfirm>
         </NavBarRow>
         <NavBarRow>
-          <NavBarSpan>원하는 동네를 클릭해서 자세한 정보를 확인하세요!</NavBarSpan>
+          <NavBarSpan id="span">원하는 동네를 클릭해서 자세한 정보를 확인하세요!</NavBarSpan>
         </NavBarRow>
       </NavBar>
       <ResultGroup id="resultGroup">
-        <ButtonResult className="result" value="1" onClick={handleResultClick}>신내동</ButtonResult>
-        <ButtonResult className="result" value="2" onClick={handleResultClick}>공릉동</ButtonResult>
-        <ButtonResult className="result" value="3" onClick={handleResultClick}>장충동</ButtonResult>
-        <ButtonResult className="result" value="4" onClick={handleResultClick}>필동</ButtonResult>
+        <ButtonResult className="result" value="1" onClick={handleResultClick}></ButtonResult>
+        <ButtonResult className="result" value="2" onClick={handleResultClick}></ButtonResult>
+        <ButtonResult className="result" value="3" onClick={handleResultClick}></ButtonResult>
+        <ButtonResult className="result" value="4" onClick={handleResultClick}></ButtonResult>
       </ResultGroup>
       <NavBarRow>
         <ResultConfirm
@@ -230,6 +234,7 @@ const handleResultClick = (event) => {
         ></ResultConfirm>
       </NavBarRow>
     </SearchContainer>
+    </BackGround>
   );
 }
 

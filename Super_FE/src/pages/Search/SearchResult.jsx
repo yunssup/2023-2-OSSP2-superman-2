@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { SearchContainer, NavBar, NavBarRow, NavBarSpan, NavBarSelect, ResultGroup, ButtonReturn, ResultPara, ResultHeader, ResultDiv, ResultSpan, ResultValue, ResultConfirm } from "./NavBar";
+import { BackGround, SearchContainer, NavBar, NavBarRow, NavBarSpan, NavBarSelect, ResultGroup, ButtonReturn, ResultPara, ResultHeader, ResultDiv, ResultSpan, ResultValue, ResultConfirm } from "./NavBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -83,6 +83,7 @@ function SearchResult(){
     const [condition, setCondition] = useState('0');
 
     return (
+        <BackGround>
         <SearchContainer>
             <NavBar>
                 <NavBarRow>
@@ -192,6 +193,7 @@ function SearchResult(){
                 ></ResultConfirm>
             </NavBarRow>
         </SearchContainer>
+        </BackGround>
     );
 }
 
