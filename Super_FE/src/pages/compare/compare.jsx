@@ -20,8 +20,11 @@ import {
 import Post from "../../Components/Post";
 import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
+import { useUser } from "../../UserContext";
 
 function Compare() {
+  const { userSessionData } = useUser();
+
   const navigate = useNavigate();
   const [enroll_company, setEnroll_company] = useState({
     address1: "",
@@ -39,24 +42,24 @@ function Compare() {
   const [popup1, setPopup1] = useState(false);
   const [popup2, setPopup2] = useState(false);
   //세션 가져오기
-  const [userSessionData, setUserSessionData] = useState(null);
-  useEffect(() => {
-    const fetchUserSession = async () => {
-      try {
-        const response = await axios.get("http://52.78.118.198:8080/api/user", {
-          withCredentials: true,
-        });
+  // const [userSessionData, setUserSessionData] = useState(null);
+  // useEffect(() => {
+  //   const fetchUserSession = async () => {
+  //     try {
+  //       const response = await axios.get("http://52.78.118.198:8080/api/user", {
+  //         withCredentials: true,
+  //       });
 
-        const userData = response.data;
-        setUserSessionData(userData.session_id); // session_id 값을 setUserSessionData로 설정
-        console.log("유저 세션 데이터:", userData);
-      } catch (error) {
-        console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
-      }
-    };
+  //       const userData = response.data;
+  //       setUserSessionData(userData.session_id); // session_id 값을 setUserSessionData로 설정
+  //       console.log("유저 세션 데이터:", userData);
+  //     } catch (error) {
+  //       console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
+  //     }
+  //   };
 
-    fetchUserSession();
-  }, []);
+  //   fetchUserSession();
+  // }, []);
 
   const handleInput = (e, fieldName) => {
     setEnroll_company((prev) => ({
