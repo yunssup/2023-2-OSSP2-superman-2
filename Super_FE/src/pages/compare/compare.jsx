@@ -43,7 +43,7 @@ function Compare() {
   useEffect(() => {
     const fetchUserSession = async () => {
       try {
-        const response = await axios.get("52.78.118.198/api/user", {
+        const response = await axios.get("52.78.118.198:8080/api/user", {
           withCredentials: true,
         });
 
@@ -114,14 +114,14 @@ function Compare() {
     console.log(`POST 데이터(${houseNum}번 집):`, postData);
 
     axios
-      .post("52.78.118.198/api/compare", postData)
+      .post("52.78.118.198:8080/api/compare", postData)
       .then((response) => {
         console.log(`데이터 전송 완료(${houseNum}번 집)`, response.data);
 
         // POST 요청 후, GET 요청으로 교통비 데이터 가져오기
         axios
           .get(
-            `52.78.118.198/api/compare/transport/?user=${userSessionData}&house=${houseNum}`,
+            `52.78.118.198:8080/api/compare/transport/?user=${userSessionData}&house=${houseNum}`,
             {
               withCredentials: true,
             }
@@ -137,7 +137,7 @@ function Compare() {
             });
 
             // 여기에서 houseInfoUrl 주소 값을 postData의 HouseAddress를 사용하여 동적으로 생성
-            const houseInfoUrl = `52.78.118.198/api/compare/houseinfo?address=${encodeURIComponent(
+            const houseInfoUrl = `52.78.118.198:8080/api/compare/houseinfo?address=${encodeURIComponent(
               postData.HouseAddress
             )}&user=${encodeURIComponent(userSessionData)}`;
 
