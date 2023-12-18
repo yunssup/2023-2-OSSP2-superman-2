@@ -4,11 +4,14 @@ import lombok.Data;
 
 public class ApiHouseInfoResponseDTO {
 
-    int prc = 999999999;        // 전세 또는 월세보증금
-    int rentPrc = 999999999;    // 월세
+    int prc = 0;        // 전세 또는 월세보증금
+    int rentPrc = 0;    // 월세
+
+    int comparePrc = 0; //월세일 때 1년치 월세 + 보증금
+
     String spc = "/";           // 면적
 
-    int comparePrice = 999999999;
+    //int comparePrice = 999999999;
 
     public ApiHouseInfoResponseDTO() {
     }
@@ -18,15 +21,6 @@ public class ApiHouseInfoResponseDTO {
         this.rentPrc = rentPrc;
         this.spc = spc;
 
-        // 전월세 가격 임의 비교를 위해 가공
-        if (rentPrc == 0) // 월세가 0일 경우 (==전세)
-        {
-            comparePrice = prc;
-        } else // 월세 가격이 있을 경우 (==월세)
-        {
-            // 보증금 + 월세*12 로 계산
-            comparePrice = prc + (rentPrc * 12);
-        }
     }
 
     public int getPrc() {
@@ -41,8 +35,9 @@ public class ApiHouseInfoResponseDTO {
         return this.spc;
     }
 
-    public int getComparePrice() {
-        return this.comparePrice;
-    }
 
+    public int getComparePrc(){
+        return this.comparePrc;
+    }
+// 전월세 가격 임의 비교를 위해 가공
 }
