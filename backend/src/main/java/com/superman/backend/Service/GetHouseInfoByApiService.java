@@ -1,15 +1,16 @@
 package com.superman.backend.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.superman.backend.DTO.ApiHouseInfoResponseDTO;
+import com.superman.backend.Entity.SessionData;
+import com.superman.backend.Repository.SessionDataRepository;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -27,8 +28,19 @@ public class GetHouseInfoByApiService {
     @Value("8a05fe527e9190e5d824d5593ecab17f")//${kakao.local.key}
     private String kakaoLocalKey = "8a05fe527e9190e5d824d5593ecab17f";
 
+    @Autowired
+    SessionDataRepository sessionDataRepository;
     // 네이버 부동산 api를 통한 최종 집 정보 (전월세 가격 / 보증금 / 면적)
-    public ApiHouseInfoResponseDTO getHouseInfo(String address) throws JSONException {
+    public ApiHouseInfoResponseDTO getHouseInfo(String address, String user) throws JSONException {
+
+        SessionData existingData = sessionDataRepository.findById(user).orElse(null);
+        // 홈타입 기본값 1
+         int homeType = 1;
+
+         homeType = existingData.getHomeType();
+
+
+
         ApiHouseInfoResponseDTO apiHouseInfo = new ApiHouseInfoResponseDTO();
 
         // 카카오 api 호출
