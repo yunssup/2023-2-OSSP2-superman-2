@@ -37,6 +37,7 @@ public class ApiHouseInfoResponseDTO {
 
 
     public int getComparePrc(){
+        this.comparePrc = 12 * this.rentPrc + this.prc;
         return this.comparePrc;
     }
 // 전월세 가격 임의 비교를 위해 가공
