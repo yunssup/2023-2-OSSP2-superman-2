@@ -48,7 +48,7 @@ function SearchResult(){
             dataNum
         });
 
-        axios.get(`http://localhost:8080/api/region?userid=${userId}&regionid=${selectedOptions.select1}&condition=${selectedOptions.select2}&range=${selectedOptions.select3}&maxtraval=${selectedOptions.select4}`)
+        axios.get(`http://localhost:8080/api/region?userid=${userId}&regionid=${parseInt(selectedOptions.select1)}&condition=${parseInt(selectedOptions.select2)}&range=${parseInt(selectedOptions.select3)}&maxtraval=${parseInt(selectedOptions.select4)}`)
         .then(response => {
             const data = response.data;
             document.querySelector('#resultPlace').innerHTML = data[dataNum].place;
@@ -153,13 +153,13 @@ function SearchResult(){
                     :null}
                 <NavBarSelect value={selectedOptions.select4} onChange={(e) => handleSelectChange(e, 'select4')}>
                     <option value='0'>이동 시간 선택</option>
-                    <option value='1'>~10분</option>
-                    <option value='2'>11분 ~ 20분</option>
-                    <option value='3'>21분 ~ 30분</option>
-                    <option value='4'>31분 ~ 40분</option>
-                    <option value='5'>41분 ~ 50분</option>
-                    <option value='6'>51분 ~ 60분</option>
-                    <option value='7'>60분 초과</option>
+                    <option value='1'>10분 미만</option>
+                    <option value='2'>20분 미만</option>
+                    <option value='3'>30분 미만</option>
+                    <option value='4'>40분 미만</option>
+                    <option value='5'>50분 미만</option>
+                    <option value='6'>60분 미만</option>
+                    <option value='7'>60분 이상</option>
                 </NavBarSelect>
             </NavBarRow>
             </NavBar>

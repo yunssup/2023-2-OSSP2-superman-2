@@ -123,7 +123,7 @@ function Search() {
 }, [location.search]);
 
 const handleResultClick = (event) => {
-  const queryString = `?select1=${paresInt(selectedOptions.select1)}&select2=${paresInt(selectedOptions.select2)}&select3=${paresInt(selectedOptions.select3)}&select4=${paresInt(selectedOptions.select4)}&userId=${userId}&dataNum=${paresInt(event.target.value)}`;
+  const queryString = `?select1=${parseInt(selectedOptions.select1)}&select2=${parseInt(selectedOptions.select2)}&select3=${parseInt(selectedOptions.select3)}&select4=${parseInt(selectedOptions.select4)}&userId=${userId}&dataNum=${parseInt(event.target.value)}`;
   navigate(`/SearchResult${queryString}`);
 };
 
