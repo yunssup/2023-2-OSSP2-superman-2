@@ -170,26 +170,26 @@ public class MonthlyRentService {
         switch (range) {
             case 1:
                 min = 0;
-                max = 20;
+                max = 33;
                 break;
             case 2:
-                min = 20;
-                max = 40;
+                min = 33;
+                max = 66;
                 break;
             case 3:
-                min = 40;
-                max = 60;
+                min = 66;
+                max = 99;
                 break;
             case 4:
-                min = 60;
-                max = 80;
+                min = 99;
+                max = 130;
                 break;
             case 5:
-                min = 80;
-                max = 100;
+                min = 130;
+                max = 166;
                 break;
             case 6:
-                min = 100;
+                min = 166;
                 max = 20000;
                 break;
 
