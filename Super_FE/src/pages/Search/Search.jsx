@@ -59,7 +59,7 @@ function Search() {
 
   const handleResultConfirm = () => {
     const result = document.getElementsByClassName("result");
-    axios.get(`http://localhost:8080/api/region?userid=${userSessionData}&regionid=${selectedOptions.select1}&condition=${selectedOptions.select2}&range=${selectedOptions.select3}&maxtraval=${selectedOptions.select4}`)
+    axios.get(`http://localhost:8080/api/region?userid=${userSessionData}&regionid=${parseInt(selectedOptions.select1)}&condition=${parseInt(selectedOptions.select2)}&range=${parseInt(selectedOptions.select3)}&maxtraval=${parseInt(selectedOptions.select4)}`)
       .then(response => {
         const data = response.data;
         document.querySelector('#resultGroup :nth-child(1)').innerHTML = data["1"].place;
