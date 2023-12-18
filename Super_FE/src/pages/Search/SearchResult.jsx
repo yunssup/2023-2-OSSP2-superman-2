@@ -18,7 +18,7 @@ function SearchResult(){
     });
 
     const [fetchedData, setFetchedData] = useState({
-        place: '',
+        place: '로딩 중입니다...',
         area: '',
         cost: '',
         time: '',
