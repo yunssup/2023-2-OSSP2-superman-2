@@ -27,6 +27,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.json:json:20201115'
+	implementation 'org.springframework.boot:spring-boot-configuration-processor:2.6.3'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	runtimeOnly 'com.mysql:mysql-connector-j'
@@ -36,9 +37,7 @@ dependencies {
 	implementation 'org.seleniumhq.selenium:selenium-java:4.1.0'
 	
 }
-bootJar {
-	mainClassName = 'com.superman.backend.BackendApplication'
-}
+
 tasks.named('test') {
 	useJUnitPlatform()
 }

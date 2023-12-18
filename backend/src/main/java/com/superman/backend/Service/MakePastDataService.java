@@ -34,6 +34,7 @@ public class MakePastDataService {
     private LumpSumLeaseRepository lumpSumLeaseRepository;
     @Autowired
     private MonthlyRentRepository monthlyRentRepository;
+
     @Transactional
     public void makePastData(String lawdCode, String dealYmd, String serviceKey) {
         try {
@@ -84,7 +85,6 @@ public class MakePastDataService {
 
                     // DTO to Entity 변환
                     PastHouseData pastHouseData = convertToPastHouseData(pastHouseDTO);
-
                     // 엔티티 저장
                     pastHouseDataRepository.save(pastHouseData);
                     if (monthlyOrLumpSumLease(depositValue, monthlyValue)) {
