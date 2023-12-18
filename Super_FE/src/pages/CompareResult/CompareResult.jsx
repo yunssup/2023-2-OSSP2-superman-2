@@ -15,24 +15,24 @@ function CompareResult() {
   const navigate = useNavigate();
 
   // 세션 가져오기
-  // const [userSessionData, setUserSessionData] = useState(null);
-  // useEffect(() => {
-  //   const fetchUserSession = async () => {
-  //     try {
-  //       const response = await axios.get("http://52.78.118.198:8080/api/user", {
-  //         withCredentials: true,
-  //       });
+  const [userSessionData, setUserSessionData] = useState(null);
+  useEffect(() => {
+    const fetchUserSession = async () => {
+      try {
+        const response = await axios.get("http://52.78.118.198:8080/api/user", {
+          withCredentials: true,
+        });
 
-  //       const userData = response.data;
-  //       setUserSessionData(userData.session_id);
-  //       console.log("유저 세션 데이터:", userData);
-  //     } catch (error) {
-  //       console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
-  //     }
-  //   };
+        const userData = response.data;
+        setUserSessionData(userData.session_id);
+        console.log("유저 세션 데이터:", userData);
+      } catch (error) {
+        console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
+      }
+    };
 
-  //   fetchUserSession();
-  // }, []);
+    fetchUserSession();
+  }, []);
 
   // API 호출 및 결과 상태 관리
   const [compareData, setCompareData] = useState({
