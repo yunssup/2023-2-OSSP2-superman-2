@@ -189,6 +189,8 @@ function SearchResult(){
             </ResultGroup>
             <NavBarRow>
                 <ResultConfirm
+                    src="public/start/home.png" // Replace this with the actual path or URL of your image
+                    alt="Result Image"
                     onClick={handleConfirmClick}
                 ></ResultConfirm>
             </NavBarRow>

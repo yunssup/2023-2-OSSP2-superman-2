@@ -179,13 +179,10 @@ export const ResultValue = styled.div`
   width: 50%;
 `;
 
-export const ResultConfirm = styled.button`
+export const ResultConfirm = styled.img`
   margin-top: 25px;
   margin-bottom: 25px;
-  border-radius: 50px;
-  background-image: url("public/start/home.png");
-  border: 1px solid rgb(0,0,0) !important;
   font-family: Arimo;
-  width: 47px;
-  height: 47px;
+  width: 10%;
+  height: 10%;
 `;
