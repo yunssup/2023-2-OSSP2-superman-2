@@ -94,9 +94,9 @@ function Compare() {
     console.log("Show Results:", enroll_company);
     // 결과를 어떻게 보여줄지에 대한 구체적인 로직을 추가하세요.
   };
-  const [transportCost, setTransportCost] = useState(null);
+  const [transportCosts, setTransportCosts] = useState([null, null]);
 
-  // 주소 입력 클릭 할 때 백엔드에게 post로 넘어가는 부분
+  // handleAddressInputComplete 함수에서 각 집에 대한 교통비를 업데이트합니다.
   const handleAddressInputComplete = (houseNum) => {
     const postData = {
       User: userSessionData,
@@ -124,7 +124,11 @@ function Compare() {
             console.log("교통비 응답:", getResponse.data);
 
             // 교통비 값을 상태에 업데이트
-            setTransportCost(getResponse.data.cost);
+            setTransportCosts((prevTransportCosts) => {
+              const updatedTransportCosts = [...prevTransportCosts];
+              updatedTransportCosts[houseNum - 1] = getResponse.data.cost;
+              return updatedTransportCosts;
+            });
           })
           .catch((getError) => {
             console.error("교통비 가져오기 실패", getError);
@@ -133,7 +137,6 @@ function Compare() {
       .catch((error) => {
         console.error("데이터 전송 실패", error);
       });
-
     // 입력 완료 버튼을 눌렀을 때 주소에 대한 매물 정보 요청
     // const add = {
     //   User: userSessionData,
@@ -242,7 +245,7 @@ function Compare() {
           값 불러올 자리
           <br />
           교통비
-          <br /> {transportCost !== null ? transportCost : " "}원
+          <br /> {transportCosts[0] !== null ? `${transportCosts[0]}원` : " "}
         </InsideContainer>
         <InsideContainer>
           월세
@@ -255,7 +258,7 @@ function Compare() {
           <br />
           교통비
           <br />
-          {transportCost !== null ? transportCost : " "}원
+          {transportCosts[1] !== null ? `${transportCosts[1]}원` : " "}
         </InsideContainer>
       </RowContainer>
       <Title>↓ 직접 입력해주세요 ↓</Title>
