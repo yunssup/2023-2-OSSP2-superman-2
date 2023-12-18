@@ -139,7 +139,7 @@ public class MonthlyRentService {
                 }
                 int hours = time / 3600;
                 int minutes = (time % 3600) / 60;
-                if((hours*60+minutes) / 60 > maxtraval)
+                if((hours*60+minutes) > maxtraval)
                     continue;
                 RentDetails rentDetails = new RentDetails();
                 rentDetails.setPlace(place);
@@ -267,7 +267,7 @@ public class MonthlyRentService {
                 int hours = time / 3600;
                 int minutes = (time % 3600) / 60;
 
-                if((hours*60+minutes) / 60 > maxtraval)
+                if((hours*60+minutes) > maxtraval)
                     continue;
                 RentDetails rentDetails = new RentDetails();
                 rentDetails.setPlace(place);
