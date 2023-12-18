@@ -28,11 +28,11 @@ function Compare() {
     address2: "",
     detailedAddress1: "",
     detailedAddress2: "",
-    electricityExpense: "",
-    managementExpense: "",
-    communicationExpense: "",
+    electricityExpense1: "",
     electricityExpense2: "",
+    managementExpense1: "",
     managementExpense2: "",
+    communicationExpense1: "",
     communicationExpense2: "",
   });
   // 주소 찾기 팝업
@@ -43,7 +43,7 @@ function Compare() {
   useEffect(() => {
     const fetchUserSession = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/user", {
+        const response = await axios.get("52.78.118.198/api/user", {
           withCredentials: true,
         });
 
@@ -58,12 +58,12 @@ function Compare() {
     fetchUserSession();
   }, []);
 
-  const handleInput = (e) => {
-    setEnroll_company({
-      ...enroll_company,
-      [e.target.name]: e.target.value,
-    });
-    console.log(`${e.target.name}: ${e.target.value}`);
+  const handleInput = (e, fieldName) => {
+    setEnroll_company((prev) => ({
+      ...prev,
+      [fieldName]: e.target.value,
+    }));
+    console.log(`${fieldName}: ${e.target.value}`);
   };
 
   const handleComplete = (field, data) => {
@@ -111,23 +111,23 @@ function Compare() {
       HouseDetail: enroll_company[`detailedAddress${houseNum}`],
     };
 
-    console.log("POST 데이터:", postData);
+    console.log(`POST 데이터(${houseNum}번 집):`, postData);
 
     axios
-      .post("http://localhost:8080/api/compare", postData)
+      .post("52.78.118.198/api/compare", postData)
       .then((response) => {
-        console.log("데이터 전송 완료", response.data);
+        console.log(`데이터 전송 완료(${houseNum}번 집)`, response.data);
 
         // POST 요청 후, GET 요청으로 교통비 데이터 가져오기
         axios
           .get(
-            `http://localhost:8080/api/compare/transport/?user=${userSessionData}&house=${houseNum}`,
+            `52.78.118.198/api/compare/transport/?user=${userSessionData}&house=${houseNum}`,
             {
               withCredentials: true,
             }
           )
           .then((getResponse) => {
-            console.log("교통비 응답:", getResponse.data);
+            console.log(`교통비 응답(${houseNum}번 집):`, getResponse.data);
 
             // 교통비 값을 상태에 업데이트
             setTransportCosts((prevTransportCosts) => {
@@ -137,19 +137,22 @@ function Compare() {
             });
 
             // 여기에서 houseInfoUrl 주소 값을 postData의 HouseAddress를 사용하여 동적으로 생성
-            const houseInfoUrl = `http://localhost:8080/api/compare/houseinfo?address=${encodeURIComponent(
+            const houseInfoUrl = `52.78.118.198/api/compare/houseinfo?address=${encodeURIComponent(
               postData.HouseAddress
             )}&user=${encodeURIComponent(userSessionData)}`;
 
             axios
               .get(houseInfoUrl, { withCredentials: true })
               .then((houseInfoResponse) => {
-                console.log("매물 정보 응답:", houseInfoResponse.data);
+                console.log(
+                  `매물 정보 응답(${houseNum}번 집):`,
+                  houseInfoResponse.data
+                );
 
                 // 여기에서 houseInfoResponse.data를 이용하여 화면에 필요한 정보를 출력하는 로직을 추가할 수 있습니다.
                 const houseInfo = houseInfoResponse.data.houseInfo;
 
-                console.log("매물 정보:", houseInfo);
+                console.log(`매물 정보(${houseNum}번 집):`, houseInfo);
                 setRent1(houseNum === 1 ? houseInfo.prc : rent1);
                 setRent2(houseNum === 2 ? houseInfo.prc : rent2);
                 setLoanInterest1(
@@ -159,6 +162,16 @@ function Compare() {
                   houseNum === 2 ? houseInfo.대출이자 : loanInterest2
                 );
                 setComparePrc(houseInfo.compare_prc);
+
+                // 입력된 값도 구분하여 출력
+                console.log(`입력된 값(${houseNum}번 집):`, {
+                  electricityExpense:
+                    enroll_company[`electricityExpense${houseNum}`],
+                  managementExpense:
+                    enroll_company[`managementExpense${houseNum}`],
+                  communicationExpense:
+                    enroll_company[`communicationExpense${houseNum}`],
+                });
               })
 
               .catch((houseInfoError) => {
@@ -288,25 +301,25 @@ function Compare() {
             placeholder="전기세"
             type="number"
             required={true}
-            name="전기세"
-            onChange={handleInput}
-            value={enroll_company.electricityExpense}
+            name="electricityExpense1"
+            onChange={(e) => handleInput(e, "electricityExpense1")}
+            value={enroll_company.electricityExpense1}
           />
           <InputWithBorder
             placeholder="관리비"
             type="number"
             required={true}
-            name="관리비"
-            onChange={handleInput}
-            value={enroll_company.managementExpense}
+            name="managementExpense1"
+            onChange={(e) => handleInput(e, "managementExpense1")}
+            value={enroll_company.managementExpense1}
           />
           <InputWithBorder
             placeholder="통신비"
             type="number"
             required={true}
-            name="통신비"
-            onChange={handleInput}
-            value={enroll_company.communicationExpense}
+            name="communicationExpense1"
+            onChange={(e) => handleInput(e, "communicationExpense1")}
+            value={enroll_company.communicationExpense1}
           />
         </InsideContainerResult>
 
@@ -316,7 +329,7 @@ function Compare() {
             type="number"
             required={true}
             name="electricityExpense2"
-            onChange={handleInput}
+            onChange={(e) => handleInput(e, "electricityExpense2")}
             value={enroll_company.electricityExpense2}
           />
           <InputWithBorder
@@ -324,7 +337,7 @@ function Compare() {
             type="number"
             required={true}
             name="managementExpense2"
-            onChange={handleInput}
+            onChange={(e) => handleInput(e, "managementExpense2")}
             value={enroll_company.managementExpense2}
           />
           <InputWithBorder
@@ -332,7 +345,7 @@ function Compare() {
             type="number"
             required={true}
             name="communicationExpense2"
-            onChange={handleInput}
+            onChange={(e) => handleInput(e, "communicationExpense2")}
             value={enroll_company.communicationExpense2}
           />
         </InsideContainerResult>
