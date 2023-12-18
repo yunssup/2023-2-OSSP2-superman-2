@@ -11,6 +11,7 @@ export const BackGround = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 5%;
 `;
 export const AddressContainer = styled.div`
   display: flex;
@@ -46,7 +47,7 @@ export const Title = styled.h1`
   font-style: normal;
   font-weight: 700;
   line-height: 30px; /* 125% */
-  /* margin-top: -5%; */
+
   padding: 10px; /* 텍스트와 텍스트 배경 사이 간격 조절 */
   z-index: 1; /* 다른 요소보다 앞에 표시 */
 `;
