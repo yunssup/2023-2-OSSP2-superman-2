@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
+  BackGround,
   SearchContainer,
   NavBar,
   NavBarSpan,
@@ -135,6 +136,7 @@ const handleResultClick = (event) => {
   }, [condition])  순서 클릭했을 시 condition 변경으로 오름/내림 전환 */
 
   return (
+    <BackGround>
     <SearchContainer>
       <NavBar>
         <NavBarRow>
@@ -222,9 +224,15 @@ const handleResultClick = (event) => {
       </NavBar>
       <ResultGroup id="resultGroup">
         <ButtonResult className="result" value="1" onClick={handleResultClick}></ButtonResult>
+<<<<<<< HEAD
         <ButtonResult className="result" value="2" onClick={handleResultClick}>공릉동</ButtonResult>
         <ButtonResult className="result" value="3" onClick={handleResultClick}>장충동</ButtonResult>
         <ButtonResult className="result" value="4" onClick={handleResultClick}>필동</ButtonResult>
+=======
+        <ButtonResult className="result" value="2" onClick={handleResultClick}></ButtonResult>
+        <ButtonResult className="result" value="3" onClick={handleResultClick}></ButtonResult>
+        <ButtonResult className="result" value="4" onClick={handleResultClick}></ButtonResult>
+>>>>>>> 4a0afb820f715aee6e69aea009d23b9f15fc50ed
       </ResultGroup>
       <NavBarRow>
         <ResultConfirm
@@ -232,6 +240,7 @@ const handleResultClick = (event) => {
         ></ResultConfirm>
       </NavBarRow>
     </SearchContainer>
+    </BackGround>
   );
 }
 

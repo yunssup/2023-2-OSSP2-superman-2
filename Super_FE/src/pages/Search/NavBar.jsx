@@ -1,13 +1,25 @@
 import styled from "styled-components";
 
+export const BackGround = styled.div`
+  height: 100vh;
+  width: 100vw;
+  max-width: 768px;
+  max-height: 1024px;
+  background: var(--grayscale-white, #fff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const SearchContainer = styled.div`
   display: block;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #FFFFFF;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
 `;
 
 export const AddressSearchContainer = styled.div`
@@ -57,6 +69,7 @@ export const ResultGroup = styled.div`
   justify-content: center;
   margin-top: 270px;
   height: calc(100vh - 270px);
+  width: 100%;
 `;
 
 export const NavBarSelect = styled.select`
@@ -126,7 +139,7 @@ export const ResultPara = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90vw;
+  width: 90%;
   height: calc(100vh - 310px);
   background: #FFFFFF;
   backdrop-filter: blur(4px);
