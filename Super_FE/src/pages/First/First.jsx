@@ -37,7 +37,7 @@ function First() {
   useEffect(() => {
     const fetchUserSession = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/user", {
+        const response = await axios.get("52.78.118.198/api/user", {
           withCredentials: true,
         });
 
@@ -150,16 +150,14 @@ function First() {
 
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/user/update/${userSessionData}`,
+        `52.78.118.198/api/user/update/${userSessionData}`,
         requestData,
         {
           withCredentials: true,
         }
       );
       console.log("백엔드 응답:", response.data);
-      // alert(
-      //   `백엔드에 전송된 주소: http://localhost:8080/api/user/update/${userSessionData}`
-      // );
+
       navigate("/main");
     } catch (error) {
       console.error("백엔드와 통신 중 오류 발생:", error);

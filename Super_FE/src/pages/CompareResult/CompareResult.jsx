@@ -11,7 +11,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function Compare() {
+function CompareResult() {
   const navigate = useNavigate();
 
   // 세션 가져오기
@@ -19,7 +19,7 @@ function Compare() {
   useEffect(() => {
     const fetchUserSession = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/user", {
+        const response = await axios.get("52.78.118.198/api/user", {
           withCredentials: true,
         });
 
@@ -39,14 +39,19 @@ function Compare() {
     house1: null,
     house2: null,
   });
-
+  const [transportCosts, setTransportCosts] = useState([null, null]);
+  const [rent1, setRent1] = useState(null);
+  const [rent2, setRent2] = useState(null);
+  const [loanInterest1, setLoanInterest1] = useState(null);
+  const [loanInterest2, setLoanInterest2] = useState(null);
+  const [comparePrc, setComparePrc] = useState(null);
   const fetchData = async () => {
     try {
       const responseHouse1 = await axios.get(
-        `http://localhost:8080/api/compare/TravalTime/?user=${userSessionData}&house=1`
+        `52.78.118.198/api/compare/TravalTime/?user=${userSessionData}&house=1`
       );
       const responseHouse2 = await axios.get(
-        `http://localhost:8080/api/compare/TravalTime/?user=${userSessionData}&house=2`
+        `52.78.118.198/api/compare/TravalTime/?user=${userSessionData}&house=2`
       );
 
       const dataHouse1 = responseHouse1.data;
@@ -58,6 +63,14 @@ function Compare() {
       });
 
       console.log("Compare API 응답:", dataHouse1, dataHouse2);
+
+      console.log("Show Results:", compareData);
+      console.log("Transport Costs:", transportCosts);
+      console.log("Rent for House 1:", rent1);
+      console.log("Rent for House 2:", rent2);
+      console.log("Loan Interest for House 1:", loanInterest1);
+      console.log("Loan Interest for House 2:", loanInterest2);
+      console.log("Compare Price:", comparePrc);
     } catch (error) {
       console.error("Compare API 호출 중 에러 발생:", error);
     }
@@ -72,9 +85,6 @@ function Compare() {
 
   const handleShowResults = () => {
     navigate("/Compare");
-
-    console.log("Show Results:", compareData);
-    // 결과를 어떻게 보여줄지에 대한 구체적인 로직을 추가하세요.
   };
 
   // 하단 홈 버튼 클릭 시 메인 화면으로 복귀
@@ -122,4 +132,4 @@ function Compare() {
   );
 }
 
-export default Compare;
+export default CompareResult;
