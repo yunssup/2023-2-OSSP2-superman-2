@@ -19,6 +19,13 @@ import axios from "axios";
 
 function Search() {
   const [userSessionData, setUserSessionData] = useState(null);
+  const [condition, setCondition] = useState("0");
+  const [selectedOptions, setSelectedOptions] = useState({
+    select1: "",
+    select2: "",
+    select3: "",
+    select4: "",
+  });
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,6 +47,11 @@ function Search() {
 
     fetchUserSession();
   }, []);
+
+  useEffect(() => {
+    //SearchResult에서 돌아왔을 때 자동으로
+    handleResultConfirm();
+  }, [userSessionData]);
 
   const handleResultConfirm = () => {
     const result = document.getElementsByClassName("result");
@@ -66,6 +78,8 @@ function Search() {
           //투명상태 해제
           result[i].style.display = "block";
         }
+        document.getElementById("span").innerHTML =
+          "원하는 동네를 클릭해서 자세한 정보를 확인하세요!";
       })
       .catch((error) => {
         console.error("에러 발생", error);
@@ -77,13 +91,6 @@ function Search() {
   const handleConfirmClick = () => {
     navigate("/main");
   };
-
-  const [selectedOptions, setSelectedOptions] = useState({
-    select1: "",
-    select2: "",
-    select3: "",
-    select4: "",
-  });
 
   const handleSelectChange = (event, selectNumber) => {
     const { value } = event.target;
@@ -125,8 +132,6 @@ function Search() {
     navigate(`/SearchResult${queryString}`);
   };
 
-  const [condition, setCondition] = useState("0");
-
   return (
     <BackGround>
       <SearchContainer>
@@ -136,7 +141,7 @@ function Search() {
               value={selectedOptions.select1}
               onChange={(e) => handleSelectChange(e, "select1")}
             >
-              <option>주소 입력 창 (시/군/구 선택)</option>
+              <option value="00000">주소 입력 창 (시/군/구 선택)</option>
               <option value="11000">서울특별시 전체</option>
               <option value="11680">강남구</option>
               <option value="11740">강동구</option>
