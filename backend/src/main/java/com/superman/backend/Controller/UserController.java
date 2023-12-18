@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-@SpringBootApplication
+
 @ComponentScan(basePackages = {"com.superman.backend", "com.superman.backend.Repository"})
 @RestController
 @RequestMapping("/api/user")
