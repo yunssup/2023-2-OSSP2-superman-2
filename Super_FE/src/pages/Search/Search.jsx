@@ -120,6 +120,8 @@ function Search() {
         select3,
         select4
     });
+
+    setCondition(select2);
 }, [location.search]);
 
 const handleResultClick = (event) => {
