@@ -18,26 +18,10 @@ import Post from "../../Components/Post";
 import axios from "axios";
 
 function Search() {
-  // const [orderSelected, setOrderSelected] = useState(false); // 오름차순/내림차순
   const [userSessionData, setUserSessionData] = useState(null);
 
   const navigate = useNavigate();
   const location = useLocation();
-
-  /*const handleOrderClick = () => {
-    const buttonOrder = document.getElementById("order");
-    if (buttonOrder.textContent === "평균 면적 크기 순 ↑") {
-      buttonOrder.textContent = "평균 면적 크기 순 ↓";
-      //정렬 순서 바꾸기
-    } else if (buttonOrder.textContent === "평균 면적 크기 순 ↓") {
-      buttonOrder.textContent = "평균 면적 크기 순 ↑";
-    } else if (buttonOrder.textContent === "평균 가격 순 ↑") {
-      buttonOrder.textContent = "평균 가격 순 ↓"
-    } else if(buttonOrder.textContent === "평균 가격 순 ↓") {
-      buttonOrder.textContent = "평균 가격 순 ↑"
-    }
-    setOrderSelected(!orderSelected);
-  };*/
 
   useEffect(() => {
     const fetchUserSession = async () => {
@@ -62,31 +46,18 @@ function Search() {
     axios.get(`http://localhost:8080/api/region?userid=${userSessionData}&regionid=${parseInt(selectedOptions.select1)}&condition=${parseInt(selectedOptions.select2)}&range=${parseInt(selectedOptions.select3)}&maxtraval=${parseInt(selectedOptions.select4)}`)
       .then(response => {
         const data = response.data;
-        /*
-        document.querySelector('#resultGroup :nth-child(1)').innerHTML = data["1"].place;
-        document.querySelector('#resultGroup :nth-child(2)').innerHTML = data["2"].place;
-        document.querySelector('#resultGroup :nth-child(3)').innerHTML = data["3"].place;
-        document.querySelector('#resultGroup :nth-child(4)').innerHTML = data["4"].place;
-        console.log(data);*/
-
         //배열의 각 객체에 대해 처리
-        data.forEach((item, index) => {
-          const place = item[index + 1].place; // 데이터에서 장소 가져오기
-          const element = document.querySelector(`#resultGroup :nth-child(${index + 1})`);
+        for(let i = 0; i < 4 ; i++) {
+          const place = data[i][i + 1].place; // 데이터에서 장소 가져오기
+          const element = document.querySelector(`#resultGroup :nth-child(${i + 1})`);
           element.innerHTML = place; // DOM에 데이터 삽입
-        });
+        };
 
         for(let i = 0;i < result.length;i++) { //투명상태 해제
           result[i].style.display = "block";
         }
       })
       .catch(error => {
-        /*
-        document.querySelector('#resultGroup :nth-child(1)').innerHTML = '1';
-        document.querySelector('#resultGroup :nth-child(2)').innerHTML = '1';
-        document.querySelector('#resultGroup :nth-child(3)').innerHTML = '1';
-        document.querySelector('#resultGroup :nth-child(4)').innerHTML = '1';
-        */
         console.error("에러 발생", error);
         document.getElementById('span').innerHTML="선택한 장소 정보를 찾을 수 없습니다.";
       });
@@ -134,17 +105,11 @@ function Search() {
 }, [location.search]);
 
 const handleResultClick = (event) => {
-  const queryString = `?select1=${parseInt(selectedOptions.select1)}&select2=${parseInt(selectedOptions.select2)}&select3=${parseInt(selectedOptions.select3)}&select4=${parseInt(selectedOptions.select4)}&userId=${userId}&dataNum=${parseInt(event.target.value)}`;
+  const queryString = `?select1=${parseInt(selectedOptions.select1)}&select2=${parseInt(selectedOptions.select2)}&select3=${parseInt(selectedOptions.select3)}&select4=${parseInt(selectedOptions.select4)}&userId=${userSessionData}&dataNum=${parseInt(event.target.value)}`;
   navigate(`/SearchResult${queryString}`);
 };
 
   const [condition, setCondition] = useState('0');
-
-  /*useEffect(()=>{
-    const buttonOrder = document.getElementById("order");
-    if (condition==='1') buttonOrder.textContent = "평균 면적 크기 순 ↓";
-    else if (condition==='0' || condition==='2') buttonOrder.textContent = "평균 가격 순 ↓";
-  }, [condition])  순서 클릭했을 시 condition 변경으로 오름/내림 전환 */
 
   return (
     <BackGround>
@@ -217,13 +182,13 @@ const handleResultClick = (event) => {
             :null}
             <NavBarSelect value={selectedOptions.select4} onChange={(e) => handleSelectChange(e, 'select4')}>
               <option value='0'>이동 시간 선택</option>
-              <option value='1'>10분 미만</option>
-              <option value='2'>20분 미만</option>
-              <option value='3'>30분 미만</option>
-              <option value='4'>40분 미만</option>
-              <option value='5'>50분 미만</option>
-              <option value='6'>60분 미만</option>
-              <option value='7'>60분 이상</option>
+              <option value='10'>10분 미만</option>
+              <option value='20'>20분 미만</option>
+              <option value='30'>30분 미만</option>
+              <option value='40'>40분 미만</option>
+              <option value='50'>50분 미만</option>
+              <option value='60'>60분 미만</option>
+              <option value='70'>60분 이상</option>
             </NavBarSelect>
           </NavBarRow>
           <NavBarRow>
@@ -248,9 +213,5 @@ const handleResultClick = (event) => {
     </BackGround>
   );
 }
-
-        /*<ButtonOrder id="order" onClick={handleOrderClick}>
-        평균 면적 크기 순 ↓
-        </ButtonOrder>*/
 
 export default Search;

@@ -51,21 +51,14 @@ function SearchResult(){
         axios.get(`http://localhost:8080/api/region?userid=${userId}&regionid=${parseInt(selectedOptions.select1)}&condition=${parseInt(selectedOptions.select2)}&range=${parseInt(selectedOptions.select3)}&maxtraval=${parseInt(selectedOptions.select4)}`)
         .then(response => {
             const data = response.data;
-            document.querySelector('#resultPlace').innerHTML = data[dataNum].place;
-            document.querySelector('#resultArea').innerHTML = data[dataNum].area;
-            document.querySelector('#resultCost').innerHTML = data[dataNum].cost;
-            document.querySelector('#resultTime').innerHTML = data[dataNum].time;
-            document.querySelector('#resultTransportCost').innerHTML = data[dataNum].transportcost;
+            document.querySelector('#resultPlace').innerHTML = data[dataNum - 1][dataNum].place;
+            document.querySelector('#resultArea').innerHTML = data[dataNum - 1][dataNum].area;
+            document.querySelector('#resultCost').innerHTML = data[dataNum - 1][dataNum].cost;
+            document.querySelector('#resultTime').innerHTML = data[dataNum - 1][dataNum].time;
+            document.querySelector('#resultTransportCost').innerHTML = data[dataNum - 1][dataNum].transportcost;
             console.log(data);
         })
           .catch(error => {
-            /*
-            document.querySelector('#resultPlace').innerHTML ='1';
-            document.querySelector('#resultArea').innerHTML = '1';
-            document.querySelector('#resultCost').innerHTML = '1';
-            document.querySelector('#resultTime').innerHTML = '1';
-            document.querySelector('#resultTransportCost').innerHTML = '1';
-            */
             console.error("에러 발생", error);
         });
     
@@ -153,37 +146,37 @@ function SearchResult(){
                         :null}
                     <NavBarSelect value={selectedOptions.select4} onChange={(e) => handleSelectChange(e, 'select4')}>
                         <option value='0'>이동 시간 선택</option>
-                        <option value='1'>10분 미만</option>
-                        <option value='2'>20분 미만</option>
-                        <option value='3'>30분 미만</option>
-                        <option value='4'>40분 미만</option>
-                        <option value='5'>50분 미만</option>
-                        <option value='6'>60분 미만</option>
-                        <option value='7'>60분 이상</option>
+                        <option value='10'>10분 미만</option>
+                        <option value='20'>20분 미만</option>
+                        <option value='30'>30분 미만</option>
+                        <option value='40'>40분 미만</option>
+                        <option value='50'>50분 미만</option>
+                        <option value='60'>60분 미만</option>
+                        <option value='70'>60분 이상</option>
                     </NavBarSelect>
                 </NavBarRow>
                 </NavBar>
                 <ResultGroup>
                     <ResultPara>
-                        <ResultHeader id='resultPlace'>신내동</ResultHeader>
+                        <ResultHeader id='resultPlace'></ResultHeader>
                         <ButtonReturn
                             onClick={handleReturnClick}
                         ></ButtonReturn>
                         <ResultDiv>
                             <ResultSpan>평균 가격</ResultSpan>
-                            <ResultValue id='resultCost'>ABCDEF</ResultValue>
+                            <ResultValue id='resultCost'></ResultValue>
                         </ResultDiv>
                         <ResultDiv>
                             <ResultSpan>평균 면적</ResultSpan>
-                            <ResultValue id='resultArea'>ABCDEF</ResultValue>
+                            <ResultValue id='resultArea'></ResultValue>
                         </ResultDiv>
                         <ResultDiv>
                             <ResultSpan>이동 시간</ResultSpan>
-                            <ResultValue id='resultTime'>ABCDEF</ResultValue>
+                            <ResultValue id='resultTime'></ResultValue>
                         </ResultDiv>
                         <ResultDiv>
                             <ResultSpan>교통비</ResultSpan>
-                            <ResultValue id='resultTransportCost'>ABCDEF</ResultValue>
+                            <ResultValue id='resultTransportCost'></ResultValue>
                         </ResultDiv>
                     </ResultPara>
                 </ResultGroup>
