@@ -19,7 +19,7 @@ function CompareResult() {
   useEffect(() => {
     const fetchUserSession = async () => {
       try {
-        const response = await axios.get("52.78.118.198:8080/api/user", {
+        const response = await axios.get("http://52.78.118.198:8080/api/user", {
           withCredentials: true,
         });
 
@@ -48,10 +48,10 @@ function CompareResult() {
   const fetchData = async () => {
     try {
       const responseHouse1 = await axios.get(
-        `52.78.118.198:8080/api/compare/TravalTime/?user=${userSessionData}&house=1`
+        `http://52.78.118.198:8080/api/compare/TravalTime/?user=${userSessionData}&house=1`
       );
       const responseHouse2 = await axios.get(
-        `52.78.118.198:8080/api/compare/TravalTime/?user=${userSessionData}&house=2`
+        `http://52.78.118.198:8080/api/compare/TravalTime/?user=${userSessionData}&house=2`
       );
 
       const dataHouse1 = responseHouse1.data;

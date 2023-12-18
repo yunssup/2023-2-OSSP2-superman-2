@@ -150,7 +150,7 @@ function First() {
 
     try {
       const response = await axios.post(
-        `52.78.118.198:8080/api/user/update/${userSessionData}`,
+        `http://52.78.118.198:8080/api/user/update/${userSessionData}`,
         requestData,
         {
           withCredentials: true,

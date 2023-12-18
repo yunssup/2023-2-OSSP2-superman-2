@@ -33,7 +33,7 @@ function Search() {
   useEffect(() => {
     const fetchUserSession = async () => {
       try {
-        const response = await axios.get("52.78.118.198:8080/api/user", {
+        const response = await axios.get("http://52.78.118.198:8080/api/user", {
           withCredentials: true,
         });
 
@@ -57,7 +57,7 @@ function Search() {
     const result = document.getElementsByClassName("result");
     axios
       .get(
-        `52.78.118.198:8080/api/region?userid=${userSessionData}&regionid=${parseInt(
+        `http://52.78.118.198:8080/api/region?userid=${userSessionData}&regionid=${parseInt(
           selectedOptions.select1
         )}&condition=${parseInt(selectedOptions.select2)}&range=${parseInt(
           selectedOptions.select3

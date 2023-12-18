@@ -76,7 +76,7 @@ function SearchResult() {
   useEffect(() => {
     axios
       .get(
-        `52.78.118.198:8080/api/region?userid=${
+        `http://52.78.118.198:8080/api/region?userid=${
           selectedOptions.userId
         }&regionid=${parseInt(selectedOptions.select1)}&condition=${parseInt(
           selectedOptions.select2
