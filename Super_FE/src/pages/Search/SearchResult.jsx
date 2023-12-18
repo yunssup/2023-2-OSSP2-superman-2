@@ -55,6 +55,8 @@ function SearchResult(){
             userId,
             dataNum
         });
+
+        setCondition(select2);
     }, [location.search]);
 
     useEffect(() => {
@@ -95,7 +97,7 @@ function SearchResult(){
                 <NavBar>
                     <NavBarRow>
                         <NavBarSelect value={selectedOptions.select1} onChange={(e) => handleSelectChange(e, 'select1')} disabled>
-                            <option>주소 입력 창 (시/군/구 선택)</option>
+                            <option value='00000'>주소 입력 창 (시/군/구 선택)</option>
                             <option value='11000'>서울특별시 전체</option>
                             <option value='11680'>강남구</option>
                             <option value='11740'>강동구</option>
