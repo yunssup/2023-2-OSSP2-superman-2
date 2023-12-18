@@ -1,13 +1,25 @@
 import styled from "styled-components";
 
+export const BackGround = styled.div`
+  height: 100vh;
+  width: 100vw;
+  max-width: 768px;
+  max-height: 1024px;
+  background: var(--grayscale-white, #fff);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
 export const SearchContainer = styled.div`
   display: block;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #FFFFFF;
-  height: 100vh;
-  width: 100vw;
+  background-color: #ffffff;
+  height: 100%;
+  width: 100%;
 `;
 
 export const AddressSearchContainer = styled.div`
@@ -44,9 +56,10 @@ export const NavBarRow = styled.div`
 export const NavBarSpan = styled.span`
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 50px;
-  width: 66.6%;
-  margin: 20px 15px;
+  width: 100%;
+  margin: 20px;
 `;
 
 export const ResultGroup = styled.div`
@@ -56,6 +69,7 @@ export const ResultGroup = styled.div`
   justify-content: center;
   margin-top: 270px;
   height: calc(100vh - 270px);
+  width: 100%;
 `;
 
 export const NavBarSelect = styled.select`
@@ -63,13 +77,13 @@ export const NavBarSelect = styled.select`
   height: 50px;
   width: 100%;
   margin: 0 10px 12px;
-  background: #E8E9EA;
+  background: #e8e9ea;
   border-radius: 10px;
 `;
 
 export const NavBarConfirm = styled.button`
-  color: #FFFFFF;
-  background-color: #00B031;
+  color: #ffffff;
+  background-color: #00b031;
   height: 40px;
   width: 96%;
   font-size: 20px;
@@ -99,8 +113,7 @@ export const ButtonOrder = styled.button`
   font-size: 14px;
   font-weight: 900;
   border: none;
-  background: #FFFFFF;
-
+  background: #ffffff;
 `;
 
 export const ButtonResult = styled.button`
@@ -113,9 +126,9 @@ export const ButtonResult = styled.button`
   font-weight: 600;
   line-height: 26px;
   letter-spacing: 0px;
-  background: #FFFFFF;
+  background: #ffffff;
   backdrop-filter: blur(4px);
-  border: 3px solid #00B031;
+  border: 3px solid #00b031;
   border-radius: 12px;
   margin-top: 30px;
   display: none;
@@ -125,11 +138,11 @@ export const ResultPara = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 90vw;
+  width: 90%;
   height: calc(100vh - 310px);
-  background: #FFFFFF;
+  background: #ffffff;
   backdrop-filter: blur(4px);
-  border: 3px solid #00B031;
+  border: 3px solid #00b031;
   border-radius: 20px;
 `;
 
@@ -165,13 +178,10 @@ export const ResultValue = styled.div`
   width: 50%;
 `;
 
-export const ResultConfirm = styled.button`
+export const ResultConfirm = styled.img`
   margin-top: 25px;
   margin-bottom: 25px;
-  border-radius: 50px;
-  background-image: url("public/start/home.png");
-  border: 1px solid rgb(0,0,0) !important;
   font-family: Arimo;
-  width: 47px;
-  height: 47px;
+  width: 10%;
+  height: 10%;
 `;

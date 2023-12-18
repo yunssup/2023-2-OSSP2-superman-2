@@ -150,7 +150,7 @@ function Compare() {
     //   })
     //   .catch((error) => {
     //     // 오류가 발생했을 때 처리하는 부분
-    //     console.error("데이터 전송 실패패", error);
+    //     console.error("데이터 전송 실패", error);
     //   });
   };
   // 하단 홈 버튼 클릭 시 메인 화면으로 복귀
@@ -266,7 +266,7 @@ function Compare() {
         <InsideContainerResult>
           <InputWithBorder
             placeholder="전기세"
-            type="text"
+            type="number"
             required={true}
             name="전기세"
             onChange={handleInput}
@@ -274,7 +274,7 @@ function Compare() {
           />
           <InputWithBorder
             placeholder="관리비"
-            type="text"
+            type="number"
             required={true}
             name="관리비"
             onChange={handleInput}
@@ -282,7 +282,7 @@ function Compare() {
           />
           <InputWithBorder
             placeholder="통신비"
-            type="text"
+            type="number"
             required={true}
             name="통신비"
             onChange={handleInput}
@@ -293,7 +293,7 @@ function Compare() {
         <InsideContainerResult>
           <InputWithBorder
             placeholder="전기세"
-            type="text"
+            type="number"
             required={true}
             name="electricityExpense2"
             onChange={handleInput}
@@ -301,7 +301,7 @@ function Compare() {
           />
           <InputWithBorder
             placeholder="관리비"
-            type="text"
+            type="number"
             required={true}
             name="managementExpense2"
             onChange={handleInput}
@@ -309,7 +309,7 @@ function Compare() {
           />
           <InputWithBorder
             placeholder="통신비"
-            type="text"
+            type="number"
             required={true}
             name="communicationExpense2"
             onChange={handleInput}

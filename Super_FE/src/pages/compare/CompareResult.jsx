@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { ReSort, BackGround, ReTitle, IMGHOME, ReContainer } from "./Style";
+import {
+  ReSort,
+  BackGround,
+  ReTitle,
+  IMGHOME,
+  ReContainer,
+  ReSort1,
+} from "./Style";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -10,7 +17,7 @@ function CompareResult() {
     house1: { cost: "", time: "" },
     house2: { cost: "", time: "" },
   });
-
+  // 유저 세션 가져오기
   useEffect(() => {
     const fetchUserSession = async () => {
       try {
@@ -28,28 +35,34 @@ function CompareResult() {
 
     fetchUserSession();
   }, []);
-
+  // 이동시간 get 해오기
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (url, setDataCallback) => {
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/compare/transport/?user=${userSessionData}&house=1`
-        );
-
-        setTransportData((prevData) => ({
-          ...prevData,
-          house1: {
-            cost: response.data.cost,
-            time: response.data.time,
-          },
-        }));
+        const response = await axios.get(url);
+        setDataCallback(response.data);
       } catch (error) {
-        console.error("이동 시간 데이터를 가져오는 중 에러 발생:", error);
+        console.error("데이터를 가져오는 중 에러 발생:", error);
       }
     };
 
     if (userSessionData) {
-      fetchData();
+      // 이동 시간 데이터 가져오기
+      const transportUrl = `http://localhost:8080/api/compare/transport/?user=${userSessionData}&house=1`;
+      fetchData(transportUrl, (data) => {
+        setTransportData((prevData) => ({
+          ...prevData,
+          house1: {
+            cost: data.cost,
+            time: data.time,
+          },
+        }));
+      });
+
+      // 주택 정보 가져오기
+      const address = encodeURIComponent("중구 동호로 25가길 34");
+      const houseInfoUrl = `http://localhost:8080/api/compare/houseinfo?address=${address}&user=${userSessionData}`;
+      fetchData(houseInfoUrl, (data) => setHouseInfo(data.houseInfo));
     }
   }, [userSessionData]);
 
@@ -61,10 +74,10 @@ function CompareResult() {
   // 화면 구성 요소
   return (
     <BackGround>
-      <ReSort>
+      <ReSort1>
         <ReTitle>1번 집</ReTitle>
         <ReTitle>2번 집</ReTitle>
-      </ReSort>
+      </ReSort1>
       <ReSort>
         <ReContainer>예상 비용 1번 집: {transportData.house1.cost}</ReContainer>
         <ReContainer>예상 비용 2번 집: {transportData.house2.cost}</ReContainer>
