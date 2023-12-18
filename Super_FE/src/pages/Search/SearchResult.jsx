@@ -80,7 +80,7 @@ function SearchResult(){
             <SearchContainer>
                 <NavBar>
                     <NavBarRow>
-                        <NavBarSelect value={selectedOptions.select1} onChange={(e) => handleSelectChange(e, 'select1')}>
+                        <NavBarSelect value={selectedOptions.select1} onChange={(e) => handleSelectChange(e, 'select1')} disabled>
                             <option>주소 입력 창 (시/군/구 선택)</option>
                             <option value='11000'>서울특별시 전체</option>
                             <option value='11680'>강남구</option>
@@ -111,18 +111,18 @@ function SearchResult(){
                         </NavBarSelect>
                     </NavBarRow>
                     <NavBarRow>
-                    <NavBarSelect value={selectedOptions.select2} onChange={(e) => handleSelectChange(e, 'select2')}>
+                    <NavBarSelect value={selectedOptions.select2} onChange={(e) => handleSelectChange(e, 'select2')} disabled>
                         <option value='0'>조건 선택</option>
                         <option value='1'>가격</option>
                         <option value='2'>면적</option>
                     </NavBarSelect>
                     {condition==='0'?
-                        <NavBarSelect value={selectedOptions.select3} onChange={(e) => handleSelectChange(e, 'select3')}>
+                        <NavBarSelect value={selectedOptions.select3} onChange={(e) => handleSelectChange(e, 'select3')} disabled>
                             <option value='0'>조건 세분화</option>
                         </NavBarSelect>
                         :null}
                     {condition==='1'?
-                        <NavBarSelect value={selectedOptions.select3} onChange={(e) => handleSelectChange(e, 'select3')}>
+                        <NavBarSelect value={selectedOptions.select3} onChange={(e) => handleSelectChange(e, 'select3')} disabled>
                             <option value='0'>조건 세분화</option>
                             <option value='1'>20만원 미만</option>
                             <option value='2'>20 ~ 40만원</option>
@@ -133,7 +133,7 @@ function SearchResult(){
                         </NavBarSelect>
                         :null}
                     {condition==='2'?
-                        <NavBarSelect value={selectedOptions.select3} onChange={(e) => handleSelectChange(e, 'select3')}>
+                        <NavBarSelect value={selectedOptions.select3} onChange={(e) => handleSelectChange(e, 'select3')} disabled>
                             <option value='0'>조건 세분화</option>
                             <option value='1'>10평 미만</option>
                             <option value='2'>10 ~ 20평</option>
@@ -144,7 +144,7 @@ function SearchResult(){
                             <option value='7'>60평 이상</option>
                         </NavBarSelect>
                         :null}
-                    <NavBarSelect value={selectedOptions.select4} onChange={(e) => handleSelectChange(e, 'select4')}>
+                    <NavBarSelect value={selectedOptions.select4} onChange={(e) => handleSelectChange(e, 'select4')} disabled>
                         <option value='0'>이동 시간 선택</option>
                         <option value='10'>10분 미만</option>
                         <option value='20'>20분 미만</option>
