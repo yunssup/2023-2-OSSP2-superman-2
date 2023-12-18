@@ -98,7 +98,7 @@ export const InsideContainerResult = styled.div`
   align-items: center;
   justify-content: center;
   width: 100%;
-  height: 60%;
+  height: 80%;
   text-align: center;
   margin: 2%;
   flex-direction: column;
@@ -108,7 +108,7 @@ export const RowContainer = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  height: 90%;
+  height: 100%;
   margin-top: 5%;
 `;
 export const Title = styled.div`
