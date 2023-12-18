@@ -154,7 +154,27 @@ export const IMGHOME = styled.img`
   max-width: 10%; /* Ensure the image doesn't exceed its natural size */
   margin-top: 20px; /* Adjust the top margin as needed */
 `;
-//result css
+
+//여기서부터 result css
+
+export const ReSort1 = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+`;
+
+export const ReTitle = styled.div`
+  color: #00b031;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px; /* 125% */
+`;
+
 export const ReContainer = styled.div`
   border-radius: 1px solid red;
 
@@ -164,23 +184,11 @@ export const ReContainer = styled.div`
   width: 100%; /* Make sure the container spans the entire width */
 `;
 
-export const ReTitle = styled.div`
-  color: #00b031;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-  /* Headline 2 */
-  font-family: Roboto;
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 30px; /* 125% */
-`;
 export const ReSort = styled.div`
   display: flex;
   flex-direction: row;
   fill: var(--button, #f8f8f8);
-  stroke-width: 3px;
-  stroke: #00b031;
+  border: 3px solid #00b031; /* Use border instead of stroke */
   filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
   width: 170px;
   height: 245px;

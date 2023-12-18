@@ -17,7 +17,7 @@ export const SearchContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   height: 100%;
   width: 100%;
 `;
@@ -77,13 +77,13 @@ export const NavBarSelect = styled.select`
   height: 50px;
   width: 100%;
   margin: 0 10px 12px;
-  background: #E8E9EA;
+  background: #e8e9ea;
   border-radius: 10px;
 `;
 
 export const NavBarConfirm = styled.button`
-  color: #FFFFFF;
-  background-color: #00B031;
+  color: #ffffff;
+  background-color: #00b031;
   height: 40px;
   width: 96%;
   font-size: 20px;
@@ -113,8 +113,7 @@ export const ButtonOrder = styled.button`
   font-size: 14px;
   font-weight: 900;
   border: none;
-  background: #FFFFFF;
-
+  background: #ffffff;
 `;
 
 export const ButtonResult = styled.button`
@@ -127,9 +126,9 @@ export const ButtonResult = styled.button`
   font-weight: 600;
   line-height: 26px;
   letter-spacing: 0px;
-  background: #FFFFFF;
+  background: #ffffff;
   backdrop-filter: blur(4px);
-  border: 3px solid #00B031;
+  border: 3px solid #00b031;
   border-radius: 12px;
   margin-top: 30px;
   display: none;
@@ -141,9 +140,9 @@ export const ResultPara = styled.div`
   align-items: center;
   width: 90%;
   height: calc(100vh - 310px);
-  background: #FFFFFF;
+  background: #ffffff;
   backdrop-filter: blur(4px);
-  border: 3px solid #00B031;
+  border: 3px solid #00b031;
   border-radius: 20px;
 `;
 
