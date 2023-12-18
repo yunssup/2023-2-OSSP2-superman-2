@@ -12,6 +12,7 @@ export const BackGround = styled.div`
   align-items: center;
   justify-content: center;
 `;
+
 export const AddressSearchContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -152,4 +153,44 @@ export const IMGHOME = styled.img`
   width: 10%; /* Set the width of the image */
   max-width: 10%; /* Ensure the image doesn't exceed its natural size */
   margin-top: 20px; /* Adjust the top margin as needed */
+`;
+//result css
+export const ReContainer = styled.div`
+  border-radius: 1px solid red;
+
+  display: flex;
+  justify-content: space-between; /* Adjust this property based on your layout preference */
+  margin-bottom: 10px; /* Add some margin for spacing */
+  width: 100%; /* Make sure the container spans the entire width */
+`;
+
+export const ReTitle = styled.div`
+  color: #00b031;
+  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+  /* Headline 2 */
+  font-family: Roboto;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px; /* 125% */
+`;
+export const ReSort = styled.div`
+  display: flex;
+  flex-direction: row;
+  fill: var(--button, #f8f8f8);
+  stroke-width: 3px;
+  stroke: #00b031;
+  filter: drop-shadow(0px 2px 2px rgba(0, 0, 0, 0.25));
+  width: 170px;
+  height: 245px;
+  flex-shrink: 0;
+  color: #000;
+
+  /* Title 1 */
+  font-family: Roboto;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 20px; /* 125% */
 `;

@@ -24,8 +24,15 @@ function First() {
   const [isLiveModalOpen, setLiveModalOpen] = useState(false);
   const [isMoveModalOpen, setMoveModalOpen] = useState(false);
   const [userSessionData, setUserSessionData] = useState(null);
-  const [result, setResult] = useState(0); // 이 부분을 확인
-  const [fuelEfficiency, setFuelEfficiency] = useState(""); // 연비를 추가
+  const [result, setResult] = useState(0);
+  const [fuelEfficiency, setFuelEfficiency] = useState("");
+  const [enroll_company, setEnroll_company] = useState({
+    address1: "",
+    address2: "",
+  });
+  const [popup1, setPopup1] = useState(false);
+  const [popup2, setPopup2] = useState(false);
+  const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 추가
 
   useEffect(() => {
     const fetchUserSession = async () => {
@@ -35,7 +42,7 @@ function First() {
         });
 
         const userData = response.data;
-        setUserSessionData(userData.session_id); // session_id 값을 setUserSessionData로 설정
+        setUserSessionData(userData.session_id);
         console.log("유저 세션 데이터:", userData);
       } catch (error) {
         console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
@@ -44,6 +51,15 @@ function First() {
 
     fetchUserSession();
   }, []);
+
+  useEffect(() => {
+    // 선택이 완료되었을 때에만 버튼의 색상을 변경
+    if (liveSelected || moveSelected || enroll_company.address1 !== "") {
+      setIsSelectionComplete(true);
+    } else {
+      setIsSelectionComplete(false);
+    }
+  }, [liveSelected, moveSelected, enroll_company]);
 
   const handleLiveClick = () => {
     setLiveSelected(true);
@@ -73,23 +89,13 @@ function First() {
 
   const handleCloseMoveModal = (resultValue) => {
     setMoveModalOpen(false);
-    // resultValue를 사용하여 필요한 작업 수행
     console.log("모달에서 전달된 결과 값:", resultValue);
   };
 
   const handleCloseFuelEfficiencyModal = (fuelEfficiency) => {
     setMoveModalOpen(false);
-    // fuelEfficiency를 사용하여 필요한 작업 수행
     console.log("모달에서 전달된 연비 값:", fuelEfficiency);
   };
-
-  const [enroll_company, setEnroll_company] = useState({
-    address1: "",
-    address2: "",
-  });
-
-  const [popup1, setPopup1] = useState(false);
-  const [popup2, setPopup2] = useState(false);
 
   const handleInput = (e) => {
     setEnroll_company({
@@ -123,7 +129,6 @@ function First() {
     } else if (field === "fuelEfficiency") {
       setFuelEfficiency(fieldValue);
     }
-    // Add any other cases as needed
   };
 
   const handleCompleteClick = async () => {
@@ -139,7 +144,7 @@ function First() {
       OftenPlace: enroll_company.address1,
       HomeType: homeTypeValue,
       TransportationType: transportationTypeValue,
-      FuelCost: fuelEfficiency, // 연비 값 추가
+      FuelCost: fuelEfficiency,
       CalculatedResult: result.toFixed(2),
     };
 
@@ -152,9 +157,9 @@ function First() {
         }
       );
       console.log("백엔드 응답:", response.data);
-      alert(
-        `백엔드에 전송된 주소: http://localhost:8080/api/user/update/${userSessionData}`
-      );
+      // alert(
+      //   `백엔드에 전송된 주소: http://localhost:8080/api/user/update/${userSessionData}`
+      // );
       navigate("/main");
     } catch (error) {
       console.error("백엔드와 통신 중 오류 발생:", error);
@@ -226,7 +231,13 @@ function First() {
         )}
       </AddressContainer>
       <ButtonGroup>
-        <ButtonGo onClick={handleCompleteClick}>선택 완료</ButtonGo>
+        {/* isSelectionComplete가 true일 때 버튼의 색상을 초록색으로 변경 */}
+        <ButtonGo
+          onClick={handleCompleteClick}
+          style={{ backgroundColor: isSelectionComplete ? "#4caf50" : "" }}
+        >
+          선택 완료
+        </ButtonGo>
       </ButtonGroup>
     </BackGround>
   );

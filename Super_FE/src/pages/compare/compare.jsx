@@ -22,8 +22,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 
 function Compare() {
-  const navigate = useNavigate(); // 페이지 이동 함수
-
+  const navigate = useNavigate();
   const [enroll_company, setEnroll_company] = useState({
     address1: "",
     address2: "",
@@ -36,7 +35,7 @@ function Compare() {
     managementExpense2: "",
     communicationExpense2: "",
   });
-  // 주소 찾기 관련 로직
+  // 주소 찾기 팝업
   const [popup1, setPopup1] = useState(false);
   const [popup2, setPopup2] = useState(false);
   //세션 가져오기
@@ -90,43 +89,66 @@ function Compare() {
   };
 
   const handleShowResults = () => {
+    navigate("/CompareResult");
+
     console.log("Show Results:", enroll_company);
     // 결과를 어떻게 보여줄지에 대한 구체적인 로직을 추가하세요.
   };
-  // 1번 주소 입려 클릭 할 때 백엔드에게 post로 넘어가는 부분
+  const [transportCost, setTransportCost] = useState(null);
+
+  // 주소 입력 클릭 할 때 백엔드에게 post로 넘어가는 부분
   const handleAddressInputComplete = (houseNum) => {
     const postData = {
       User: userSessionData,
-      HouseNum: houseNum, // 수정: houseNum으로 변경
+      HouseNum: houseNum,
       HouseAddress: enroll_company[`address${houseNum}`],
       HouseDetail: enroll_company[`detailedAddress${houseNum}`],
     };
 
-    console.log("POST 데이터:", postData); // 백엔드에게 post한 값 콘솔 출력
+    console.log("POST 데이터:", postData);
 
     axios
       .post("http://localhost:8080/api/compare", postData)
       .then((response) => {
         console.log("데이터 전송 완료", response.data);
+
+        // POST 요청 후, GET 요청으로 교통비 데이터 가져오기
+        axios
+          .get(
+            `http://localhost:8080/api/compare/transport/?user=${userSessionData}&house=${houseNum}`,
+            {
+              withCredentials: true,
+            }
+          )
+          .then((getResponse) => {
+            console.log("교통비 응답:", getResponse.data);
+
+            // 교통비 값을 상태에 업데이트
+            setTransportCost(getResponse.data.cost);
+          })
+          .catch((getError) => {
+            console.error("교통비 가져오기 실패", getError);
+          });
       })
       .catch((error) => {
-        // 오류가 발생했을 때 처리하는 부분
-        console.error("데이터 전송 실패패", error);
+        console.error("데이터 전송 실패", error);
       });
 
-      // 입력 완료 버튼을 눌렀을 때 주소에 대한 매물 정보 요청
-      const add = { User: userSessionData, address : enroll_company[`address${houseNum}`]}
-      axios
-      .post("http://localhost:8080/api/compare/houseinfo", add)
-      .then((response) => {
-        console.log("반환 데이터", response.data);
-        // 해당 부분에서 화면 월세, 보증금, 대출이자, 교통비 데이터 출력 로직 필요
-      })
-      .catch((error) => {
-        // 오류가 발생했을 때 처리하는 부분
-        console.error("데이터 전송 실패패", error);
-      });
-
+    // 입력 완료 버튼을 눌렀을 때 주소에 대한 매물 정보 요청
+    // const add = {
+    //   User: userSessionData,
+    //   address: enroll_company[`address${houseNum}`],
+    // };
+    // axios
+    //   .post("http://localhost:8080/api/compare/houseinfo", add)
+    //   .then((response) => {
+    //     console.log("반환 데이터", response.data);
+    //     // 해당 부분에서 화면 월세, 보증금, 대출이자, 교통비 데이터 출력 로직 필요
+    //   })
+    //   .catch((error) => {
+    //     // 오류가 발생했을 때 처리하는 부분
+    //     console.error("데이터 전송 실패패", error);
+    //   });
   };
   // 하단 홈 버튼 클릭 시 메인 화면으로 복귀
   const handleImageClick = () => {
@@ -220,7 +242,7 @@ function Compare() {
           값 불러올 자리
           <br />
           교통비
-          <br />값 불러올 자리
+          <br /> {transportCost !== null ? transportCost : " "}원
         </InsideContainer>
         <InsideContainer>
           월세
@@ -232,7 +254,8 @@ function Compare() {
           값 불러올 자리
           <br />
           교통비
-          <br />값 불러올 자리
+          <br />
+          {transportCost !== null ? transportCost : " "}원
         </InsideContainer>
       </RowContainer>
       <Title>↓ 직접 입력해주세요 ↓</Title>
