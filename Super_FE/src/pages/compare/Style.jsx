@@ -11,6 +11,7 @@ export const BackGround = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin-top: 5%;
 `;
 
 export const AddressSearchContainer = styled.div`
