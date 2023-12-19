@@ -19,12 +19,10 @@ export const Container = styled.div`
     background-image: url("src/pages/Start/찐로고.jpg");
     background-size: 100% 100%;
     height: 50%;
-    width: 80%;
+    width: 90%;
     position: absolute;
     top: 25%;
-    left: 10%;
-    /* right: 25%;
-    bottom: 25%; */
+    left: 5%;
     z-index: 1;
   }
 `;

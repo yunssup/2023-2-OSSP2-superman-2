@@ -11,7 +11,7 @@ function Home() {
     const timeoutId = setTimeout(() => {
       // 3초 뒤에 "/nextpage"로 이동
       navigate("/First");
-    }, 3000);
+    }, 10000);
 
     // 컴포넌트가 언마운트 되면 타이머 클리어
     return () => clearTimeout(timeoutId);
