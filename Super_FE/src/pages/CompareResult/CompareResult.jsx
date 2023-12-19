@@ -37,6 +37,7 @@ function CompareResult() {
   // }, []);
 
   // API 호출 및 결과 상태 관리
+
   const [compareData, setCompareData] = useState({
     house1: null,
     house2: null,
@@ -109,7 +110,7 @@ function CompareResult() {
               이동 시간: {compareData.house1.travel_time}
             </>
           ) : (
-            "예상 비용 : 500000원 이동시간 : 0시간 40분"
+            "로딩중...."
           )}
         </InsideContainer>
         <InsideContainer>
@@ -119,7 +120,7 @@ function CompareResult() {
               이동 시간: {compareData.house2.travel_time}
             </>
           ) : (
-            "예상 비용 : 700000원 이동시간 : 0시간 20분"
+            "로딩중...."
           )}
         </InsideContainer>
       </RowContainer>
