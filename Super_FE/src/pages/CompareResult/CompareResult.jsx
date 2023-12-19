@@ -126,7 +126,7 @@ function CompareResult() {
 
       <ButtonGo onClick={handleShowResults}>다시 알아보기</ButtonGo>
       <IMGHOME
-        src="public/start/home.png"
+        src="src/pages/CompareResult/home.png"
         alt="Result Image"
         onClick={handleImageClick}
       />

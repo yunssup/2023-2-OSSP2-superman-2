@@ -16,7 +16,7 @@ export const Container = styled.div`
   align-items: center;
   &::after {
     content: "";
-    background-image: url("public/start/찐로고.jpg");
+    background-image: url("src/pages/Start/찐로고.jpg");
     background-size: 100% 100%;
     height: 50%;
     width: 80%;

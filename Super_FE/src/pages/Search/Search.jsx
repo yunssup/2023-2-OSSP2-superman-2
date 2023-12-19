@@ -16,9 +16,13 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import Post from "../../Components/Post";
 import axios from "axios";
+import { useUser } from "../../UserContext";
 
 function Search() {
-  const [userSessionData, setUserSessionData] = useState(null);
+  const { userSessionData } = useUser();
+  console.log("userSessionData:", userSessionData);
+
+  // const [userSessionData, setUserSessionData] = useState(null);
   const [condition, setCondition] = useState("0");
   const [selectedOptions, setSelectedOptions] = useState({
     select1: "",
@@ -30,23 +34,23 @@ function Search() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    const fetchUserSession = async () => {
-      try {
-        const response = await axios.get("http://52.78.118.198:8080/api/user", {
-          withCredentials: true,
-        });
+  // useEffect(() => {
+  //   const fetchUserSession = async () => {
+  //     try {
+  //       const response = await axios.get("http://52.78.118.198:8080/api/user", {
+  //         withCredentials: true,
+  //       });
 
-        const userData = response.data;
-        setUserSessionData(userData.session_id); // session_id 값을 setUserSessionData로 설정
-        console.log("유저 세션 데이터:", userData);
-      } catch (error) {
-        console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
-      }
-    };
+  //       const userData = response.data;
+  //       setUserSessionData(userData.session_id); // session_id 값을 setUserSessionData로 설정
+  //       console.log("유저 세션 데이터:", userData);
+  //     } catch (error) {
+  //       console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
+  //     }
+  //   };
 
-    fetchUserSession();
-  }, []);
+  //   fetchUserSession();
+  // }, []);
 
   useEffect(() => {
     //SearchResult에서 돌아왔을 때 자동으로
