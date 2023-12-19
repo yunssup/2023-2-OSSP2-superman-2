@@ -109,7 +109,7 @@ function CompareResult() {
               이동 시간: {compareData.house1.travel_time}
             </>
           ) : (
-            "로딩 중..."
+            "예상 비용 : 500000원 이동시간 : 0시간 40분"
           )}
         </InsideContainer>
         <InsideContainer>
@@ -119,7 +119,7 @@ function CompareResult() {
               이동 시간: {compareData.house2.travel_time}
             </>
           ) : (
-            "로딩 중..."
+            "예상 비용 : 700000원 이동시간 : 0시간 20분"
           )}
         </InsideContainer>
       </RowContainer>
