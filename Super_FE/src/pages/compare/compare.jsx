@@ -355,7 +355,7 @@ function Compare() {
       </RowContainer>
       <ButtonGo onClick={handleShowResults}>결과 보기</ButtonGo>
       <IMGHOME
-        src="public/start/home.png" // Replace this with the actual path or URL of your image
+        src="src/pages/CompareResult/home.png"
         alt="Result Image"
         onClick={handleImageClick}
       />
