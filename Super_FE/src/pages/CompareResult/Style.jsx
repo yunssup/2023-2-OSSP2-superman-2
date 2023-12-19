@@ -96,10 +96,14 @@ export const ButtonGo = styled.button`
   line-height: 24px; /* 120% */
   box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
   border: none;
+  justify-content: center;
+  align-items: center;
+  margin-left: 3%;
 `;
 
 export const IMGHOME = styled.img`
   width: 10%; /* Set the width of the image */
   max-width: 10%; /* Ensure the image doesn't exceed its natural size */
   margin-top: 20px; /* Adjust the top margin as needed */
+  margin-left: 45%;
 `;
