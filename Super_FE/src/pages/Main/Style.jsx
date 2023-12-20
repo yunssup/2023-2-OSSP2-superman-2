@@ -36,6 +36,12 @@ export const Button1 = styled.button`
   font-weight: 700;
   line-height: 40px; /* 117.647% */
   margin: 10%;
+
+  transition: transform 0.3s ease; /* transition 추가 */
+
+  &:active {
+    transform: scale(0.95); /* 클릭 시 스케일 조정 */
+  }
 `;
 export const Button2 = styled.button`
   border-radius: 8px;
@@ -50,4 +56,10 @@ export const Button2 = styled.button`
   font-style: normal;
   font-weight: 700;
   line-height: 40px; /* 117.647% */
+
+  transition: transform 0.3s ease; /* transition 추가 */
+
+  &:active {
+    transform: scale(0.95); /* 클릭 시 스케일 조정 */
+  }
 `;
