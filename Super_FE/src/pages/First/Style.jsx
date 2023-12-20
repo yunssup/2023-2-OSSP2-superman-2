@@ -78,6 +78,12 @@ export const ButtonLive = styled.button`
   border: none;
   cursor: pointer;
   flex-shrink: 0;
+
+  transition: transform 0.3s ease; /* transition 추가 */
+
+  &:active {
+    transform: scale(0.95); /* 클릭 시 스케일 조정 */
+  }
 `;
 
 export const ButtonMove = styled.button`
@@ -97,6 +103,12 @@ export const ButtonMove = styled.button`
   border: none;
   cursor: pointer;
   flex-shrink: 0;
+
+  transition: transform 0.3s ease; /* transition 추가 */
+
+  &:active {
+    transform: scale(0.95); /* 클릭 시 스케일 조정 */
+  }
 `;
 export const ButtonGo = styled.button`
   width: 339px;
@@ -116,4 +128,10 @@ export const ButtonGo = styled.button`
   cursor: pointer;
   flex-shrink: 0;
   margin-top: 10%;
+
+  transition: transform 0.3s ease; /* transition 추가 */
+
+  &:active {
+    transform: scale(0.95); /* 클릭 시 스케일 조정 */
+  }
 `;

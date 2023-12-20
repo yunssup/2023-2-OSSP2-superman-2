@@ -99,6 +99,7 @@ const GoModal = ({ isOpen, onClose }) => {
             style={inputStyle}
             type="text"
             id="fuelEfficiency"
+            placeholder="단위 (L/Km)"
             value={fuelEfficiency}
             onChange={(e) => setFuelEfficiency(e.target.value)}
           />

@@ -41,32 +41,13 @@ function Compare() {
   // 주소 찾기 팝업
   const [popup1, setPopup1] = useState(false);
   const [popup2, setPopup2] = useState(false);
-  //세션 가져오기
-  // const [userSessionData, setUserSessionData] = useState(null);
-  // useEffect(() => {
-  //   const fetchUserSession = async () => {
-  //     try {
-  //       const response = await axios.get("http://52.78.118.198:8080/api/user", {
-  //         withCredentials: true,
-  //       });
 
-  //       const userData = response.data;
-  //       setUserSessionData(userData.session_id); // session_id 값을 setUserSessionData로 설정
-  //       console.log("유저 세션 데이터:", userData);
-  //     } catch (error) {
-  //       console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
-  //     }
-  //   };
-
-  //   fetchUserSession();
-  // }, []);
-
-  const handleInput = (e, fieldName) => {
-    setEnroll_company((prev) => ({
-      ...prev,
-      [fieldName]: e.target.value,
-    }));
-    console.log(`${fieldName}: ${e.target.value}`);
+  const handleInput = (e) => {
+    setEnroll_company({
+      ...enroll_company,
+      [e.target.name]: e.target.value,
+    });
+    console.log(`${e.target.name}: ${e.target.value}`);
   };
 
   const handleComplete = (field, data) => {

@@ -37,23 +37,9 @@ function First() {
   const [popup2, setPopup2] = useState(false);
   const [isSelectionComplete, setIsSelectionComplete] = useState(false); // 추가
 
-  // useEffect(() => {
-  //   const fetchUserSession = async () => {
-  //     try {
-  //       const response = await axios.get("http://52.78.118.198:8080/api/user", {
-  //         withCredentials: true,
-  //       });
-
-  //       const userData = response.data;
-  //       setUserSessionData(userData.session_id);
-  //       console.log("유저 세션 데이터:", userData);
-  //     } catch (error) {
-  //       console.error("유저 세션 데이터를 가져오는 중 에러 발생:", error);
-  //     }
-  //   };
-
-  //   fetchUserSession();
-  // }, []);
+  const [isLiveButtonClicked, setIsLiveButtonClicked] = useState(false);
+  const [isGoButtonClicked, setIsGoButtonClicked] = useState(false);
+  const [isMoveButtonClicked, setIsMoveButtonClicked] = useState(false);
 
   useEffect(() => {
     // 선택이 완료되었을 때에만 버튼의 색상을 변경
@@ -67,6 +53,9 @@ function First() {
   const handleLiveClick = () => {
     setLiveSelected(true);
     setMoveSelected(false);
+    setIsLiveButtonClicked(true); // '월세' 버튼이 클릭되었음을 표시
+    setIsGoButtonClicked(false); // '전세' 버튼 클릭 해제
+    setIsMoveButtonClicked(false); // '대중교통' 버튼 클릭 해제
     console.log("월세 클릭");
   };
 
@@ -74,9 +63,11 @@ function First() {
     setLiveSelected(false);
     setMoveSelected(false);
     setLiveModalOpen(true);
+    setIsLiveButtonClicked(false); // '월세' 버튼 클릭 해제
+    setIsGoButtonClicked(true); // '전세' 버튼이 클릭되었음을 표시
+    setIsMoveButtonClicked(false); // '대중교통' 버튼 클릭 해제
     console.log("전세 클릭");
   };
-
   const handleMoveClick = () => {
     setMoveSelected(true);
     setLiveSelected(false);
@@ -175,6 +166,9 @@ function First() {
           tabIndex="0"
           isSelected={liveSelected}
           onClick={handleLiveClick}
+          style={{
+            borderColor: isLiveButtonClicked ? "#4caf50" : "",
+          }}
         >
           월세
         </ButtonLive>
@@ -182,6 +176,9 @@ function First() {
           tabIndex="0"
           isSelected={!liveSelected}
           onClick={handleGoClick}
+          style={{
+            borderColor: isGoButtonClicked ? "#4caf50" : "",
+          }}
         >
           전세
         </ButtonLive>
